@@ -1,0 +1,19 @@
+.pf-v6-c-panel__main-body {
+    padding-block: 0;
+    padding-inline: 0;
+}
+
+.app-main-panel {
+    overflow: hidden;
+    border: 1px solid var(--pf-t--global--background--color--primary--default);
+}
+
+.app-main-panel-main,
+.app-main-panel-body {
+    height: 100%;
+}
+
+/* Pages own their internal spacing, the shell only supplies the frame. */
+.page-section {
+    padding: var(--pf-t--global--spacer--lg);
+}

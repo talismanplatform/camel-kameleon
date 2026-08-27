@@ -1,0 +1,8 @@
+[
+  {"version": "4.11.0", "released": "2025-05-15", "lts": false, "supported": true},
+  {"version": "4.10.2", "released": "2025-03-27", "lts": true, "supported": true},
+  {"version": "4.8.5", "released": "2025-03-24", "lts": true, "supported": true},
+  {"version": "4.4.2", "released": "2024-04-19", "lts": true, "supported": true},
+  {"version": "3.22.4", "released": "2025-01-30", "lts": true, "supported": true},
+  {"version": "3.21.2", "released": "2023-11-24", "lts": false, "supported": false}
+]

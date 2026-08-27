@@ -1,0 +1,20 @@
+.app-footer-panel {
+    width: 100%;
+    padding: var(--pf-t--global--spacer--sm);
+}
+
+.app-footer-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--pf-t--global--spacer--sm);
+}
+
+.app-footer-spacer {
+    flex: 1;
+}
+
+.open-cves {
+    background-color: var(--pf-t--global--icon--color--status--danger--default);
+    color: var(--pf-t--global--background--color--secondary--default);
+}

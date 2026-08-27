@@ -1,0 +1,19 @@
+.pf-v6-c-compass.pf-m-docked .pf-v6-c-compass__container {
+    grid-template-areas: "dock main";
+    grid-template-rows: auto;
+    grid-template-columns: auto 1fr;
+    row-gap: var(--pf-v6-c-compass__main--RowGap);
+    align-items: stretch;
+    padding: 0;
+}
+
+.pf-v6-c-compass.pf-m-docked .pf-v6-c-compass__main {
+    padding: var(--pf-t--global--spacer--md);
+    gap: var(--pf-t--global--spacer--100);
+}
+
+:root {
+    .pf-v6-c-compass__dock .pf-v6-c-nav__item::before {
+        background-color: var(--pf-t--global--color--brand--default);
+    }
+}

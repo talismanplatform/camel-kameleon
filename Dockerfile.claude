@@ -1,0 +1,33 @@
+FROM maven:3.9-eclipse-temurin-25
+
+RUN apt-get update && apt-get install -y \
+    nodejs \
+    npm \
+    git \
+    python3 \
+    jq \
+    gcc \
+    tar \
+    make \
+    # 3. Clean up apt cache to keep the image small
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Claude Code globally
+RUN npm install -g @anthropic-ai/claude-code
+
+# Create the non-root 'default' user that UBI usually provides built-in
+RUN useradd -m -s /bin/bash default
+
+WORKDIR /app
+
+# Ensure the new user has ownership of the working directory
+RUN chown -R default:default /app
+
+USER default
+
+# Set the entrypoint to the Claude CLI
+ENTRYPOINT ["claude"]
+
+# Append the permission skip flag by default
+CMD ["--dangerously-skip-permissions"]

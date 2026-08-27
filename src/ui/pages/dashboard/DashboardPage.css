@@ -1,0 +1,16 @@
+.dashboard-grid {
+    margin-block-start: var(--pf-t--global--spacer--lg);
+}
+
+.stat-card-value {
+    font-size: var(--pf-t--global--font--size--heading--h1);
+    font-weight: var(--pf-t--global--font--weight--body--bold);
+}
+
+.severity-progress {
+    margin-block-end: var(--pf-t--global--spacer--md);
+}
+
+.dashboard-divider {
+    margin-block: var(--pf-t--global--spacer--md);
+}

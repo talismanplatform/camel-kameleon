@@ -1,0 +1,22 @@
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+:root .pf-v6-c-compass__nav-main {
+    padding-inline-start: var(--pf-t--global--spacer--md);
+    padding-inline-end: var(--pf-t--global--spacer--md);
+}
+
+.app-nav-content {
+    justify-content: space-between;
+}
+
+.app-nav-tools {
+    display: flex;
+    align-items: center;
+    gap: var(--pf-t--global--spacer--sm);
+    padding-block: var(--pf-t--global--spacer--xs);
+}

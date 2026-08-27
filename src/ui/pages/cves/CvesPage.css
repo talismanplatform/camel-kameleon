@@ -1,0 +1,13 @@
+.cve-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.cve-id {
+    font-weight: var(--pf-t--global--font--weight--body--bold);
+}
+
+.cve-title {
+    color: var(--pf-t--global--text--color--subtle);
+    font-size: var(--pf-t--global--font--size--body--sm);
+}
