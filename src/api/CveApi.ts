@@ -1,12 +1,19 @@
 import cvesJson from '@data/cves.json';
 import releasesJson from '@data/releases.json';
-import {CamelComponent, CamelRelease, Cve, CveSummary, isOpen, SEVERITIES, Severity} from '@models/CveModels';
+import {CamelComponent, CamelRelease, Cve, CveSummary, isOpen, ScanInfo, SEVERITIES, Severity} from '@models/CveModels';
 
 /**
  * Fixture backed API. Every method mirrors the shape of the REST endpoint that will
  * replace it, so only the body of these functions changes once a backend exists.
  */
 const LATENCY_MS = 250;
+
+/**
+ * Scan metadata lives in `public/data/scan.json` and is refreshed by the nightly
+ * workflow, so it is fetched at runtime rather than bundled: a data-only commit
+ * updates the date without rebuilding the application.
+ */
+const SCAN_INFO_URL = `${import.meta.env.BASE_URL}data/scan.json`;
 
 const CVES = cvesJson as Cve[];
 
@@ -58,8 +65,16 @@ export const CveApi = {
             fixed: CVES.length - open,
             bySeverity,
             withExploit: CVES.filter(cve => cve.exploitAvailable).length,
-            lastScan: CVES.map(cve => cve.updated).sort().reverse()[0],
         });
+    },
+
+    /** Resolves to undefined when no scan has been published yet. */
+    async getScanInfo(): Promise<ScanInfo | undefined> {
+        const response = await fetch(SCAN_INFO_URL, {cache: 'no-cache'});
+        if (!response.ok) {
+            return undefined;
+        }
+        return await response.json() as ScanInfo;
     },
 
     getComponents(): Promise<CamelComponent[]> {

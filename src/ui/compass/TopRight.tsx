@@ -4,6 +4,7 @@ import {Panel, PanelMain, PanelMainBody} from '@patternfly/react-core/dist/esm/c
 import {useCompassStore} from './useCompassStore';
 import {Divider} from "@patternfly/react-core/dist/esm/components/Divider";
 import DarkModeToggle from "@compass/theme/DarkModeToggle";
+import "./TopRight.css"
 
 export const TopRight: React.FunctionComponent = () => {
 

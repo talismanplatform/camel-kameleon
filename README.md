@@ -59,6 +59,24 @@ declared in both `vite.config.ts` and `tsconfig.json`.
 with a simulated latency. Replacing the bodies of the `CveApi` methods with real HTTP
 calls is the only change needed to go live; the pages consume the store, not the API.
 
+`public/data` holds the real scan output produced by `.github/workflows/scan.yml`, one
+directory per scanned Camel branch or tag.
+
+### Scan date
+
+The scanner stamps its own date; nothing derives it from CVE fields or commit times.
+
+| File | Contents |
+| --- | --- |
+| `public/data/<ref>/scan.json` | `{ref, scannedAt, camelCommit, grypeVersion, findings, runUrl}` for that ref |
+| `public/data/scan.json` | index: newest `scannedAt` across all refs plus the per-ref list |
+
+`scannedAt` is a UTC ISO 8601 instant taken on the runner right after grype finishes.
+`CveApi.getScanInfo()` fetches the index at runtime (not bundled) so a data-only scan
+commit updates the displayed date without rebuilding, and the dashboard renders it in
+the reader's locale through `@shared/scanDate` (absolute date, relative age, per-ref
+tooltip).
+
 ## Conventions
 
 * PatternFly components are imported from their individual ESM paths and icons from

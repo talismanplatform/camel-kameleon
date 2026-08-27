@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 import {CveApi} from '@api/CveApi';
-import {CamelComponent, CamelRelease, Cve, CveSummary, Severity} from '@models/CveModels';
+import {CamelComponent, CamelRelease, Cve, CveSummary, ScanInfo, Severity} from '@models/CveModels';
 
 export interface CveFilters {
     search: string;
@@ -15,6 +15,7 @@ interface CveState {
     summary?: CveSummary;
     components: CamelComponent[];
     releases: CamelRelease[];
+    scanInfo?: ScanInfo;
     loading: boolean;
     error?: string;
     filters: CveFilters;
@@ -31,6 +32,7 @@ export const useCveStore = create<CveState>((set, get) => ({
     summary: undefined,
     components: [],
     releases: [],
+    scanInfo: undefined,
     loading: false,
     error: undefined,
     filters: EMPTY_FILTERS,
@@ -39,13 +41,15 @@ export const useCveStore = create<CveState>((set, get) => ({
     fetchAll: async () => {
         set({loading: true, error: undefined});
         try {
-            const [cves, summary, components, releases] = await Promise.all([
+            const [cves, summary, components, releases, scanInfo] = await Promise.all([
                 CveApi.getCves(),
                 CveApi.getSummary(),
                 CveApi.getComponents(),
                 CveApi.getReleases(),
+                // A missing scan stamp must not blank the whole dashboard.
+                CveApi.getScanInfo().catch(() => undefined),
             ]);
-            set({cves, summary, components, releases, loading: false});
+            set({cves, summary, components, releases, scanInfo, loading: false});
         } catch (error) {
             set({loading: false, error: error instanceof Error ? error.message : String(error)});
         }

@@ -99,11 +99,18 @@ jobs:
         id: grype
 
       # 4. Scan the SBOM published in the Camel source tree.
+      #    The scan date is taken here, from the runner, so it records when the
+      #    vulnerability data was actually produced - not when it was committed.
       - name: Scan SBOM
         working-directory: camel
         run: |
           ${{ steps.grype.outputs.cmd }} sbom:./camel-sbom/camel-sbom.json \
             --output=json --file vulnerabilities.json
+          {
+            echo "SCANNED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            echo "GRYPE_VERSION=$(${{ steps.grype.outputs.cmd }} version -o json | jq -r '.version')"
+            echo "CAMEL_COMMIT=$(git rev-parse HEAD)"
+          } >> "$GITHUB_ENV"
 
       # 5. Reduce the grype report to the fields the dashboard consumes.
       - name: Reshape report
@@ -125,11 +132,23 @@ jobs:
             }]' vulnerabilities.json > vulnerabilities.reshaped.json
           mv vulnerabilities.reshaped.json vulnerabilities.json
 
-      # 6. Publish the report next to the dependency trees for this ref.
+      # 6. Publish the report, plus a scan.json stamp, next to the dependency
+      #    trees for this ref. scan.json is what the dashboard reads to show
+      #    when this ref was last scanned.
       - name: Move report into public/data/${{ matrix.ref }}
         run: |
-          mv camel/vulnerabilities.json \
-            'public/data/${{ matrix.ref }}/vulnerabilities.json'
+          target='public/data/${{ matrix.ref }}'
+          mv camel/vulnerabilities.json "$target/vulnerabilities.json"
+          jq -n \
+            --arg ref '${{ matrix.ref }}' \
+            --arg scannedAt "$SCANNED_AT" \
+            --arg camelCommit "$CAMEL_COMMIT" \
+            --arg grypeVersion "$GRYPE_VERSION" \
+            --arg runUrl '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
+            --argjson findings "$(jq 'length' "$target/vulnerabilities.json")" \
+            '{ref: $ref, scannedAt: $scannedAt, camelCommit: $camelCommit, grypeVersion: $grypeVersion, findings: $findings, runUrl: $runUrl}' \
+            > "$target/scan.json"
+          cat "$target/scan.json"
 
       - name: Upload scan result
         uses: actions/upload-artifact@v5
@@ -162,6 +181,20 @@ jobs:
             mkdir -p "public/data/$ref"
             cp -R "$src/." "public/data/$ref/"
           done
+
+      # One index for the whole dashboard: the newest scan date plus a per-ref
+      # breakdown, so the UI needs a single request to render "last scan".
+      - name: Write public/data/scan.json index
+        run: |
+          stamps=$(find public/data -mindepth 2 -maxdepth 2 -name scan.json | sort)
+          if [ -z "$stamps" ]; then
+            echo '::warning::no scan.json stamps found, index left untouched'
+            exit 0
+          fi
+          # shellcheck disable=SC2086
+          jq -s '{scannedAt: ([.[].scannedAt] | max), refs: sort_by(.ref)}' $stamps \
+            > public/data/scan.json
+          cat public/data/scan.json
 
       - name: Commit
         run: |

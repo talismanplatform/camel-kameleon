@@ -44,7 +44,26 @@ export interface CveSummary {
     fixed: number;
     bySeverity: Record<Severity, number>;
     withExploit: number;
-    lastScan: string;
+}
+
+/** When a single Camel branch or tag was last scanned. Written by scan.yml. */
+export interface RefScan {
+    /** Branch or tag of apache/camel that was scanned, e.g. camel-4.22.0 */
+    ref: string;
+    /** UTC ISO 8601 instant the scanner produced the report. */
+    scannedAt: string;
+    /** Optional provenance, absent in hand seeded stamps. */
+    camelCommit?: string;
+    grypeVersion?: string;
+    findings?: number;
+    runUrl?: string;
+}
+
+/** `public/data/scan.json`: newest scan date plus the per-ref breakdown. */
+export interface ScanInfo {
+    /** Newest `scannedAt` across every scanned ref. */
+    scannedAt: string;
+    refs: RefScan[];
 }
 
 export const SEVERITIES: Severity[] = ['critical', 'important', 'moderate', 'low'];

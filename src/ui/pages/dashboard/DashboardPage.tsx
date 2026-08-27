@@ -8,6 +8,7 @@ import {Divider} from '@patternfly/react-core/dist/esm/components/Divider';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
 import {Progress, ProgressMeasureLocation, ProgressVariant} from '@patternfly/react-core/dist/esm/components/Progress';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
+import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Gallery} from '@patternfly/react-core/dist/esm/layouts/Gallery';
 import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
@@ -15,10 +16,11 @@ import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
 import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
-import {isOpen, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
+import {isOpen, RefScan, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
+import {formatScanAge, formatScanDate} from '@shared/scanDate';
 import {SeverityLabel} from '@shared/ui/SeverityLabel';
 import {StatusLabel} from '@shared/ui/StatusLabel';
 import './DashboardPage.css';
@@ -36,12 +38,25 @@ export const DashboardPage: React.FunctionComponent = () => {
     const cves = useCveStore((s) => s.cves);
     const summary = useCveStore((s) => s.summary);
     const components = useCveStore((s) => s.components);
+    const scanInfo = useCveStore((s) => s.scanInfo);
     const loading = useCveStore((s) => s.loading);
     const setFilters = useCveStore((s) => s.setFilters);
+
+    const scanAge = formatScanAge(scanInfo?.scannedAt);
+    const scanLabel = (
+        <Tooltip content={scannedRefs(scanInfo?.refs)} position={"bottom"}>
+            <div className="last-scan-label">
+                <p>Last scan</p>
+                {formatScanDate(scanInfo?.scannedAt)}
+                {scanAge && <span className="scan-age">{` (${scanAge})`}</span>}
+            </div>
+        </Tooltip>
+    )
 
     usePageContext(
         'Security overview',
         <Title headingLevel="h1" size="xl">Apache Camel CVE Dashboard</Title>,
+        scanLabel,
         [loading]
     );
 
@@ -52,6 +67,7 @@ export const DashboardPage: React.FunctionComponent = () => {
     const openCves = cves.filter(isOpen);
     const topComponents = [...components].sort((a, b) => b.cveCount - a.cveCount).slice(0, 6);
     const latest = [...cves].sort((a, b) => b.published.localeCompare(a.published)).slice(0, 5);
+
 
     function showSeverity(severity: Severity) {
         setFilters({severities: [severity], onlyOpen: false});
@@ -112,7 +128,14 @@ export const DashboardPage: React.FunctionComponent = () => {
                                 </DescriptionListGroup>
                                 <DescriptionListGroup>
                                     <DescriptionListTerm>Last scan</DescriptionListTerm>
-                                    <DescriptionListDescription>{summary?.lastScan ?? '-'}</DescriptionListDescription>
+                                    <DescriptionListDescription>
+                                        <Tooltip content={scannedRefs(scanInfo?.refs)}>
+                                            <span>
+                                                {formatScanDate(scanInfo?.scannedAt)}
+                                                {scanAge && <span className="scan-age">{` (${scanAge})`}</span>}
+                                            </span>
+                                        </Tooltip>
+                                    </DescriptionListDescription>
                                 </DescriptionListGroup>
                             </DescriptionList>
                         </CardBody>
@@ -202,3 +225,11 @@ export const DashboardPage: React.FunctionComponent = () => {
         </div>
     );
 };
+
+/** Tooltip body for the last scan date: every ref and when it was scanned. */
+function scannedRefs(refs?: RefScan[]): React.ReactNode {
+    if (!refs || refs.length === 0) {
+        return 'No scan has been published yet';
+    }
+    return <>{refs.map(ref => <div key={ref.ref}>{`${ref.ref}: ${formatScanDate(ref.scannedAt)}`}</div>)}</>;
+}
