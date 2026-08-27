@@ -1,12 +1,11 @@
 import React, {useMemo} from 'react';
-import {Compass} from '@patternfly/react-core/dist/esm/components/Compass';
+import {Compass, CompassHeader} from '@patternfly/react-core/dist/esm/components/Compass';
 import {Drawer, DrawerContent, DrawerContentBody} from '@patternfly/react-core/dist/esm/components/Drawer';
 import {ErrorBoundaryWrapper} from '@shared/ui/ErrorBoundaryWrapper';
 import {AppSideBar} from './AppSideBar';
 import {AppMain} from './AppMain';
 import {useCompassStore} from './useCompassStore';
 import './AppCompass.css';
-import {CompassHeader} from "@patternfly/react-core/src";
 import {TopLeft} from "@compass/TopLeft";
 import {TopMiddle} from "@compass/TopMiddle";
 import {TopRight} from "@compass/TopRight";
