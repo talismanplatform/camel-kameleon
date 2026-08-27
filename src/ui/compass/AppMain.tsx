@@ -6,16 +6,14 @@ import './AppMain.css';
 
 export const AppMain: React.FunctionComponent = () => {
     return (
-        <>
-            <CompassContent>
-                <Panel isScrollable isAutoHeight isGlass className="app-main-panel">
-                    <PanelMain className="app-main-panel-main">
-                        <PanelMainBody className="app-main-panel-body">
-                            <MainRoutes/>
-                        </PanelMainBody>
-                    </PanelMain>
-                </Panel>
-            </CompassContent>
-        </>
+        <CompassContent>
+            <Panel isScrollable isAutoHeight isGlass className="app-main-panel">
+                <PanelMain className="app-main-panel-main">
+                    <PanelMainBody className="app-main-panel-body">
+                        <MainRoutes/>
+                    </PanelMainBody>
+                </PanelMain>
+            </Panel>
+        </CompassContent>
     );
 };

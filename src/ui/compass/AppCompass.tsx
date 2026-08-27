@@ -3,13 +3,14 @@ import {Compass} from '@patternfly/react-core/dist/esm/components/Compass';
 import {Drawer, DrawerContent, DrawerContentBody} from '@patternfly/react-core/dist/esm/components/Drawer';
 import {shallow} from 'zustand/shallow';
 import {ErrorBoundaryWrapper} from '@shared/ui/ErrorBoundaryWrapper';
-import {AppDock} from './AppDock';
+import {AppSideBar} from './AppSideBar';
 import {AppMain} from './AppMain';
 import {useCompassStore} from './useCompassStore';
 import './AppCompass.css';
 import {CompassHeader} from "@patternfly/react-core/src";
-import {AppLogo} from "@compass/AppLogo";
-import {AppNavigation} from "@compass/AppNavigation";
+import {TopLeft} from "@compass/TopLeft";
+import {TopMiddle} from "@compass/TopMiddle";
+import {TopRight} from "@compass/TopRight";
 
 const AppCompass: React.FunctionComponent = () => {
 
@@ -22,9 +23,9 @@ const AppCompass: React.FunctionComponent = () => {
     ], shallow);
 
     // The dock and main areas never depend on props, so they are built once.
-    const memoizedDock = useMemo(() => <AppDock/>, []);
+    const memoizedDock = useMemo(() => <AppSideBar/>, []);
     const memoizedMain = useMemo(() => <AppMain/>, []);
-    const header = <CompassHeader logo={<AppLogo/>} profile={<AppNavigation/>}/>
+    const header = <CompassHeader logo={<TopLeft/>} nav={<TopMiddle/>} profile={<TopRight/>}/>
     // const footer = <AppFooter/>;
 
     return (

@@ -1,0 +1,4 @@
+.app-nav-tools {
+    display: flex;
+    flex-direction: row;
+}

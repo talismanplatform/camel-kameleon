@@ -23,7 +23,7 @@ Drawer (detail panel)
 └── Compass
     ├── dock  → AppDock          docked Masthead + Nav rail
     └── main  → AppMain
-                ├── CompassHeader  → AppNavigation (page nav, page tools, theme toggle)
+                ├── CompassHeader  → TopMiddle (page nav, page tools, theme toggle)
                 ├── CompassContent → MainRoutes (lazily loaded pages)
                 └── CompassMainFooter → AppFooter (CVE counters, last scan)
 ```
@@ -32,7 +32,7 @@ Drawer (detail panel)
 
 | Path | Contents |
 | --- | --- |
-| `src/ui/compass` | Compass shell: `App`, `AppCompass`, `AppDock`, `AppMain`, `AppNavigation`, `AppFooter` |
+| `src/ui/compass` | Compass shell: `App`, `AppCompass`, `AppSideBar`, `AppMain`, `TopMiddle`, `AppFooter` |
 | `src/ui/compass/navigation` | Route table, dock menu, lazy route definitions, fallbacks |
 | `src/ui/compass/theme` | Light/dark theme context and toggle (`pf-v6-theme-dark`) |
 | `src/ui/pages` | `dashboard`, `cves`, `components`, `releases`, `about` |

@@ -1,28 +1,18 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {Badge} from '@patternfly/react-core/dist/esm/components/Badge';
-import {Brand} from '@patternfly/react-core/dist/esm/components/Brand';
-import {Button} from '@patternfly/react-core/dist/esm/components/Button';
-import {CompassDockMain} from '@patternfly/react-core/dist/esm/components/Compass';
-import {Divider} from '@patternfly/react-core/dist/esm/components/Divider';
-import {Masthead, MastheadBrand, MastheadContent, MastheadLogo, MastheadMain, MastheadToggle} from '@patternfly/react-core/dist/esm/components/Masthead';
 import {Nav, NavItem, NavList} from '@patternfly/react-core/dist/esm/components/Nav';
 import {Toolbar, ToolbarContent, ToolbarGroup, ToolbarItem} from '@patternfly/react-core/dist/esm/components/Toolbar';
-import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
 import {useUIStore} from '@stores/useUIStore';
-import logo from '@shared/icons/camel-logo.svg';
 import {getNavigationFirstMenu, getNavigationSecondMenu, MenuItem} from './navigation/NavigationMenu';
-import {useTheme} from './theme/ThemeContext';
-import './AppDock.css';
-import {Content} from "@patternfly/react-core/dist/esm/components/Content";
+import './AppSideBar.css';
+import {Panel, PanelMain, PanelMainBody} from "@patternfly/react-core/dist/esm/components/Panel";
 
-export const AppDock: React.FunctionComponent = () => {
+export const AppSideBar: React.FunctionComponent = () => {
 
-    const {isDark} = useTheme();
     const {pageId, setPageId} = useUIStore();
     const navigate = useNavigate();
     const location = useLocation();
-    const dockedToggleRef = useRef<HTMLButtonElement>(null);
 
     const firstMenu = getNavigationFirstMenu();
     const secondMenu = getNavigationSecondMenu();
@@ -69,20 +59,9 @@ export const AppDock: React.FunctionComponent = () => {
     }
 
     return (
-        // <CompassDockMain>
-        //     <Masthead display={{default: 'inline'}} id="docked-masthead" variant="docked" className={isDark ? '' : 'light-theme-dock'}>
-        //         <MastheadMain className={'dock-main-expanded'}>
-        //             <MastheadBrand>
-        //                 <MastheadLogo>
-        //                     <div className={'dock-brand-expanded'}>
-        //                         <Brand src={logo} alt="Apache Camel" heights={{default: '32px'}} widths={{default: '32px'}}/>
-        //                         <h6 style={{fontWeight: '400'}}>Apache Camel Kameleon 0.1.0</h6>
-        //                     </div>
-        //                 </MastheadLogo>
-        //             </MastheadBrand>
-        //         </MastheadMain>
-        //         <Divider/>
-        //         <MastheadContent>
+        <Panel isPill className="app-panel">
+            <PanelMain>
+                <PanelMainBody>
                     <Toolbar id="dock-toolbar" isVertical>
                         <ToolbarContent>
                             <ToolbarItem>
@@ -107,8 +86,8 @@ export const AppDock: React.FunctionComponent = () => {
                             </ToolbarGroup>
                         </ToolbarContent>
                     </Toolbar>
-        //         </MastheadContent>
-        //     </Masthead>
-        // </CompassDockMain>
+                </PanelMainBody>
+            </PanelMain>
+        </Panel>
     );
 };
