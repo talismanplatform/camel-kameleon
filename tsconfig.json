@@ -16,15 +16,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noEmit": true,
-    "baseUrl": ".",
     "paths": {
-      "@compass/*": ["src/ui/compass/*"],
-      "@pages/*": ["src/ui/pages/*"],
-      "@shared/*": ["src/ui/shared/*"],
-      "@api/*": ["src/api/*"],
-      "@models/*": ["src/models/*"],
-      "@stores/*": ["src/stores/*"],
-      "@data/*": ["src/data/*"]
+      "@compass/*": ["./src/ui/compass/*"],
+      "@pages/*": ["./src/ui/pages/*"],
+      "@shared/*": ["./src/ui/shared/*"],
+      "@api/*": ["./src/api/*"],
+      "@models/*": ["./src/models/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@data/*": ["./src/data/*"]
     }
   },
   "include": ["src", "vite.config.ts"]
