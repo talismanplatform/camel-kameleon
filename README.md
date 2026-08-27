@@ -67,4 +67,3 @@ calls is the only change needed to go live; the pages consume the store, not the
   ad hoc flex containers; sizing lives in CSS using `--pf-t--global--*` tokens.
 * Pages register their header content through `usePageContext` rather than rendering a
   header of their own.
-# camel-kameleon

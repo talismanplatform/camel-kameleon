@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 const src = (path: string) => fileURLToPath(new URL(`./src/${path}`, import.meta.url));
 
 export default defineConfig({
+    base: '/camel-kameleon/',
     plugins: [react()],
     resolve: {
         alias: {

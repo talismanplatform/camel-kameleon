@@ -5,6 +5,18 @@
     <link rel="icon" type="image/svg+xml" href="/camel.svg"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Apache Camel CVE Dashboard</title>
+    <script>
+        // Restores the route encoded by public/404.html on GitHub Pages.
+        (function () {
+            var l = window.location;
+            if (l.search.slice(0, 2) === '?/') {
+                var decoded = l.search.slice(2).split('&').map(function (part) {
+                    return part.replace(/~and~/g, '&');
+                }).join('?');
+                window.history.replaceState(null, '', l.pathname.replace(/\/$/, '') + '/' + decoded + l.hash);
+            }
+        })();
+    </script>
 </head>
 <body>
 <div id="root"></div>
