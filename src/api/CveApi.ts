@@ -1,6 +1,7 @@
 import cvesJson from '@data/cves.json';
 import {
     CamelComponent,
+    CamelVersion,
     Cve,
     CveSummary,
     isOpen,
@@ -33,6 +34,8 @@ const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/${path}`;
 const SCAN_INFO_URL = dataUrl('scan.json');
 
 const VERSIONS_URL = dataUrl('versions.json');
+
+const CAMEL_VERSIONS_URL = dataUrl('camel_versions.json');
 
 const vulnerabilitiesUrl = (ref: string) => dataUrl(`${encodeURIComponent(ref)}/vulnerabilities.json`);
 
@@ -110,15 +113,17 @@ export const CveApi = {
 
     /**
      * One row per scanned ref: `versions.json` says which refs exist and whether
-     * each is a tag or a branch, `scan.json` when it was scanned, and the ref's
-     * own `vulnerabilities.json` supplies the severity counts, max risk and max
-     * EPSS. Reports are fetched in parallel and a missing one only degrades its
-     * own row.
+     * each is a tag or a branch, `scan.json` when it was scanned, the ref's own
+     * `vulnerabilities.json` supplies the severity counts, max risk and max
+     * EPSS, and `camel_versions.json` adds the release metadata (LTS, JDKs,
+     * release and EOL dates). Reports are fetched in parallel and a missing one
+     * only degrades its own row.
      */
     async getVersions(): Promise<VersionScan[]> {
-        const [versions, scanInfo] = await Promise.all([
+        const [versions, scanInfo, camelVersions] = await Promise.all([
             fetchJson<Versions>(VERSIONS_URL),
             fetchJson<ScanInfo>(SCAN_INFO_URL).catch(() => undefined),
+            fetchJson<CamelVersion[]>(CAMEL_VERSIONS_URL).catch(() => undefined),
         ]);
 
         const refs: { ref: string, kind: 'tag' | 'branch' }[] = [
@@ -132,11 +137,46 @@ export const CveApi = {
                 ref,
                 kind,
                 scannedAt: scanInfo?.refs?.find(scan => scan.ref === ref)?.scannedAt,
+                release: releaseOf(ref, camelVersions),
                 ...aggregate(vulnerabilities),
             };
         }));
     },
 };
+
+/**
+ * Release metadata for a scanned ref. Tags map straight onto a release once the
+ * `camel-` prefix is dropped, while a maintenance branch such as `camel-4.22.x`
+ * takes the newest release of its series. `main` has not been released, so it
+ * has no entry.
+ */
+function releaseOf(ref: string, camelVersions?: CamelVersion[]): CamelVersion | undefined {
+    if (!camelVersions) {
+        return undefined;
+    }
+    const version = ref.replace(/^camel-/, '');
+    if (version.endsWith('.x')) {
+        const series = version.slice(0, -1);
+        return camelVersions
+            .filter(candidate => candidate.camelVersion.startsWith(series))
+            .sort((a, b) => compareVersions(a.camelVersion, b.camelVersion))
+            .pop();
+    }
+    return camelVersions.find(candidate => candidate.camelVersion === version);
+}
+
+/** Numeric, segment by segment, so 4.22.10 sorts after 4.22.9. */
+function compareVersions(a: string, b: string): number {
+    const left = a.split('.').map(Number);
+    const right = b.split('.').map(Number);
+    for (let i = 0; i < Math.max(left.length, right.length); i++) {
+        const diff = (left[i] ?? 0) - (right[i] ?? 0);
+        if (diff !== 0) {
+            return diff;
+        }
+    }
+    return 0;
+}
 
 /** Resolves to undefined for any response that is not a readable JSON body. */
 async function fetchJson<T>(url: string): Promise<T | undefined> {

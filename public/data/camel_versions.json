@@ -1,0 +1,490 @@
+[
+  {
+    "camelVersion": "4.0.0",
+    "runtime": "main",
+    "jdkVersion": "17",
+    "kind": "lts",
+    "releaseDate": "2023-08-14",
+    "eolDate": "2024-08-14"
+  },
+  {
+    "camelVersion": "4.0.1",
+    "runtime": "main",
+    "jdkVersion": "17",
+    "kind": "lts",
+    "releaseDate": "2023-09-25",
+    "eolDate": "2024-08-14"
+  },
+  {
+    "camelVersion": "4.0.2",
+    "runtime": "main",
+    "jdkVersion": "17",
+    "kind": "lts",
+    "releaseDate": "2023-10-27",
+    "eolDate": "2024-08-14"
+  },
+  {
+    "camelVersion": "4.0.3",
+    "runtime": "main",
+    "jdkVersion": "17",
+    "kind": "lts",
+    "releaseDate": "2023-11-20",
+    "eolDate": "2024-08-14"
+  },
+  {
+    "camelVersion": "4.0.4",
+    "runtime": "main",
+    "jdkVersion": "17",
+    "kind": "lts",
+    "releaseDate": "2024-02-01",
+    "eolDate": "2024-08-14"
+  },
+  {
+    "camelVersion": "4.0.5",
+    "runtime": "main",
+    "jdkVersion": "17",
+    "kind": "lts",
+    "releaseDate": "2024-04-26",
+    "eolDate": "2024-08-14"
+  },
+  {
+    "camelVersion": "4.0.6",
+    "runtime": "main",
+    "jdkVersion": "17",
+    "kind": "lts",
+    "releaseDate": "2024-08-12",
+    "eolDate": "2024-08-14"
+  },
+  {
+    "camelVersion": "4.1.0",
+    "runtime": "main",
+    "jdkVersion": "17",
+    "releaseDate": "2023-10-11"
+  },
+  {
+    "camelVersion": "4.2.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2023-11-14"
+  },
+  {
+    "camelVersion": "4.3.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2023-12-18"
+  },
+  {
+    "camelVersion": "4.4.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2024-02-17",
+    "eolDate": "2025-02-17"
+  },
+  {
+    "camelVersion": "4.4.1",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2024-03-14",
+    "eolDate": "2025-02-17"
+  },
+  {
+    "camelVersion": "4.4.2",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2024-04-25",
+    "eolDate": "2025-02-17"
+  },
+  {
+    "camelVersion": "4.4.3",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2024-06-27",
+    "eolDate": "2025-02-17"
+  },
+  {
+    "camelVersion": "4.4.4",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2024-10-21",
+    "eolDate": "2025-02-17"
+  },
+  {
+    "camelVersion": "4.4.5",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-01-22",
+    "eolDate": "2025-02-17"
+  },
+  {
+    "camelVersion": "4.5.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2024-03-28"
+  },
+  {
+    "camelVersion": "4.6.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2024-05-10"
+  },
+  {
+    "camelVersion": "4.7.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2024-07-13"
+  },
+  {
+    "camelVersion": "4.8.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2024-09-15",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.1",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2024-10-25",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.2",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2024-12-05",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.3",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-01-12",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.4",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-03-04",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.5",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-03-08",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.6",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-04-01",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.7",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-05-09",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.8",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-06-26",
+    "eolDate": "2025-09-14"
+  },
+  {
+    "camelVersion": "4.8.9",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-09-17",
+    "eolDate": "2025-09-17"
+  },
+  {
+    "camelVersion": "4.9.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2024-12-04"
+  },
+  {
+    "camelVersion": "4.10.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-02-11",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.1",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-03-04",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.2",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-03-09",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.3",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-03-31",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.4",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-04-30",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.5",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-06-03",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.6",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-06-27",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.7",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-09-24",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.8",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-12-13",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.10.9",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-02-12",
+    "eolDate": "2026-02-10"
+  },
+  {
+    "camelVersion": "4.11.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2025-04-03"
+  },
+  {
+    "camelVersion": "4.12.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2025-05-29"
+  },
+  {
+    "camelVersion": "4.13.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2025-07-08"
+  },
+  {
+    "camelVersion": "4.14.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-08-19",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.1",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-10-01",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.2",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2025-11-01",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.3",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-01-01",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.4",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-01-10",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.5",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-02-13",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.6",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-04-18",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.7",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-04-24",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.8",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-07-04",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.14.9",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-08-16",
+    "eolDate": "2026-08-18"
+  },
+  {
+    "camelVersion": "4.15.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2025-10-07"
+  },
+  {
+    "camelVersion": "4.16.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2025-11-05"
+  },
+  {
+    "camelVersion": "4.17.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2026-01-12"
+  },
+  {
+    "camelVersion": "4.18.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-02-17",
+    "eolDate": "2027-02-16"
+  },
+  {
+    "camelVersion": "4.18.1",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-03-27",
+    "eolDate": "2027-02-16"
+  },
+  {
+    "camelVersion": "4.18.2",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-04-22",
+    "eolDate": "2027-02-16"
+  },
+  {
+    "camelVersion": "4.18.3",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-07-03",
+    "eolDate": "2027-02-16"
+  },
+  {
+    "camelVersion": "4.18.4",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "kind": "lts",
+    "releaseDate": "2026-08-17",
+    "eolDate": "2027-02-16"
+  },
+  {
+    "camelVersion": "4.19.0",
+    "runtime": "main",
+    "jdkVersion": "17,21",
+    "releaseDate": "2026-04-16"
+  },
+  {
+    "camelVersion": "4.20.0",
+    "runtime": "main",
+    "jdkVersion": "17,21,25",
+    "releaseDate": "2026-04-25"
+  },
+  {
+    "camelVersion": "4.21.0",
+    "runtime": "main",
+    "jdkVersion": "17,21,25",
+    "releaseDate": "2026-07-01"
+  },
+  {
+    "camelVersion": "4.22.0",
+    "runtime": "main",
+    "jdkVersion": "17,21,25",
+    "kind": "lts",
+    "releaseDate": "2026-08-11",
+    "eolDate": "2027-08-10"
+  }
+]

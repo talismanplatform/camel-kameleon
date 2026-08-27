@@ -72,6 +72,20 @@ export interface Vulnerability {
     risk: number | null;
 }
 
+/** One entry of `public/data/camel_versions.json`, as written by `camel version list --json`. */
+export interface CamelVersion {
+    /** Release version without the `camel-` prefix, e.g. 4.22.0 */
+    camelVersion: string;
+    runtime: string;
+    /** Supported JDKs, comma separated, e.g. `17,21,25` */
+    jdkVersion?: string;
+    /** `lts` on long term support releases, absent otherwise. */
+    kind?: string;
+    releaseDate?: string;
+    /** Only LTS releases carry an end of life date. */
+    eolDate?: string;
+}
+
 /** A scanned ref of apache/camel: what it is, when it was scanned and how bad it is. */
 export interface VersionScan {
     /** Branch or tag name, e.g. camel-4.22.0 */
@@ -87,6 +101,8 @@ export interface VersionScan {
     maxEpss?: number;
     /** False when the report could not be loaded, so counts read as unknown. */
     loaded: boolean;
+    /** Release metadata from `camel_versions.json`, absent for refs it does not know. */
+    release?: CamelVersion;
 }
 
 /** `public/data/versions.json`: the refs the nightly scan walks. */

@@ -53,6 +53,10 @@ export const VersionsPage: React.FunctionComponent = () => {
                     <Tr>
                         <Th>Type</Th>
                         <Th>Name</Th>
+                        <Th>Kind</Th>
+                        <Th>JDK</Th>
+                        <Th>Released</Th>
+                        <Th>EOL</Th>
                         <Th>Scanned</Th>
                         <Th>Vulnerabilities</Th>
                         <Th>By severity</Th>
@@ -74,6 +78,14 @@ export const VersionsPage: React.FunctionComponent = () => {
                                 </Label>
                             </Td>
                             <Td dataLabel="Name" modifier="nowrap">{version.ref}</Td>
+                            <Td dataLabel="Kind" modifier="nowrap">
+                                {isLts(version)
+                                    ? <Label isCompact color="green">LTS</Label>
+                                    : '-'}
+                            </Td>
+                            <Td dataLabel="JDK" modifier="nowrap">{version.release?.jdkVersion ?? '-'}</Td>
+                            <Td dataLabel="Released" modifier="nowrap">{version.release?.releaseDate ?? '-'}</Td>
+                            <Td dataLabel="EOL" modifier="nowrap">{version.release?.eolDate ?? '-'}</Td>
                             <Td dataLabel="Scanned" modifier="nowrap">
                                 {version.scannedAt ? <ScannedAt scannedAt={version.scannedAt}/> : '-'}
                             </Td>
@@ -116,10 +128,19 @@ const ScannedAt: React.FunctionComponent<{ scannedAt: string }> = ({scannedAt}) 
     );
 };
 
-/** Tags first, then branches, each newest looking name first. */
+/** By name: `main` leads because it is the development branch, the rest descend. */
 function sorted(versions: VersionScan[]): VersionScan[] {
-    return [...versions].sort((a, b) =>
-        a.kind === b.kind ? b.ref.localeCompare(a.ref) : (a.kind === 'tag' ? -1 : 1));
+    return [...versions].sort((a, b) => {
+        if (a.ref === 'main' || b.ref === 'main') {
+            return a.ref === 'main' ? (b.ref === 'main' ? 0 : -1) : 1;
+        }
+        return b.ref.localeCompare(a.ref);
+    });
+}
+
+/** `camel version list` marks long term support releases with `kind: lts`. */
+function isLts(version: VersionScan): boolean {
+    return version.release?.kind?.toLowerCase() === 'lts';
 }
 
 function count(versions: VersionScan[], kind: VersionScan['kind']): number {

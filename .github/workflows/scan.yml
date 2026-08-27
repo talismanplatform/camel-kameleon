@@ -166,6 +166,23 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      # Release metadata for the Versions page: LTS flag, supported JDKs, release
+      # and EOL dates. Refreshed in the same commit as the scan data so the page
+      # never mixes a fresh scan with a stale release list.
+      - name: Update camel_versions.json
+        run: |
+          curl -Ls https://sh.jbang.dev | bash -s - app setup
+          export PATH="$HOME/.jbang/bin:$PATH"
+          jbang "-Dcamel.jbang.version=4.22.0" camel@apache/camel version list --json \
+            > public/data/camel_versions.json
+          echo "releases: $(jq 'length' public/data/camel_versions.json)"
+
       - name: Download scan results
         uses: actions/download-artifact@v6
         with:
@@ -205,5 +222,5 @@ jobs:
             echo 'No changes'
             exit 0
           fi
-          git commit -m 'chore: refresh vulnerability scan data'
+          git commit -m 'chore: refresh scan data and Camel release metadata'
           git push
