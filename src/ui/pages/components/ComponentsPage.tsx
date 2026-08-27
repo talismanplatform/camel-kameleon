@@ -15,7 +15,6 @@ import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
 import CubesIcon from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
-import {shallow} from 'zustand/shallow';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -26,7 +25,9 @@ const ALL_CATEGORIES = 'All';
 export const ComponentsPage: React.FunctionComponent = () => {
 
     const navigate = useNavigate();
-    const [components, loading, setFilters] = useCveStore((s) => [s.components, s.loading, s.setFilters], shallow);
+    const components = useCveStore((s) => s.components);
+    const loading = useCveStore((s) => s.loading);
+    const setFilters = useCveStore((s) => s.setFilters);
     const [search, setSearch] = useState('');
     const [category, setCategory] = useState(ALL_CATEGORIES);
 

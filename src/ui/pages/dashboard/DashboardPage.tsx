@@ -16,7 +16,6 @@ import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
 import SyncAltIcon from '@patternfly/react-icons/dist/esm/icons/sync-alt-icon';
 import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
-import {shallow} from 'zustand/shallow';
 import {isOpen, SEVERITIES, SEVERITY_LABEL, Severity} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
@@ -35,9 +34,12 @@ const SEVERITY_VARIANT: Record<Severity, ProgressVariant | undefined> = {
 export const DashboardPage: React.FunctionComponent = () => {
 
     const navigate = useNavigate();
-    const [cves, summary, components, loading, fetchAll, setFilters] = useCveStore((s) => [
-        s.cves, s.summary, s.components, s.loading, s.fetchAll, s.setFilters,
-    ], shallow);
+    const cves = useCveStore((s) => s.cves);
+    const summary = useCveStore((s) => s.summary);
+    const components = useCveStore((s) => s.components);
+    const loading = useCveStore((s) => s.loading);
+    const fetchAll = useCveStore((s) => s.fetchAll);
+    const setFilters = useCveStore((s) => s.setFilters);
 
     usePageContext(
         'Security overview',

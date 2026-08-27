@@ -10,7 +10,8 @@ import {Panel, PanelMain, PanelMainBody} from "@patternfly/react-core/dist/esm/c
 
 export const AppSideBar: React.FunctionComponent = () => {
 
-    const {pageId, setPageId} = useUIStore();
+    const pageId = useUIStore((s) => s.pageId);
+    const setPageId = useUIStore((s) => s.setPageId);
     const navigate = useNavigate();
     const location = useLocation();
 

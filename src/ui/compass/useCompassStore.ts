@@ -1,6 +1,5 @@
 import React from 'react';
-import {shallow} from 'zustand/shallow';
-import {createWithEqualityFn} from 'zustand/traditional';
+import {create} from 'zustand';
 
 interface CompassState {
     isDrawerExpanded: boolean;
@@ -17,7 +16,7 @@ interface CompassState {
     setDrawerPanel: (drawerPanel: React.ReactNode) => void;
 }
 
-export const useCompassStore = createWithEqualityFn<CompassState>((set) => ({
+export const useCompassStore = create<CompassState>((set) => ({
     isDrawerExpanded: false,
 
     pageTitle: null,
@@ -29,4 +28,4 @@ export const useCompassStore = createWithEqualityFn<CompassState>((set) => ({
 
     setPageContext: (pageTitle, pageNav, pageTools, drawerPanel) => set({pageTitle, pageNav, pageTools, drawerPanel}),
     setDrawerPanel: (drawerPanel) => set({drawerPanel}),
-}), shallow);
+}));

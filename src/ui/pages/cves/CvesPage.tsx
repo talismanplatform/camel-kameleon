@@ -9,7 +9,6 @@ import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Table, Tbody, Td, Th, Thead, Tr} from '@patternfly/react-table';
 import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
-import {shallow} from 'zustand/shallow';
 import {Cve, SEVERITIES} from '@models/CveModels';
 import {filterCves, useCveStore} from '@stores/useCveStore';
 import {useCompassStore} from '@compass/useCompassStore';
@@ -36,10 +35,15 @@ export const CvesPage: React.FunctionComponent = () => {
 
     const navigate = useNavigate();
     const {cveId} = useParams();
-    const [cves, loading, filters, selectedCveId, setFilters, resetFilters, selectCve] = useCveStore((s) => [
-        s.cves, s.loading, s.filters, s.selectedCveId, s.setFilters, s.resetFilters, s.selectCve,
-    ], shallow);
-    const [setDrawerPanel, setIsDrawerExpanded] = useCompassStore((s) => [s.setDrawerPanel, s.setIsDrawerExpanded], shallow);
+    const cves = useCveStore((s) => s.cves);
+    const loading = useCveStore((s) => s.loading);
+    const filters = useCveStore((s) => s.filters);
+    const selectedCveId = useCveStore((s) => s.selectedCveId);
+    const setFilters = useCveStore((s) => s.setFilters);
+    const resetFilters = useCveStore((s) => s.resetFilters);
+    const selectCve = useCveStore((s) => s.selectCve);
+    const setDrawerPanel = useCompassStore((s) => s.setDrawerPanel);
+    const setIsDrawerExpanded = useCompassStore((s) => s.setIsDrawerExpanded);
 
     const [sortIndex, setSortIndex] = useState(1);
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');

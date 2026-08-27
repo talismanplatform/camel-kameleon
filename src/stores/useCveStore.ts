@@ -1,5 +1,4 @@
-import {shallow} from 'zustand/shallow';
-import {createWithEqualityFn} from 'zustand/traditional';
+import {create} from 'zustand';
 import {CveApi} from '@api/CveApi';
 import {CamelComponent, CamelRelease, Cve, CveSummary, Severity} from '@models/CveModels';
 
@@ -27,7 +26,7 @@ interface CveState {
     selectCve: (cveId?: string) => void;
 }
 
-export const useCveStore = createWithEqualityFn<CveState>((set, get) => ({
+export const useCveStore = create<CveState>((set, get) => ({
     cves: [],
     summary: undefined,
     components: [],
@@ -55,7 +54,7 @@ export const useCveStore = createWithEqualityFn<CveState>((set, get) => ({
     setFilters: (filters) => set({filters: {...get().filters, ...filters}}),
     resetFilters: () => set({filters: EMPTY_FILTERS}),
     selectCve: (selectedCveId) => set({selectedCveId}),
-}), shallow);
+}));
 
 /** Applies the active filters. Kept outside the store so it can be reused by any page. */
 export function filterCves(cves: Cve[], filters: CveFilters): Cve[] {

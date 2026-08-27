@@ -6,13 +6,13 @@ import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Table, Tbody, Td, Th, Thead, Tr} from '@patternfly/react-table';
 import CheckCircleIcon from '@patternfly/react-icons/dist/esm/icons/check-circle-icon';
 import ExclamationTriangleIcon from '@patternfly/react-icons/dist/esm/icons/exclamation-triangle-icon';
-import {shallow} from 'zustand/shallow';
 import {useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
 
 export const ReleasesPage: React.FunctionComponent = () => {
 
-    const [releases, loading] = useCveStore((s) => [s.releases, s.loading], shallow);
+    const releases = useCveStore((s) => s.releases);
+    const loading = useCveStore((s) => s.loading);
 
     usePageContext(
         'Releases',
