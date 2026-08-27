@@ -1,8 +1,8 @@
 name: Scan vulnerabilities
 
 on:
-#  schedule:
-#    - cron: '0 3 * * *'
+  schedule:
+    - cron: '0 3 * * *'
   push:
     branches: [main, master]
     paths:
@@ -18,6 +18,9 @@ permissions:
 concurrency:
   group: scan
   cancel-in-progress: false
+
+env:
+  MVND_VERSION: '1.0.2'
 
 jobs:
   # Turn public/data/versions.json into a job matrix: one job per tag and branch.
@@ -38,6 +41,7 @@ jobs:
   scan:
     needs: matrix
     runs-on: ubuntu-latest
+    timeout-minutes: 360
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -53,6 +57,31 @@ jobs:
           git clone --depth=1 --single-branch \
             --branch '${{ matrix.ref }}' \
             https://github.com/apache/camel.git camel
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Install mvnd
+        run: |
+          url="https://github.com/apache/maven-mvnd/releases/download/${MVND_VERSION}/maven-mvnd-${MVND_VERSION}-linux-amd64.zip"
+          curl -fsSL -o /tmp/mvnd.zip "$url"
+          unzip -q /tmp/mvnd.zip -d /opt
+          echo "/opt/maven-mvnd-${MVND_VERSION}-linux-amd64/bin" >> "$GITHUB_PATH"
+
+      # 1.1. Write a runtime dependency tree next to every module's pom.xml.
+      - name: Generate mvn-tree.json
+        working-directory: camel
+        run: |
+          mvnd dependency:tree \
+            -DoutputType=json \
+            -DoutputFile=mvn-tree.json \
+            -Dscope=runtime \
+            -q --batch-mode --fail-at-end -Dmaven.wagon.http.retryHandler.count=3
+          echo "trees: $(find components core dsl -name mvn-tree.json | wc -l)"
 
       # 2. Copy the Maven dependency trees, keeping the module directory layout.
       - name: Collect mvn-tree.json files
@@ -113,6 +142,7 @@ jobs:
   # Merge every matrix result back into the repository in a single commit.
   publish:
     needs: [matrix, scan]
+    if: always() && needs.matrix.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
