@@ -27,7 +27,7 @@ export function getNavigationFirstMenu(): MenuItem[] {
         new MenuItem('dashboard', 'Dashboard', ROUTES.DASHBOARD, <TachometerAltIcon/>),
         new MenuItem('cves', 'CVEs', ROUTES.CVES, <SecurityIcon/>),
         new MenuItem('components', 'Components', ROUTES.COMPONENTS, <CubesIcon/>),
-        new MenuItem('releases', 'Releases', ROUTES.RELEASES, <CodeBranchIcon/>),
+        new MenuItem('versions', 'Versions', ROUTES.VERSIONS, <CodeBranchIcon/>),
     ];
 }
 

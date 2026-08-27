@@ -9,7 +9,7 @@ import {NotFoundPage} from './NotFoundPage';
 const DashboardPage = lazy(() => import('@pages/dashboard/DashboardPage').then(m => ({default: m.DashboardPage})));
 const CvesPage = lazy(() => import('@pages/cves/CvesPage').then(m => ({default: m.CvesPage})));
 const ComponentsPage = lazy(() => import('@pages/components/ComponentsPage').then(m => ({default: m.ComponentsPage})));
-const ReleasesPage = lazy(() => import('@pages/releases/ReleasesPage').then(m => ({default: m.ReleasesPage})));
+const VersionsPage = lazy(() => import('@pages/versions/VersionsPage').then(m => ({default: m.VersionsPage})));
 const AboutPage = lazy(() => import('@pages/about/AboutPage').then(m => ({default: m.AboutPage})));
 
 export function MainRoutes() {
@@ -20,7 +20,7 @@ export function MainRoutes() {
                 <Route path={ROUTES.CVES} element={<CvesPage/>}/>
                 <Route path={ROUTES.CVE_DETAIL} element={<CvesPage/>}/>
                 <Route path={ROUTES.COMPONENTS} element={<ComponentsPage/>}/>
-                <Route path={ROUTES.RELEASES} element={<ReleasesPage/>}/>
+                <Route path={ROUTES.VERSIONS} element={<VersionsPage/>}/>
                 <Route path={ROUTES.ABOUT} element={<AboutPage/>}/>
                 <Route path={ROUTES.ROOT} element={<Navigate to={ROUTES.DASHBOARD} replace/>}/>
                 <Route path="*" element={<NotFoundPage/>}/>

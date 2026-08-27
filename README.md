@@ -35,11 +35,11 @@ Drawer (detail panel)
 | `src/ui/compass` | Compass shell: `App`, `AppCompass`, `AppSideBar`, `AppMain`, `TopMiddle`, `AppFooter` |
 | `src/ui/compass/navigation` | Route table, dock menu, lazy route definitions, fallbacks |
 | `src/ui/compass/theme` | Light/dark theme context and toggle (`pf-v6-theme-dark`) |
-| `src/ui/pages` | `dashboard`, `cves`, `components`, `releases`, `about` |
+| `src/ui/pages` | `dashboard`, `cves`, `components`, `versions`, `about` |
 | `src/ui/shared/ui` | Severity/status labels, error boundary |
 | `src/stores` | Zustand stores: CVE data + filters, dock/page UI state |
 | `src/api/CveApi.ts` | Data access layer (currently fixture backed) |
-| `src/data` | Sample advisory and release fixtures |
+| `src/data` | Sample advisory fixtures |
 | `src/models/CveModels.ts` | `Cve`, `Severity`, `CveStatus`, summary types |
 
 Path aliases (`@compass`, `@pages`, `@shared`, `@stores`, `@models`, `@api`, `@data`) are
@@ -50,7 +50,7 @@ declared in both `vite.config.ts` and `tsconfig.json`.
 * **Dashboard** – severity stat cards, remediation progress, most affected components, latest advisories.
 * **CVEs** – searchable and sortable advisory table with a resizable detail drawer; `/cves/:cveId` deep links open that drawer.
 * **Components** – affected Camel artifacts grouped by category, linking back into a filtered CVE list.
-* **Releases** – per release exposure (open CVEs vs fixes shipped, LTS and support state).
+* **Versions** – every scanned tag and branch: kind, name, scan date, vulnerability counts by severity, max risk and max EPSS, read from `public/data/<ref>/vulnerabilities.json`.
 * **About** – stack summary and data sources.
 
 ## Data

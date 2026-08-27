@@ -29,21 +29,70 @@ export interface CamelComponent {
     highestSeverity: Severity | 'none';
 }
 
-export interface CamelRelease {
-    version: string;
-    released: string;
-    lts: boolean;
-    supported: boolean;
-    openCves: number;
-    fixedCves: number;
-}
-
 export interface CveSummary {
     total: number;
     open: number;
     fixed: number;
     bySeverity: Record<Severity, number>;
     withExploit: number;
+}
+
+/** Grype severity, as written into `vulnerabilities.json` by the scanner. */
+export type ScanSeverity = 'Critical' | 'High' | 'Medium' | 'Low' | 'Negligible' | 'Unknown';
+
+export const SCAN_SEVERITIES: ScanSeverity[] = ['Critical', 'High', 'Medium', 'Low', 'Negligible', 'Unknown'];
+
+export const SCAN_SEVERITY_COLOR: Record<ScanSeverity, 'red' | 'orange' | 'yellow' | 'blue' | 'grey'> = {
+    Critical: 'red',
+    High: 'orange',
+    Medium: 'yellow',
+    Low: 'blue',
+    Negligible: 'grey',
+    Unknown: 'grey',
+};
+
+/** One row of `public/data/<ref>/vulnerabilities.json`. */
+export interface Vulnerability {
+    /** Dependency the finding was reported against, e.g. snakeyaml */
+    name: string;
+    installed: string;
+    /** Fixed version, or `(not-fixed)` / `(unknown)` when there is none. */
+    fixed_in: string;
+    type: string;
+    groupId?: string;
+    artifactId?: string;
+    /** Advisory id, e.g. GHSA-mjmj-j48q-9wg2 or CVE-2022-1471 */
+    vulnerability: string;
+    severity: string;
+    dataSource: string;
+    description: string;
+    /** Exploit Prediction Scoring System probability, 0..1. Null when unknown. */
+    epss: number | null;
+    /** Grype risk score. Null when unknown. */
+    risk: number | null;
+}
+
+/** A scanned ref of apache/camel: what it is, when it was scanned and how bad it is. */
+export interface VersionScan {
+    /** Branch or tag name, e.g. camel-4.22.0 */
+    ref: string;
+    kind: 'tag' | 'branch';
+    /** UTC ISO 8601 instant of the last scan, absent when never scanned. */
+    scannedAt?: string;
+    /** Total findings in `vulnerabilities.json`. */
+    total: number;
+    bySeverity: Record<ScanSeverity, number>;
+    /** Highest risk / EPSS across the findings, undefined when there are none. */
+    maxRisk?: number;
+    maxEpss?: number;
+    /** False when the report could not be loaded, so counts read as unknown. */
+    loaded: boolean;
+}
+
+/** `public/data/versions.json`: the refs the nightly scan walks. */
+export interface Versions {
+    tags: string[];
+    branches: string[];
 }
 
 /** When a single Camel branch or tag was last scanned. Written by scan.yml. */

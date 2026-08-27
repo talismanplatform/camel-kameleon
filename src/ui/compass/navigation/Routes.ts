@@ -3,7 +3,7 @@ export const ROUTES = {
     CVES: '/cves',
     CVE_DETAIL: '/cves/:cveId',
     COMPONENTS: '/components',
-    RELEASES: '/releases',
+    VERSIONS: '/versions',
     ABOUT: '/about',
     ROOT: '/',
 };

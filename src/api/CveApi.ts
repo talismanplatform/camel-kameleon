@@ -1,6 +1,18 @@
 import cvesJson from '@data/cves.json';
-import releasesJson from '@data/releases.json';
-import {CamelComponent, CamelRelease, Cve, CveSummary, isOpen, ScanInfo, SEVERITIES, Severity} from '@models/CveModels';
+import {
+    CamelComponent,
+    Cve,
+    CveSummary,
+    isOpen,
+    ScanInfo,
+    SCAN_SEVERITIES,
+    ScanSeverity,
+    SEVERITIES,
+    Severity,
+    VersionScan,
+    Versions,
+    Vulnerability,
+} from '@models/CveModels';
 
 /**
  * Fixture backed API. Every method mirrors the shape of the REST endpoint that will
@@ -9,11 +21,20 @@ import {CamelComponent, CamelRelease, Cve, CveSummary, isOpen, ScanInfo, SEVERIT
 const LATENCY_MS = 250;
 
 /**
- * Scan metadata lives in `public/data/scan.json` and is refreshed by the nightly
- * workflow, so it is fetched at runtime rather than bundled: a data-only commit
- * updates the date without rebuilding the application.
+ * Scan data lives under `public/data` and is refreshed by the nightly workflow, so
+ * it is fetched at runtime rather than bundled: a data-only commit updates the
+ * dashboard without rebuilding the application.
+ *
+ * `BASE_URL` is `/` on localhost and `/camel-kameleon/` in the GitHub Pages build,
+ * so prefixing it makes one relative `data/...` path work in both places.
  */
-const SCAN_INFO_URL = `${import.meta.env.BASE_URL}data/scan.json`;
+const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/${path}`;
+
+const SCAN_INFO_URL = dataUrl('scan.json');
+
+const VERSIONS_URL = dataUrl('versions.json');
+
+const vulnerabilitiesUrl = (ref: string) => dataUrl(`${encodeURIComponent(ref)}/vulnerabilities.json`);
 
 const CVES = cvesJson as Cve[];
 
@@ -69,12 +90,8 @@ export const CveApi = {
     },
 
     /** Resolves to undefined when no scan has been published yet. */
-    async getScanInfo(): Promise<ScanInfo | undefined> {
-        const response = await fetch(SCAN_INFO_URL, {cache: 'no-cache'});
-        if (!response.ok) {
-            return undefined;
-        }
-        return await response.json() as ScanInfo;
+    getScanInfo(): Promise<ScanInfo | undefined> {
+        return fetchJson<ScanInfo>(SCAN_INFO_URL);
     },
 
     getComponents(): Promise<CamelComponent[]> {
@@ -91,17 +108,74 @@ export const CveApi = {
         }));
     },
 
-    getReleases(): Promise<CamelRelease[]> {
-        const releases = releasesJson as Omit<CamelRelease, 'openCves' | 'fixedCves'>[];
-        return delayed(releases.map(release => ({
-            ...release,
-            openCves: CVES.filter(cve => isOpen(cve) && cve.affectedVersions.some(range => sameStream(range, release.version))).length,
-            fixedCves: CVES.filter(cve => cve.fixedIn.includes(release.version)).length,
-        })));
+    /**
+     * One row per scanned ref: `versions.json` says which refs exist and whether
+     * each is a tag or a branch, `scan.json` when it was scanned, and the ref's
+     * own `vulnerabilities.json` supplies the severity counts, max risk and max
+     * EPSS. Reports are fetched in parallel and a missing one only degrades its
+     * own row.
+     */
+    async getVersions(): Promise<VersionScan[]> {
+        const [versions, scanInfo] = await Promise.all([
+            fetchJson<Versions>(VERSIONS_URL),
+            fetchJson<ScanInfo>(SCAN_INFO_URL).catch(() => undefined),
+        ]);
+
+        const refs: { ref: string, kind: 'tag' | 'branch' }[] = [
+            ...(versions?.tags ?? []).map(ref => ({ref, kind: 'tag' as const})),
+            ...(versions?.branches ?? []).map(ref => ({ref, kind: 'branch' as const})),
+        ];
+
+        return Promise.all(refs.map(async ({ref, kind}) => {
+            const vulnerabilities = await fetchJson<Vulnerability[]>(vulnerabilitiesUrl(ref)).catch(() => undefined);
+            return {
+                ref,
+                kind,
+                scannedAt: scanInfo?.refs?.find(scan => scan.ref === ref)?.scannedAt,
+                ...aggregate(vulnerabilities),
+            };
+        }));
     },
 };
 
-function sameStream(range: string, version: string): boolean {
-    const stream = version.split('.').slice(0, 2).join('.');
-    return range.split(' - ').some(bound => bound.trim().startsWith(stream));
+/** Resolves to undefined for any response that is not a readable JSON body. */
+async function fetchJson<T>(url: string): Promise<T | undefined> {
+    const response = await fetch(url, {cache: 'no-cache'});
+    if (!response.ok) {
+        return undefined;
+    }
+    return await response.json() as T;
+}
+
+const EMPTY_COUNTS = () => SCAN_SEVERITIES.reduce((acc, severity) => {
+    acc[severity] = 0;
+    return acc;
+}, {} as Record<ScanSeverity, number>);
+
+/** Severities the scanner does not recognise are counted as `Unknown`. */
+function scanSeverity(severity: string): ScanSeverity {
+    return SCAN_SEVERITIES.find(known => known.toLowerCase() === severity?.toLowerCase()) ?? 'Unknown';
+}
+
+function aggregate(vulnerabilities?: Vulnerability[]): Pick<VersionScan, 'total' | 'bySeverity' | 'maxRisk' | 'maxEpss' | 'loaded'> {
+    if (!vulnerabilities) {
+        return {total: 0, bySeverity: EMPTY_COUNTS(), loaded: false};
+    }
+    const bySeverity = vulnerabilities.reduce((acc, vulnerability) => {
+        acc[scanSeverity(vulnerability.severity)] += 1;
+        return acc;
+    }, EMPTY_COUNTS());
+    return {
+        total: vulnerabilities.length,
+        bySeverity,
+        maxRisk: max(vulnerabilities.map(vulnerability => vulnerability.risk)),
+        maxEpss: max(vulnerabilities.map(vulnerability => vulnerability.epss)),
+        loaded: true,
+    };
+}
+
+/** Undefined rather than -Infinity when nothing carries a score. */
+function max(values: (number | null | undefined)[]): number | undefined {
+    const numbers = values.filter((value): value is number => typeof value === 'number');
+    return numbers.length > 0 ? Math.max(...numbers) : undefined;
 }

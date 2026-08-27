@@ -1,10 +1,8 @@
 /**
  * Scan dates are stored as UTC ISO 8601 instants (`2026-08-27T03:12:44Z`) so the
  * value in `public/data/scan.json` is unambiguous. Rendering is the UI's job:
- * absolute in the reader's own locale and time zone, relative for the summary.
+ * the instant itself for precision, a relative age for a quick read.
  */
-
-const ABSOLUTE = new Intl.DateTimeFormat(undefined, {dateStyle: 'medium', timeStyle: 'short'});
 
 const RELATIVE = new Intl.RelativeTimeFormat(undefined, {numeric: 'auto'});
 
