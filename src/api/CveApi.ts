@@ -86,7 +86,6 @@ export const CveApi = {
     },
 };
 
-/** Two versions belong to the same stream when major.minor match, e.g. 4.10.x. */
 function sameStream(range: string, version: string): boolean {
     const stream = version.split('.').slice(0, 2).join('.');
     return range.split(' - ').some(bound => bound.trim().startsWith(stream));

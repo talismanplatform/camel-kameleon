@@ -1,0 +1,146 @@
+name: Scan vulnerabilities
+
+on:
+#  schedule:
+#    - cron: '0 3 * * *'
+  push:
+    branches: [main, master]
+    paths:
+      - 'public/data/versions.json'
+      - '.github/workflows/scan.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Scanning writes back to the repository, so never run two scans at once.
+# Deployment uses its own `pages` group and is triggered by the commit we push.
+concurrency:
+  group: scan
+  cancel-in-progress: false
+
+jobs:
+  # Turn public/data/versions.json into a job matrix: one job per tag and branch.
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      refs: ${{ steps.read.outputs.refs }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - id: read
+        name: Read versions.json
+        run: |
+          refs=$(jq -c '[(.tags // []) + (.branches // []) | .[]] | unique' public/data/versions.json)
+          echo "refs=$refs" >> "$GITHUB_OUTPUT"
+          echo "Scanning: $refs"
+
+  scan:
+    needs: matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        ref: ${{ fromJson(needs.matrix.outputs.refs) }}
+    steps:
+      - name: Checkout dashboard
+        uses: actions/checkout@v7
+
+      # 1. Clone the branch or tag of apache/camel, no history, single branch.
+      - name: Clone apache/camel@${{ matrix.ref }}
+        run: |
+          git clone --depth=1 --single-branch \
+            --branch '${{ matrix.ref }}' \
+            https://github.com/apache/camel.git camel
+
+      # 2. Copy the Maven dependency trees, keeping the module directory layout.
+      - name: Collect mvn-tree.json files
+        working-directory: camel
+        run: |
+          mkdir -p '${{ github.workspace }}/public/data/${{ matrix.ref }}/'
+          rsync -avm \
+            --include='*/' --include='mvn-tree.json' --exclude='*' \
+            components core dsl \
+            '${{ github.workspace }}/public/data/${{ matrix.ref }}/'
+
+      # 3. Install grype.
+      - name: Install grype
+        uses: anchore/scan-action/download-grype@v7
+        id: grype
+
+      # 4. Scan the SBOM published in the Camel source tree.
+      - name: Scan SBOM
+        working-directory: camel
+        run: |
+          ${{ steps.grype.outputs.cmd }} sbom:./camel-sbom/camel-sbom.json \
+            --output=json --file vulnerabilities.json
+
+      # 5. Reduce the grype report to the fields the dashboard consumes.
+      - name: Reshape report
+        working-directory: camel
+        run: |
+          jq -c '[.matches[] | {
+            name: .artifact.name,
+            installed: .artifact.version,
+            fixed_in: (if .vulnerability.fix.state == "fixed" then (.vulnerability.fix.versions | join(", ")) else "(" + .vulnerability.fix.state + ")" end),
+            type: .artifact.type,
+            groupId: .artifact.metadata.pomGroupID,
+            artifactId: .artifact.metadata.pomArtifactID,
+            vulnerability: .vulnerability.id,
+            severity: .vulnerability.severity,
+            dataSource: .vulnerability.dataSource,
+            description: .vulnerability.description,
+            epss: (if .vulnerability.epss and (.vulnerability.epss | length) > 0 then .vulnerability.epss[0].epss else null end),
+            risk: .vulnerability.risk
+            }]' vulnerabilities.json > vulnerabilities.reshaped.json
+          mv vulnerabilities.reshaped.json vulnerabilities.json
+
+      # 6. Publish the report next to the dependency trees for this ref.
+      - name: Move report into public/data/${{ matrix.ref }}
+        run: |
+          mv camel/vulnerabilities.json \
+            'public/data/${{ matrix.ref }}/vulnerabilities.json'
+
+      - name: Upload scan result
+        uses: actions/upload-artifact@v5
+        with:
+          name: scan-${{ matrix.ref }}
+          path: public/data/${{ matrix.ref }}
+          retention-days: 1
+          if-no-files-found: error
+
+  # Merge every matrix result back into the repository in a single commit.
+  publish:
+    needs: [matrix, scan]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Download scan results
+        uses: actions/download-artifact@v6
+        with:
+          pattern: scan-*
+          path: scans
+
+      - name: Move results into public/data
+        run: |
+          echo '${{ needs.matrix.outputs.refs }}' | jq -r '.[]' | while read -r ref; do
+            src="scans/scan-$ref"
+            [ -d "$src" ] || { echo "::warning::no result for $ref"; continue; }
+            rm -rf "public/data/$ref"
+            mkdir -p "public/data/$ref"
+            cp -R "$src/." "public/data/$ref/"
+          done
+
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data
+          if git diff --cached --quiet; then
+            echo 'No changes'
+            exit 0
+          fi
+          git commit -m 'chore: refresh vulnerability scan data'
+          git push
