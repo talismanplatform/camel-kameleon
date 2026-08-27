@@ -1,0 +1,147 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-xslt-saxon",
+  "version": "4.22.0",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-xslt",
+      "version": "4.22.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-support",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-api",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-management-api",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util-json",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-xml-jaxp-util",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-core-model",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-core-processor",
+                  "version": "4.22.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-xml-io-util",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "net.sf.saxon",
+      "artifactId": "Saxon-HE",
+      "version": "13.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.xmlresolver",
+          "artifactId": "xmlresolver",
+          "version": "6.0.23",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.xmlresolver",
+          "artifactId": "xmlresolver",
+          "version": "6.0.23",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "data",
+          "optional": "false"
+        }
+        ]
+    }
+    ]
+}

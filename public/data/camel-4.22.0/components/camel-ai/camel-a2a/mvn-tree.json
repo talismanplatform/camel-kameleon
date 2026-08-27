@@ -1,0 +1,192 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-a2a",
+  "version": "4.22.0",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-core-model",
+      "version": "4.22.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-core-processor",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-core-reifier",
+      "version": "4.22.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.22.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.18",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-core-languages",
+      "version": "4.22.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "com.fasterxml.jackson.core",
+      "artifactId": "jackson-databind",
+      "version": "2.22.1",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "com.fasterxml.jackson.core",
+          "artifactId": "jackson-annotations",
+          "version": "2.22",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.fasterxml.jackson.core",
+          "artifactId": "jackson-core",
+          "version": "2.22.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "com.fasterxml.jackson.datatype",
+      "artifactId": "jackson-datatype-jsr310",
+      "version": "2.22.1",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "org.apache.httpcomponents.client5",
+      "artifactId": "httpclient5",
+      "version": "5.6.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.httpcomponents.core5",
+          "artifactId": "httpcore5",
+          "version": "5.4.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.httpcomponents.core5",
+          "artifactId": "httpcore5-h2",
+          "version": "5.4.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    }
+    ]
+}

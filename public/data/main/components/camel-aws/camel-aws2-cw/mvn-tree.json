@@ -1,0 +1,656 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-aws2-cw",
+  "version": "4.23.0-SNAPSHOT",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.23.0-SNAPSHOT",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.23.0-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.23.0-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.23.0-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.23.0-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.23.0-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.18",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-aws-common",
+      "version": "4.23.0-SNAPSHOT",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "auth",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "http-auth-aws-eventstream",
+              "version": "2.54.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "checksums-spi",
+              "version": "2.54.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.eventstream",
+              "artifactId": "eventstream",
+              "version": "1.0.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "regions",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "sdk-core",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "checksums",
+              "version": "2.54.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "retries",
+              "version": "2.54.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.reactivestreams",
+              "artifactId": "reactive-streams",
+              "version": "1.0.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "aws-core",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "utils-lite",
+              "version": "2.54.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "netty-nio-client",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-http",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-codec-base",
+                  "version": "4.2.16.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-codec-compression",
+                  "version": "4.2.16.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-http2",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-codec-protobuf",
+                  "version": "4.2.16.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-codec-marshalling",
+                  "version": "4.2.16.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-transport",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-common",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-buffer",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-handler",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-transport-native-unix-common",
+                  "version": "4.2.16.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-transport-classes-epoll",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-resolver",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-health",
+      "version": "4.23.0-SNAPSHOT",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-core-engine",
+          "version": "4.23.0-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-base-engine",
+              "version": "4.23.0-SNAPSHOT",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-base",
+                  "version": "4.23.0-SNAPSHOT",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-core-reifier",
+              "version": "4.23.0-SNAPSHOT",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-core-model",
+                  "version": "4.23.0-SNAPSHOT",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-core-processor",
+                  "version": "4.23.0-SNAPSHOT",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "software.amazon.awssdk",
+      "artifactId": "cloudwatch",
+      "version": "2.54.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "aws-json-protocol",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "third-party-jackson-core",
+              "version": "2.54.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "smithy-rpcv2-protocol",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "third-party-jackson-dataformat-cbor",
+              "version": "2.54.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "protocol-core",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "http-auth-aws",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "http-auth-spi",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "http-auth",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "identity-spi",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "http-client-spi",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "annotations",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "utils",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "metrics-spi",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "json-utils",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "endpoints-spi",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "retries-spi",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "software.amazon.awssdk",
+      "artifactId": "sts",
+      "version": "2.54.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "aws-query-protocol",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "profiles",
+          "version": "2.54.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "software.amazon.awssdk",
+      "artifactId": "apache5-client",
+      "version": "2.54.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.httpcomponents.client5",
+          "artifactId": "httpclient5",
+          "version": "5.6.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.httpcomponents.core5",
+              "artifactId": "httpcore5-h2",
+              "version": "5.4.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.httpcomponents.core5",
+          "artifactId": "httpcore5",
+          "version": "5.4.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    }
+    ]
+}
