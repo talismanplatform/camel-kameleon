@@ -41,7 +41,7 @@ export const DashboardPage: React.FunctionComponent = () => {
 
     usePageContext(
         'Security overview',
-        <Title headingLevel="h1" size="xl">Security overview</Title>,
+        <Title headingLevel="h1" size="xl">Apache Camel CVE Dashboard</Title>,
         [loading]
     );
 

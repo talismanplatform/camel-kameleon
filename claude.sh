@@ -8,7 +8,7 @@ and save it to /app/.commit.md."
 
 docker run -t --rm --network=talisman --name camel-kameleon-sandbox \
   -v "$(pwd):/app" \
-  -v "/Users/marat/projects/talisman/talisman-app/src/main/webui/src/ui/compass:/tmp/example:ro" \
+  -v /app/node_modules \
   -v claude-config:/home/default \
   -v "$HOME/.claude":/home/default/.claude \
   claude-sandbox \
