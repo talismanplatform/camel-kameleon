@@ -14,9 +14,8 @@ import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
-import SyncAltIcon from '@patternfly/react-icons/dist/esm/icons/sync-alt-icon';
 import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
-import {isOpen, SEVERITIES, SEVERITY_LABEL, Severity} from '@models/CveModels';
+import {isOpen, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -38,7 +37,6 @@ export const DashboardPage: React.FunctionComponent = () => {
     const summary = useCveStore((s) => s.summary);
     const components = useCveStore((s) => s.components);
     const loading = useCveStore((s) => s.loading);
-    const fetchAll = useCveStore((s) => s.fetchAll);
     const setFilters = useCveStore((s) => s.setFilters);
 
     usePageContext(
