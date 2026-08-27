@@ -25,8 +25,8 @@ export const VersionsPage: React.FunctionComponent = () => {
         'Versions',
         <Title headingLevel="h1" size="xl">Scanned versions</Title>,
         <LabelGroup>
-            <Label isCompact variant="outline" icon={<TagIcon/>}>{`${count(versions, 'tag')} tags`}</Label>
-            <Label isCompact variant="outline" icon={<CodeBranchIcon/>}>{`${count(versions, 'branch')} branches`}</Label>
+            <Label  variant="outline" icon={<TagIcon/>}>{`${count(versions, 'tag')} tags`}</Label>
+            <Label  variant="outline" icon={<CodeBranchIcon/>}>{`${count(versions, 'branch')} branches`}</Label>
         </LabelGroup>,
         [versions.length]
     );
@@ -57,7 +57,6 @@ export const VersionsPage: React.FunctionComponent = () => {
                         <Th>JDK</Th>
                         <Th>Released</Th>
                         <Th>EOL</Th>
-                        <Th>Scanned</Th>
                         <Th>Vulnerabilities</Th>
                         <Th>By severity</Th>
                         <Th>Max risk</Th>
@@ -69,8 +68,8 @@ export const VersionsPage: React.FunctionComponent = () => {
                         <Tr key={version.ref}>
                             <Td dataLabel="Type">
                                 <Label
-                                    isCompact
-                                    variant="outline"
+                                    
+                                    variant="filled"
                                     color={version.kind === 'tag' ? 'purple' : 'blue'}
                                     icon={version.kind === 'tag' ? <TagIcon/> : <CodeBranchIcon/>}
                                 >
@@ -80,18 +79,15 @@ export const VersionsPage: React.FunctionComponent = () => {
                             <Td dataLabel="Name" modifier="nowrap">{version.ref}</Td>
                             <Td dataLabel="Kind" modifier="nowrap">
                                 {isLts(version)
-                                    ? <Label isCompact color="green">LTS</Label>
+                                    ? <Label  color="green">LTS</Label>
                                     : '-'}
                             </Td>
                             <Td dataLabel="JDK" modifier="nowrap">{version.release?.jdkVersion ?? '-'}</Td>
                             <Td dataLabel="Released" modifier="nowrap">{version.release?.releaseDate ?? '-'}</Td>
                             <Td dataLabel="EOL" modifier="nowrap">{version.release?.eolDate ?? '-'}</Td>
-                            <Td dataLabel="Scanned" modifier="nowrap">
-                                {version.scannedAt ? <ScannedAt scannedAt={version.scannedAt}/> : '-'}
-                            </Td>
                             <Td dataLabel="Vulnerabilities">
                                 {version.loaded
-                                    ? <Label isCompact color={version.total > 0 ? 'red' : 'green'}>{version.total}</Label>
+                                    ? <Label  color={version.total > 0 ? 'red' : 'green'}>{version.total}</Label>
                                     : <Content component={ContentVariants.small}>Report unavailable</Content>}
                             </Td>
                             <Td dataLabel="By severity">
@@ -99,7 +95,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                                     {SCAN_SEVERITIES
                                         .filter(severity => version.bySeverity[severity] > 0)
                                         .map(severity => (
-                                            <Label key={severity} isCompact color={SCAN_SEVERITY_COLOR[severity]}>
+                                            <Label key={severity}  color={SCAN_SEVERITY_COLOR[severity]}>
                                                 {`${severity} ${version.bySeverity[severity]}`}
                                             </Label>
                                         ))}
