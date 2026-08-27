@@ -1,0 +1,9 @@
+.brand-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    .pf-v6-c-content--h6 {
+        margin: 0;
+    }
+}

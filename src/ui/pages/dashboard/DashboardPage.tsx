@@ -42,9 +42,6 @@ export const DashboardPage: React.FunctionComponent = () => {
     usePageContext(
         'Security overview',
         <Title headingLevel="h1" size="xl">Security overview</Title>,
-        <Button variant="secondary" icon={<SyncAltIcon/>} isDisabled={loading} onClick={() => fetchAll()}>
-            Rescan
-        </Button>,
         [loading]
     );
 

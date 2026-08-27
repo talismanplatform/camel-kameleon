@@ -7,17 +7,16 @@ import {AppDock} from './AppDock';
 import {AppMain} from './AppMain';
 import {useCompassStore} from './useCompassStore';
 import './AppCompass.css';
+import {CompassHeader} from "@patternfly/react-core/src";
+import {AppLogo} from "@compass/AppLogo";
+import {AppNavigation} from "@compass/AppNavigation";
 
 const AppCompass: React.FunctionComponent = () => {
 
     const [
-        isDockExpanded,
-        isDockTextExpanded,
         isDrawerExpanded,
         drawerPanelContent,
     ] = useCompassStore((s) => [
-        s.isDockExpanded,
-        s.isDockTextExpanded,
         s.isDrawerExpanded,
         s.drawerPanel,
     ], shallow);
@@ -25,6 +24,8 @@ const AppCompass: React.FunctionComponent = () => {
     // The dock and main areas never depend on props, so they are built once.
     const memoizedDock = useMemo(() => <AppDock/>, []);
     const memoizedMain = useMemo(() => <AppMain/>, []);
+    const header = <CompassHeader logo={<AppLogo/>} profile={<AppNavigation/>}/>
+    // const footer = <AppFooter/>;
 
     return (
         <Drawer isExpanded={isDrawerExpanded} position="end" isPill onExpand={() => {}}>
@@ -32,11 +33,10 @@ const AppCompass: React.FunctionComponent = () => {
                 <DrawerContentBody>
                     <ErrorBoundaryWrapper onError={error => console.error(error)}>
                         <Compass
-                            className="camel-cve"
-                            dock={memoizedDock}
-                            isDockExpanded={isDockExpanded}
-                            isDockTextExpanded={isDockTextExpanded}
+                            header={header}
+                            sidebarStart={memoizedDock}
                             main={memoizedMain}
+                            // footer={footer}
                         />
                     </ErrorBoundaryWrapper>
                 </DrawerContentBody>

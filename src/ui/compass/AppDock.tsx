@@ -69,20 +69,20 @@ export const AppDock: React.FunctionComponent = () => {
     }
 
     return (
-        <CompassDockMain>
-            <Masthead display={{default: 'inline'}} id="docked-masthead" variant="docked" className={isDark ? '' : 'light-theme-dock'}>
-                <MastheadMain className={'dock-main-expanded'}>
-                    <MastheadBrand>
-                        <MastheadLogo>
-                            <div className={'dock-brand-expanded'}>
-                                <Brand src={logo} alt="Apache Camel" heights={{default: '32px'}} widths={{default: '32px'}}/>
-                                <h6 style={{fontWeight: '400'}}>Apache Camel Kameleon 0.1.0</h6>
-                            </div>
-                        </MastheadLogo>
-                    </MastheadBrand>
-                </MastheadMain>
-                <Divider/>
-                <MastheadContent>
+        // <CompassDockMain>
+        //     <Masthead display={{default: 'inline'}} id="docked-masthead" variant="docked" className={isDark ? '' : 'light-theme-dock'}>
+        //         <MastheadMain className={'dock-main-expanded'}>
+        //             <MastheadBrand>
+        //                 <MastheadLogo>
+        //                     <div className={'dock-brand-expanded'}>
+        //                         <Brand src={logo} alt="Apache Camel" heights={{default: '32px'}} widths={{default: '32px'}}/>
+        //                         <h6 style={{fontWeight: '400'}}>Apache Camel Kameleon 0.1.0</h6>
+        //                     </div>
+        //                 </MastheadLogo>
+        //             </MastheadBrand>
+        //         </MastheadMain>
+        //         <Divider/>
+        //         <MastheadContent>
                     <Toolbar id="dock-toolbar" isVertical>
                         <ToolbarContent>
                             <ToolbarItem>
@@ -107,8 +107,8 @@ export const AppDock: React.FunctionComponent = () => {
                             </ToolbarGroup>
                         </ToolbarContent>
                     </Toolbar>
-                </MastheadContent>
-            </Masthead>
-        </CompassDockMain>
+        //         </MastheadContent>
+        //     </Masthead>
+        // </CompassDockMain>
     );
 };
