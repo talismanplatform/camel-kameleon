@@ -1,20 +1,18 @@
 import React from 'react';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
-import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
 import {EmptyState, EmptyStateBody} from '@patternfly/react-core/dist/esm/components/EmptyState';
 import {Label, LabelGroup} from '@patternfly/react-core/dist/esm/components/Label';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
-import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
 import {Table, Tbody, Td, Th, Thead, Tr} from '@patternfly/react-table';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import {SCAN_SEVERITIES, SCAN_SEVERITY_COLOR, VersionScan} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
-import {formatScanAge, formatScanDate} from '@shared/scanDate';
 import './VersionsPage.css';
+import {LastScanDate} from "@shared/ui/LastScanDate";
 
 export const VersionsPage: React.FunctionComponent = () => {
 
@@ -24,10 +22,7 @@ export const VersionsPage: React.FunctionComponent = () => {
     usePageContext(
         'Versions',
         <Title headingLevel="h1" size="xl">Scanned versions</Title>,
-        <LabelGroup>
-            <Label  variant="outline" icon={<TagIcon/>}>{`${count(versions, 'tag')} tags`}</Label>
-            <Label  variant="outline" icon={<CodeBranchIcon/>}>{`${count(versions, 'branch')} branches`}</Label>
-        </LabelGroup>,
+        <LastScanDate/>,
         [versions.length]
     );
 
@@ -57,9 +52,9 @@ export const VersionsPage: React.FunctionComponent = () => {
                         <Th>JDK</Th>
                         <Th>Released</Th>
                         <Th>EOL</Th>
-                        <Th>Vulnerabilities</Th>
-                        <Th>By severity</Th>
-                        <Th>Max risk</Th>
+                        <Th modifier={'fitContent'}>Vulnerabilities</Th>
+                        <Th textCenter>Severities</Th>
+                        <Th>Max Risk</Th>
                         <Th>Max EPSS</Th>
                     </Tr>
                 </Thead>
@@ -68,9 +63,8 @@ export const VersionsPage: React.FunctionComponent = () => {
                         <Tr key={version.ref}>
                             <Td dataLabel="Type">
                                 <Label
-                                    
-                                    variant="filled"
-                                    color={version.kind === 'tag' ? 'purple' : 'blue'}
+                                    variant="outline"
+                                    // color={version.kind === 'tag' ? 'purple' : 'blue'}
                                     icon={version.kind === 'tag' ? <TagIcon/> : <CodeBranchIcon/>}
                                 >
                                     {version.kind === 'tag' ? 'Tag' : 'Branch'}
@@ -80,17 +74,17 @@ export const VersionsPage: React.FunctionComponent = () => {
                             <Td dataLabel="Kind" modifier="nowrap">
                                 {isLts(version)
                                     ? <Label  color="green">LTS</Label>
-                                    : '-'}
+                                    : ''}
                             </Td>
-                            <Td dataLabel="JDK" modifier="nowrap">{version.release?.jdkVersion ?? '-'}</Td>
-                            <Td dataLabel="Released" modifier="nowrap">{version.release?.releaseDate ?? '-'}</Td>
-                            <Td dataLabel="EOL" modifier="nowrap">{version.release?.eolDate ?? '-'}</Td>
-                            <Td dataLabel="Vulnerabilities">
+                            <Td dataLabel="JDK" modifier="nowrap">{isLts(version) ? version.release?.jdkVersion : ''}</Td>
+                            <Td dataLabel="Released" modifier="nowrap">{isLts(version) ? version.release?.releaseDate : ''}</Td>
+                            <Td dataLabel="EOL" modifier="nowrap">{isLts(version) ? version.release?.eolDate : ''}</Td>
+                            <Td dataLabel="Vulnerabilities" textCenter>
                                 {version.loaded
                                     ? <Label  color={version.total > 0 ? 'red' : 'green'}>{version.total}</Label>
                                     : <Content component={ContentVariants.small}>Report unavailable</Content>}
                             </Td>
-                            <Td dataLabel="By severity">
+                            <Td dataLabel="By severity" textCenter>
                                 <LabelGroup numLabels={SCAN_SEVERITIES.length}>
                                     {SCAN_SEVERITIES
                                         .filter(severity => version.bySeverity[severity] > 0)
@@ -111,19 +105,6 @@ export const VersionsPage: React.FunctionComponent = () => {
     );
 };
 
-/** Absolute date, with the relative age kept subtle next to it. */
-const ScannedAt: React.FunctionComponent<{ scannedAt: string }> = ({scannedAt}) => {
-    const age = formatScanAge(scannedAt);
-    return (
-        <Tooltip content={scannedAt}>
-            <Flex gap={{default: 'gapSm'}} alignItems={{default: 'alignItemsCenter'}}>
-                <FlexItem>{formatScanDate(scannedAt)}</FlexItem>
-                {age && <FlexItem><span className="scan-age">{`(${age})`}</span></FlexItem>}
-            </Flex>
-        </Tooltip>
-    );
-};
-
 /** By name: `main` leads because it is the development branch, the rest descend. */
 function sorted(versions: VersionScan[]): VersionScan[] {
     return [...versions].sort((a, b) => {
@@ -136,7 +117,7 @@ function sorted(versions: VersionScan[]): VersionScan[] {
 
 /** `camel version list` marks long term support releases with `kind: lts`. */
 function isLts(version: VersionScan): boolean {
-    return version.release?.kind?.toLowerCase() === 'lts';
+    return version.release?.kind?.toLowerCase() === 'lts' && version.kind === 'tag';
 }
 
 function count(versions: VersionScan[], kind: VersionScan['kind']): number {
