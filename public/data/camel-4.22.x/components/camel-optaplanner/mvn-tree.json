@@ -1,0 +1,574 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-optaplanner",
+  "version": "4.22.1-SNAPSHOT",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.22.1-SNAPSHOT",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.22.1-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.22.1-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.22.1-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.22.1-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.22.1-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.18",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.optaplanner",
+      "artifactId": "optaplanner-core",
+      "version": "10.2.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.optaplanner",
+          "artifactId": "optaplanner-core-impl",
+          "version": "10.2.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.commons",
+              "artifactId": "commons-math3",
+              "version": "3.6.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "micrometer-core",
+              "version": "1.17.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.micrometer",
+                  "artifactId": "micrometer-commons",
+                  "version": "1.17.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.micrometer",
+                  "artifactId": "micrometer-observation",
+                  "version": "1.17.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.hdrhistogram",
+                  "artifactId": "HdrHistogram",
+                  "version": "2.2.2",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.glassfish.jaxb",
+              "artifactId": "jaxb-runtime",
+              "version": "4.0.9",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.glassfish.jaxb",
+                  "artifactId": "jaxb-core",
+                  "version": "4.0.9",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.eclipse.angus",
+                      "artifactId": "angus-activation",
+                      "version": "2.0.3",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.glassfish.jaxb",
+                      "artifactId": "txw2",
+                      "version": "4.0.9",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "com.sun.istack",
+                      "artifactId": "istack-commons-runtime",
+                      "version": "4.1.2",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.optaplanner",
+          "artifactId": "optaplanner-constraint-streams-drools",
+          "version": "10.2.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.optaplanner",
+              "artifactId": "optaplanner-constraint-streams-common",
+              "version": "10.2.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.drools",
+              "artifactId": "drools-engine",
+              "version": "10.2.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.kie",
+                  "artifactId": "kie-api",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.kie",
+                  "artifactId": "kie-internal",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.drools",
+                  "artifactId": "drools-core",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.kie",
+                      "artifactId": "kie-util-xml",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-util",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-base",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-wiring-api",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-wiring-static",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "org.drools",
+                  "artifactId": "drools-wiring-dynamic",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.drools",
+                  "artifactId": "drools-kiesession",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.drools",
+                  "artifactId": "drools-tms",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.drools",
+                  "artifactId": "drools-compiler",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-drl-parser",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false",
+                      "children": [
+                        {
+                          "groupId": "org.drools",
+                          "artifactId": "drools-io",
+                          "version": "10.2.0",
+                          "type": "jar",
+                          "scope": "compile",
+                          "classifier": "",
+                          "optional": "false"
+                        },
+                        {
+                          "groupId": "org.antlr",
+                          "artifactId": "antlr4-runtime",
+                          "version": "4.13.2",
+                          "type": "jar",
+                          "scope": "compile",
+                          "classifier": "",
+                          "optional": "false"
+                        }
+                        ]
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-drl-extensions",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-drl-ast",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.kie",
+                      "artifactId": "kie-memory-compiler",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-ecj",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false",
+                      "children": [
+                        {
+                          "groupId": "org.eclipse.jdt",
+                          "artifactId": "ecj",
+                          "version": "3.44.0",
+                          "type": "jar",
+                          "scope": "compile",
+                          "classifier": "",
+                          "optional": "false"
+                        }
+                        ]
+                    },
+                    {
+                      "groupId": "org.kie",
+                      "artifactId": "kie-util-maven-support",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.antlr",
+                      "artifactId": "antlr-runtime",
+                      "version": "3.5.2",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "org.drools",
+                  "artifactId": "drools-model-compiler",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-canonical-model",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "org.drools",
+                  "artifactId": "drools-model-codegen",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-codegen-common",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-model-prototype",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "com.github.javaparser",
+                      "artifactId": "javaparser-core",
+                      "version": "3.27.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-mvel-parser",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.drools",
+                      "artifactId": "drools-mvel-compiler",
+                      "version": "10.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "org.drools",
+                  "artifactId": "drools-commands",
+                  "version": "10.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.drools",
+              "artifactId": "drools-alphanetwork-compiler",
+              "version": "10.2.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.optaplanner",
+          "artifactId": "optaplanner-constraint-drl",
+          "version": "10.2.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.optaplanner",
+          "artifactId": "optaplanner-constraint-streams-bavet",
+          "version": "10.2.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.optaplanner",
+      "artifactId": "optaplanner-persistence-common",
+      "version": "10.2.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    }
+    ]
+}
