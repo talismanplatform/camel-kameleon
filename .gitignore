@@ -26,7 +26,6 @@ yarn-debug.log*
 yarn-error.log*
 .changelog
 .npm
-**/package-lock.json
 
 # OSX
 .DS_Store
