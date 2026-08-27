@@ -6,12 +6,15 @@ triggers:
   - "build layout with patternfly"
   - "add patternfly page"
   - "refactor to patternfly"
-version: 1.0.0
+  - "validate patternfly build"
+version: 1.1.0
 ---
 
 # PatternFly React + Vite Engineering Skill
 
 Use this skill when generating, reviewing, or refactoring React components using Red Hat's PatternFly component library inside a Vite-powered TypeScript environment.
+
+> **Definition of done**: no PatternFly task is complete until `npm run build` passes. See [Section 5](#5-mandatory-build-validation).
 
 ## 1. Import Architecture & Treeshaking
 
@@ -73,3 +76,41 @@ Ensure styles map correctly to Vite’s bundling asset pipeline.
 * **No Arbitrary Sizing**: Do not use `style={{ width: '250px' }}`. Use standard PatternFly modifiers or class variables.
 * **Form Structure**: Never use standard HTML `<form>` or `<input>` tags directly. Always wrap elements inside `<Form>`, `<FormGroup>`, and `<TextInput>`.
 * **State Management**: Prefer controlled PatternFly components with explicit `isOpen` or `isSelected` flags coupled with clean local state (`useState`).
+
+## 5. Mandatory Build Validation
+
+Every task touching this codebase MUST be validated by running the project build
+before it is reported as complete. Deep ESM import paths and PatternFly's typed
+props are the two most common sources of breakage, and neither is visible without
+compiling.
+
+* **Required command** (runs `tsc --noEmit` and then `vite build`):
+  ```bash
+  npm run build
+  ```
+* **Definition of done**: the task is complete ONLY when this command exits with
+  code `0`. A change that merely "looks correct" is not done.
+* **Never** substitute `npm run dev` or a visual check for the build — the dev
+  server does not type-check and tolerates imports that fail at build time.
+
+### Validation Loop
+
+1. Make the code change following Sections 1–4.
+2. Run `npm run build`.
+3. If it fails, read the first reported error, fix the root cause, and go back to
+   step 2. Repeat until the build is clean.
+4. Only then report the task as complete.
+
+### What to Check on Failure
+
+| Symptom | Likely Cause | Fix |
+| --- | --- | --- |
+| `Cannot find module '@patternfly/react-core/dist/esm/...'` | Wrong or renamed deep ESM path | Verify the path under `node_modules/@patternfly/react-core/dist/esm/components/`, or fall back to the package root import |
+| `Property 'x' does not exist on type ...` | Prop removed/renamed in PatternFly v6 | Check the component's `.d.ts` for the current prop name |
+| `'X' is declared but its value is never read` | Leftover import after a refactor | Remove the unused import |
+| Build succeeds but styles are missing | `base.css` not imported | Import it once in `src/main.tsx` (Section 3) |
+
+* **Do not** silence build errors with `@ts-ignore`, `any`, or by relaxing
+  `tsconfig.json`. Fix the underlying type or import instead.
+* **Do not** commit or hand off work while the build is red. If a failure cannot
+  be resolved, report the exact command output rather than declaring success.

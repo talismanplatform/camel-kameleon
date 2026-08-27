@@ -4,7 +4,6 @@ import SecurityIcon from '@patternfly/react-icons/dist/esm/icons/security-icon';
 import CubesIcon from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import InfoCircleIcon from '@patternfly/react-icons/dist/esm/icons/info-circle-icon';
-import ExternalLinkAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-alt-icon';
 import {ROUTES} from './Routes';
 
 export class MenuItem {
@@ -28,13 +27,12 @@ export function getNavigationFirstMenu(): MenuItem[] {
         new MenuItem('dashboard', 'Dashboard', ROUTES.DASHBOARD, <TachometerAltIcon/>),
         new MenuItem('cves', 'CVEs', ROUTES.CVES, <SecurityIcon/>),
         new MenuItem('components', 'Components', ROUTES.COMPONENTS, <CubesIcon/>),
-        new MenuItem('releases', 'Releases', ROUTES.RELEASES, <CodeBranchIcon/>, true),
+        new MenuItem('releases', 'Releases', ROUTES.RELEASES, <CodeBranchIcon/>),
     ];
 }
 
 export function getNavigationSecondMenu(): MenuItem[] {
     return [
         new MenuItem('about', 'About', ROUTES.ABOUT, <InfoCircleIcon/>),
-        new MenuItem('advisories', 'Advisories', 'https://camel.apache.org/security/', <ExternalLinkAltIcon/>),
     ];
 }

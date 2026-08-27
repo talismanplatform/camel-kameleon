@@ -12,15 +12,14 @@ import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
 import {useUIStore} from '@stores/useUIStore';
 import logo from '@shared/icons/camel-logo.svg';
 import {getNavigationFirstMenu, getNavigationSecondMenu, MenuItem} from './navigation/NavigationMenu';
-import {useCompassStore} from './useCompassStore';
 import {useTheme} from './theme/ThemeContext';
 import './AppDock.css';
+import {Content} from "@patternfly/react-core/dist/esm/components/Content";
 
 export const AppDock: React.FunctionComponent = () => {
 
     const {isDark} = useTheme();
     const {pageId, setPageId} = useUIStore();
-    const {isDockExpanded, isDockTextExpanded, setIsDockTextExpanded} = useCompassStore();
     const navigate = useNavigate();
     const location = useLocation();
     const dockedToggleRef = useRef<HTMLButtonElement>(null);
@@ -46,7 +45,6 @@ export const AppDock: React.FunctionComponent = () => {
     function getMenu(menu: MenuItem[]) {
         return menu.map(menuItem => {
             const isSelected = pageId === menuItem.pageId;
-            const notExpanded = !isDockTextExpanded && !isDockExpanded;
             const navItem = (
                 <NavItem
                     key={menuItem.pageId}
@@ -58,16 +56,9 @@ export const AppDock: React.FunctionComponent = () => {
                     aria-label={menuItem.name}
                     onClick={() => onClick(menuItem)}
                 >
-                    {isDockTextExpanded && menuItem.name}
+                    {menuItem.name}
                 </NavItem>
             );
-            if (notExpanded) {
-                return (
-                    <Tooltip key={menuItem.pageId} aria="none" aria-live="off" content={menuItem.name}>
-                        {navItem}
-                    </Tooltip>
-                );
-            }
             return (
                 <div key={menuItem.pageId} className="nav-item-wrapper">
                     {navItem}
@@ -80,21 +71,12 @@ export const AppDock: React.FunctionComponent = () => {
     return (
         <CompassDockMain>
             <Masthead display={{default: 'inline'}} id="docked-masthead" variant="docked" className={isDark ? '' : 'light-theme-dock'}>
-                <MastheadMain className={isDockTextExpanded ? 'dock-main-expanded' : 'dock-main-collapsed'}>
-                    <MastheadToggle>
-                        <Button
-                            ref={dockedToggleRef}
-                            variant="plain"
-                            isHamburger
-                            onClick={() => setIsDockTextExpanded(!isDockTextExpanded)}
-                            aria-label="Global navigation"
-                            isExpanded={isDockTextExpanded}
-                        />
-                    </MastheadToggle>
+                <MastheadMain className={'dock-main-expanded'}>
                     <MastheadBrand>
                         <MastheadLogo>
-                            <div className={isDockTextExpanded ? 'dock-brand-expanded' : 'dock-brand-collapsed'}>
-                                <Brand src={logo} alt="Apache Camel" heights={{default: '32px'}}/>
+                            <div className={'dock-brand-expanded'}>
+                                <Brand src={logo} alt="Apache Camel" heights={{default: '32px'}} widths={{default: '32px'}}/>
+                                <h6 style={{fontWeight: '400'}}>Apache Camel Kameleon 0.1.0</h6>
                             </div>
                         </MastheadLogo>
                     </MastheadBrand>
