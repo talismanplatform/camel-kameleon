@@ -42,11 +42,11 @@ export type ScanSeverity = 'Critical' | 'High' | 'Medium' | 'Low' | 'Negligible'
 
 export const SCAN_SEVERITIES: ScanSeverity[] = ['Critical', 'High', 'Medium', 'Low', 'Negligible', 'Unknown'];
 
-export const SCAN_SEVERITY_COLOR: Record<ScanSeverity, 'red' | 'orange' | 'yellow' | 'blue' | 'grey'> = {
-    Critical: 'red',
-    High: 'orange',
-    Medium: 'yellow',
-    Low: 'blue',
+export const SCAN_SEVERITY_COLOR: Record<ScanSeverity, string> = {
+    Critical: 'var(--pf-t--color--red-orange--60)',
+    High: 'var(--pf-t--color--orange--50)',
+    Medium: 'var(--pf-t--color--yellow--40)',
+    Low: 'var(--pf-t--color--gray--50)',
     Negligible: 'grey',
     Unknown: 'grey',
 };

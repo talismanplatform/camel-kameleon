@@ -2,17 +2,18 @@ import React from 'react';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
 import {EmptyState, EmptyStateBody} from '@patternfly/react-core/dist/esm/components/EmptyState';
-import {Label, LabelGroup} from '@patternfly/react-core/dist/esm/components/Label';
+import {Label} from '@patternfly/react-core/dist/esm/components/Label';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Table, Tbody, Td, Th, Thead, Tr} from '@patternfly/react-table';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {SCAN_SEVERITIES, SCAN_SEVERITY_COLOR, VersionScan} from '@models/CveModels';
+import {SCAN_SEVERITIES, VersionScan} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
 import './VersionsPage.css';
 import {LastScanDate} from "@shared/ui/LastScanDate";
+import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
 
 export const VersionsPage: React.FunctionComponent = () => {
 
@@ -54,8 +55,8 @@ export const VersionsPage: React.FunctionComponent = () => {
                         <Th>EOL</Th>
                         <Th modifier={'fitContent'}>Vulnerabilities</Th>
                         <Th textCenter>Severities</Th>
-                        <Th>Max Risk</Th>
-                        <Th>Max EPSS</Th>
+                        <Th key="risk" textCenter modifier={'fitContent'}><RiskHeader/></Th>
+                        <Th key="epss" textCenter modifier={'fitContent'}><EpssHeader/></Th>
                     </Tr>
                 </Thead>
                 <Tbody>
@@ -73,7 +74,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                             <Td dataLabel="Name" modifier="nowrap">{version.ref}</Td>
                             <Td dataLabel="Kind" modifier="nowrap">
                                 {isLts(version)
-                                    ? <Label  color="green">LTS</Label>
+                                    ? <Label  color="green" >LTS</Label>
                                     : ''}
                             </Td>
                             <Td dataLabel="JDK" modifier="nowrap">{isLts(version) ? version.release?.jdkVersion : ''}</Td>
@@ -81,22 +82,24 @@ export const VersionsPage: React.FunctionComponent = () => {
                             <Td dataLabel="EOL" modifier="nowrap">{isLts(version) ? version.release?.eolDate : ''}</Td>
                             <Td dataLabel="Vulnerabilities" textCenter>
                                 {version.loaded
-                                    ? <Label  color={version.total > 0 ? 'red' : 'green'}>{version.total}</Label>
+                                    ? <p>{version.total}</p>
                                     : <Content component={ContentVariants.small}>Report unavailable</Content>}
                             </Td>
-                            <Td dataLabel="By severity" textCenter>
-                                <LabelGroup numLabels={SCAN_SEVERITIES.length}>
+                            <Td dataLabel="By severity" modifier={'fitContent'}>
+                                <div className={"severity-values"}>
                                     {SCAN_SEVERITIES
                                         .filter(severity => version.bySeverity[severity] > 0)
                                         .map(severity => (
-                                            <Label key={severity}  color={SCAN_SEVERITY_COLOR[severity]}>
-                                                {`${severity} ${version.bySeverity[severity]}`}
-                                            </Label>
+                                            <Severity count={version.bySeverity[severity]} severity={severity} />
                                         ))}
-                                </LabelGroup>
+                                </div>
                             </Td>
-                            <Td dataLabel="Max risk" modifier="nowrap">{formatScore(version.maxRisk)}</Td>
-                            <Td dataLabel="Max EPSS" modifier="nowrap">{formatEpss(version.maxEpss)}</Td>
+                            <Td dataLabel="Max risk" modifier="nowrap" textCenter>
+                                <RiskScore value={version.maxRisk}/>
+                            </Td>
+                            <Td dataLabel="Max EPSS" modifier="nowrap" textCenter>
+                                <EpssScore value={version.maxEpss}/>
+                            </Td>
                         </Tr>
                     ))}
                 </Tbody>
@@ -122,14 +125,4 @@ function isLts(version: VersionScan): boolean {
 
 function count(versions: VersionScan[], kind: VersionScan['kind']): number {
     return versions.filter(version => version.kind === kind).length;
-}
-
-/** Grype risk score, one decimal. */
-function formatScore(value?: number): string {
-    return value === undefined ? '-' : value.toFixed(1);
-}
-
-/** EPSS is a probability, so it reads best as a percentage. */
-function formatEpss(value?: number): string {
-    return value === undefined ? '-' : `${(value * 100).toFixed(1)}%`;
 }
