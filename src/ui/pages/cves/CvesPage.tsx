@@ -130,7 +130,14 @@ export const CvesPage: React.FunctionComponent = () => {
         () => new Map(vulnerabilities.map(vulnerability => [vulnerability, dependents(index, vulnerability)])),
         [vulnerabilities, index]);
 
-    const filtered = useMemo(() => filterVulnerabilities(vulnerabilities, filters), [vulnerabilities, filters]);
+    // The counts only mean something once the trees of the selected ref are in.
+    const affectedKnown = dependencyTrees !== undefined && !dependencyTreesLoading && dependencyTreesRef === selectedRef;
+
+    // A finding no Camel artifact depends on is not actionable here, so it is left out.
+    const filtered = useMemo(() => {
+        const matching = filterVulnerabilities(vulnerabilities, filters);
+        return affectedKnown ? matching.filter(vulnerability => (affected.get(vulnerability)?.length ?? 0) > 0) : matching;
+    }, [vulnerabilities, filters, affected, affectedKnown]);
 
     const sorted = useMemo(() => {
         const column = COLUMNS[sortIndex]?.key as SortableColumn;
