@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
-import {Card, CardBody, CardFooter, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
+import {Card, CardBody, CardFooter, CardHeader, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
 import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
 import {DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm} from '@patternfly/react-core/dist/esm/components/DescriptionList';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
@@ -25,7 +25,6 @@ import {StatusLabel} from '@shared/ui/StatusLabel';
 import './DashboardPage.css';
 import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {componentRows, findingIndex, topModules} from '../components/componentTree';
-import {CardHeader} from "@patternfly/react-core/src";
 import {Badge} from "@patternfly/react-core/dist/esm/components/Badge";
 import {capitalize} from "@patternfly/react-core";
 import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-icon";

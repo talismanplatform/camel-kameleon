@@ -51,7 +51,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                     <Tr>
                         <Th>Type</Th>
                         <Th>Name</Th>
-                        <Th>Camel</Th>
+                        <Th>Version</Th>
                         <Th>Kind</Th>
                         <Th>JDK</Th>
                         <Th>Released</Th>
