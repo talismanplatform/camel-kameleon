@@ -82,6 +82,55 @@ export interface Vulnerability {
     risk: number | null;
 }
 
+/**
+ * One node of a module's dependency tree as the application keeps it: `g`roup,
+ * `a`rtifact, `v`ersion and the children it pulls in. `CveApi` compacts the
+ * published `mvn-tree.json` into this shape, dropping the maven bookkeeping
+ * (type, scope, classifier, optional); the keys are short because a ref carries
+ * tens of thousands of these nodes.
+ */
+export interface DependencyNode {
+    g: string;
+    a: string;
+    v: string;
+    children?: DependencyNode[];
+}
+
+/** The Camel source trees the scan walks. */
+export type ModuleGroup = 'core' | 'components' | 'dsl';
+
+export const MODULE_GROUPS: ModuleGroup[] = ['core', 'components', 'dsl'];
+
+export const MODULE_GROUP_LABEL: Record<ModuleGroup, string> = {
+    core: 'Core',
+    components: 'Components',
+    dsl: 'DSL',
+};
+
+/** One dependency tree per Camel module of a ref, by group. */
+export type DependencyTrees = Record<ModuleGroup, DependencyNode[]>;
+
+/**
+ * One node of `public/data/<ref>/<group>/<module>/mvn-tree.json`, the raw
+ * `mvn dependency:tree -DoutputType=json` output the scan publishes per module.
+ */
+export interface MvnTreeNode {
+    groupId: string;
+    artifactId: string;
+    version: string;
+    children?: MvnTreeNode[];
+}
+
+/**
+ * `public/data/<ref>/modules.json`: the module directories that carry an
+ * `mvn-tree.json`, per group and relative to it, e.g.
+ * `{"core": ["camel-util"], "components": ["camel-aws/camel-aws2-s3"]}`.
+ *
+ * A static host answers no directory listing, so the scan writes this index and
+ * `CveApi` reads it to know which trees exist.
+ */
+export type ModuleIndex = Partial<Record<ModuleGroup, string[]>>;
+
 /** One entry of `public/data/camel_versions.json`, as written by `camel version list --json`. */
 export interface CamelVersion {
     /** Release version without the `camel-` prefix, e.g. 4.22.0 */

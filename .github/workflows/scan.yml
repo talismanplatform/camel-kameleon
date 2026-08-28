@@ -129,6 +129,17 @@ jobs:
             components core dsl \
             '${{ github.workspace }}/public/data/${{ matrix.ref }}/'
 
+      - name: Index the collected modules
+        working-directory: public/data/${{ matrix.ref }}
+        run: |
+          find core components dsl -name mvn-tree.json -printf '%h\n' 2>/dev/null \
+            | jq -Rn '[inputs | split("/")]
+                | map(select(length > 1))
+                | group_by(.[0])
+                | map({key: .[0][0], value: map(.[1:] | join("/")) | sort})
+                | from_entries' > modules.json
+          jq -r 'to_entries | map("\(.key): \(.value | length)") | join(", ")' modules.json
+
       - name: Install grype
         uses: anchore/scan-action/download-grype@v7
         id: grype

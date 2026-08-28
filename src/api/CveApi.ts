@@ -3,8 +3,14 @@ import {
     CamelComponent,
     CamelVersion,
     Cve,
+    DependencyNode,
+    DependencyTrees,
     CveSummary,
     isOpen,
+    ModuleIndex,
+    MODULE_GROUPS,
+    ModuleGroup,
+    MvnTreeNode,
     ScanInfo,
     SCAN_SEVERITIES,
     ScanSeverity,
@@ -38,6 +44,18 @@ const VERSIONS_URL = dataUrl('versions.json');
 const CAMEL_VERSIONS_URL = dataUrl('camel_versions.json');
 
 const vulnerabilitiesUrl = (ref: string) => dataUrl(`${encodeURIComponent(ref)}/vulnerabilities.json`);
+
+const moduleIndexUrl = (ref: string) => dataUrl(`${encodeURIComponent(ref)}/modules.json`);
+
+/** `path` is a module directory relative to its group, so its segments are encoded one by one. */
+const moduleTreeUrl = (ref: string, group: ModuleGroup, path: string) =>
+    dataUrl(`${encodeURIComponent(ref)}/${group}/${path.split('/').map(encodeURIComponent).join('/')}/mvn-tree.json`);
+
+/** Trees are assembled from a few hundred files, so a ref is folded once per session. */
+const dependencyTrees = new Map<string, DependencyTrees>();
+
+/** Module trees fetched at once: enough to keep the connection busy without flooding the host. */
+const MODULE_REQUESTS = 12;
 
 const CVES = cvesJson as Cve[];
 
@@ -117,6 +135,43 @@ export const CveApi = {
     },
 
     /**
+     * The dependency trees of every Camel module of one ref, read straight from
+     * the `mvn-tree.json` files the scan publishes: `modules.json` says which
+     * modules exist, their trees are fetched in parallel and compacted to bare
+     * coordinates here in the browser. Nothing is precomputed at build time, so
+     * a data-only scan commit is all a static host needs.
+     *
+     * Undefined when the ref publishes no module index, which is the case for
+     * refs scanned before the trees existed. Modules whose own tree is missing
+     * or unreadable are skipped rather than failing the whole ref.
+     */
+    async getDependencyTrees(ref: string): Promise<DependencyTrees | undefined> {
+        const folded = dependencyTrees.get(ref);
+        if (folded) {
+            return folded;
+        }
+        const index = await fetchJson<ModuleIndex>(moduleIndexUrl(ref)).catch(() => undefined);
+        if (!index) {
+            return undefined;
+        }
+        // One queue across all groups keeps the burst on the host bounded.
+        const modules = MODULE_GROUPS.flatMap(group => (index[group] ?? []).map(path => ({group, path})));
+        const trees = await mapLimit(modules, MODULE_REQUESTS, async ({group, path}) => ({
+            group,
+            tree: await fetchJson<MvnTreeNode>(moduleTreeUrl(ref, group, path)).catch(() => undefined),
+        }));
+        // A module that depends on nothing, or whose tree is missing, says nothing about a vulnerability.
+        const loaded = trees.filter((module): module is {group: ModuleGroup, tree: MvnTreeNode} =>
+            (module.tree?.children?.length ?? 0) > 0);
+        const forest = Object.fromEntries(MODULE_GROUPS.map(group => [
+            group,
+            loaded.filter(module => module.group === group).map(module => compact(module.tree)),
+        ])) as DependencyTrees;
+        dependencyTrees.set(ref, forest);
+        return forest;
+    },
+
+    /**
      * One row per scanned ref: `versions.json` says which refs exist and whether
      * each is a tag or a branch, `scan.json` when it was scanned, the ref's own
      * `vulnerabilities.json` supplies the severity counts, max risk and max
@@ -181,6 +236,27 @@ export function compareVersions(a: string, b: string): number {
         }
     }
     return 0;
+}
+
+/** Coordinates only, and `children` only where there are any. */
+function compact(node: MvnTreeNode): DependencyNode {
+    const children = (node.children ?? []).map(compact);
+    const coordinates = {g: node.groupId, a: node.artifactId, v: node.version};
+    return children.length > 0 ? {...coordinates, children} : coordinates;
+}
+
+/** `Promise.all` over `items` with at most `limit` of them outstanding, order preserved. */
+async function mapLimit<T, R>(items: T[], limit: number, map: (item: T) => Promise<R>): Promise<R[]> {
+    const results = new Array<R>(items.length);
+    let next = 0;
+    const worker = async () => {
+        while (next < items.length) {
+            const index = next++;
+            results[index] = await map(items[index]);
+        }
+    };
+    await Promise.all(Array.from({length: Math.min(limit, items.length)}, worker));
+    return results;
 }
 
 /** Resolves to undefined for any response that is not a readable JSON body. */

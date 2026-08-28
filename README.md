@@ -62,6 +62,22 @@ calls is the only change needed to go live; the pages consume the store, not the
 `public/data` holds the real scan output produced by `.github/workflows/scan.yml`, one
 directory per scanned Camel branch or tag.
 
+### Dependency trees
+
+The scan keeps the `mvn dependency:tree` output of every Camel module as
+`public/data/<ref>/<group>/<module>/mvn-tree.json` and, because a static host answers no
+directory listing, indexes those paths in `public/data/<ref>/modules.json`.
+
+Nothing folds them at build time: `CveApi.getDependencyTrees(ref)` reads the index,
+fetches the module trees from the server in parallel (a bounded number of requests at a
+time), compacts them to bare coordinates in the browser and memoises the result per ref.
+A data-only scan commit therefore updates the trees on GitHub Pages with no rebuild and
+no generated artifact to keep in sync.
+
+The vulnerability drawer asks for them the first time it is opened and shows the `core`,
+`components` and `dsl` modules whose tree reaches the reported artifact, pruned to the
+branches that end in it.
+
 ### Scan date
 
 The scanner stamps its own date; nothing derives it from CVE fields or commit times.

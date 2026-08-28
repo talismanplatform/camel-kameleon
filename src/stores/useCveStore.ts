@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 import {CveApi} from '@api/CveApi';
-import {CamelComponent, Cve, CveSummary, ScanInfo, ScanSeverity, VersionScan, Vulnerability} from '@models/CveModels';
+import {CamelComponent, Cve, CveSummary, DependencyTrees, ScanInfo, ScanSeverity, VersionScan, Vulnerability} from '@models/CveModels';
 
 export interface VulnerabilityFilters {
     search: string;
@@ -22,9 +22,15 @@ interface CveState {
     selectedRef?: string;
     vulnerabilities: Vulnerability[];
     vulnerabilitiesLoading: boolean;
+    /** Module dependency trees of `selectedRef`, loaded on demand by the details drawer. */
+    dependencyTrees?: DependencyTrees;
+    /** Ref the trees were requested for, so an in flight load is not started twice. */
+    dependencyTreesRef?: string;
+    dependencyTreesLoading: boolean;
 
     fetchAll: () => Promise<void>;
     selectRef: (ref: string) => Promise<void>;
+    loadDependencyTrees: () => Promise<void>;
     setFilters: (filters: Partial<VulnerabilityFilters>) => void;
     resetFilters: () => void;
 }
@@ -41,6 +47,9 @@ export const useCveStore = create<CveState>((set, get) => ({
     selectedRef: undefined,
     vulnerabilities: [],
     vulnerabilitiesLoading: false,
+    dependencyTrees: undefined,
+    dependencyTreesRef: undefined,
+    dependencyTreesLoading: false,
 
     fetchAll: async () => {
         set({loading: true, error: undefined});
@@ -61,10 +70,35 @@ export const useCveStore = create<CveState>((set, get) => ({
 
     /** Loads the report of one ref. The last requested ref wins if two loads overlap. */
     selectRef: async (ref) => {
-        set({selectedRef: ref, vulnerabilities: [], vulnerabilitiesLoading: true});
+        set({
+            selectedRef: ref,
+            vulnerabilities: [],
+            vulnerabilitiesLoading: true,
+            // The trees of the previous ref say nothing about this one.
+            dependencyTrees: undefined,
+            dependencyTreesRef: undefined,
+            dependencyTreesLoading: false,
+        });
         const vulnerabilities = await CveApi.getVulnerabilities(ref);
         if (get().selectedRef === ref) {
             set({vulnerabilities, vulnerabilitiesLoading: false});
+        }
+    },
+
+    /**
+     * Loads the module trees of the selected ref once. They are an order of
+     * magnitude larger than the report, so nothing fetches them until a drawer
+     * asks where a finding comes from.
+     */
+    loadDependencyTrees: async () => {
+        const ref = get().selectedRef;
+        if (!ref || get().dependencyTreesRef === ref) {
+            return;
+        }
+        set({dependencyTreesRef: ref, dependencyTrees: undefined, dependencyTreesLoading: true});
+        const dependencyTrees = await CveApi.getDependencyTrees(ref).catch(() => undefined);
+        if (get().dependencyTreesRef === ref) {
+            set({dependencyTrees, dependencyTreesLoading: false});
         }
     },
 
