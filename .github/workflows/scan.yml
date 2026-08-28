@@ -219,15 +219,21 @@ jobs:
             > "$target/scan.json"
           cat "$target/scan.json"
 
+      # Upload even when an earlier step failed: a crashed ref must not take the
+      # refs that did finish down with it. publish only adopts an artifact that
+      # carries a complete scan.json, so a partial upload is harmless.
       - name: Upload scan result
+        if: always()
         uses: actions/upload-artifact@v5
         with:
           name: scan-${{ matrix.ref }}
           path: public/data/${{ matrix.ref }}
           retention-days: 1
-          if-no-files-found: error
+          if-no-files-found: warn
 
   # Merge every matrix result back into the repository in a single commit.
+  # Runs whatever the scan matrix did: as long as one ref produced a scan, its
+  # result is published; refs that crashed keep the data already committed.
   publish:
     needs: [versions, scan]
     if: always() && needs.versions.result == 'success'
@@ -244,34 +250,70 @@ jobs:
           name: version-metadata
           path: public/data
 
+      # Not fatal when it finds nothing: if every scan job crashed there is still
+      # refreshed version metadata to commit.
       - name: Download scan results
+        continue-on-error: true
         uses: actions/download-artifact@v6
         with:
           pattern: scan-*
           path: scans
 
+      # A ref is only replaced when its artifact is complete - a valid scan.json
+      # stamp plus the report it describes. Anything less (job crashed early, or
+      # crashed after writing the dependency trees) is left alone, so the ref
+      # keeps the last good data instead of being wiped.
       - name: Move results into public/data
         run: |
-          echo '${{ needs.versions.outputs.refs }}' | jq -r '.[]' | while read -r ref; do
+          adopted=0
+          kept=0
+          for ref in $(echo '${{ needs.versions.outputs.refs }}' | jq -r '.[]'); do
             src="scans/scan-$ref"
-            [ -d "$src" ] || { echo "::warning::no result for $ref"; continue; }
+            if [ ! -s "$src/scan.json" ] || [ ! -s "$src/vulnerabilities.json" ]; then
+              echo "::warning::no complete result for $ref, keeping committed data"
+              kept=$((kept + 1))
+              continue
+            fi
+            if ! jq -e '.ref and .scannedAt' "$src/scan.json" > /dev/null 2>&1; then
+              echo "::warning::unusable scan.json for $ref, keeping committed data"
+              kept=$((kept + 1))
+              continue
+            fi
             rm -rf "public/data/$ref"
             mkdir -p "public/data/$ref"
             cp -R "$src/." "public/data/$ref/"
+            adopted=$((adopted + 1))
           done
+          echo "refreshed: $adopted, kept as-is: $kept"
+          if [ "$adopted" -eq 0 ]; then
+            echo '::warning::no ref produced a scan in this run'
+          fi
 
       # One index for the whole dashboard: the newest scan date plus a per-ref
       # breakdown, so the UI needs a single request to render "last scan".
+      # Built from every stamp on disk, not just the ones this run refreshed, so
+      # a ref whose job crashed stays in the index with its previous scan date.
+      # Unreadable stamps are skipped rather than failing the whole index.
       - name: Write public/data/scan.json index
         run: |
-          stamps=$(find public/data -mindepth 2 -maxdepth 2 -name scan.json | sort)
+          stamps=""
+          while read -r stamp; do
+            [ -n "$stamp" ] || continue
+            if jq -e '.ref and .scannedAt' "$stamp" > /dev/null 2>&1; then
+              stamps="$stamps $stamp"
+            else
+              echo "::warning::skipping unreadable stamp $stamp"
+            fi
+          done <<< "$(find public/data -mindepth 2 -maxdepth 2 -name scan.json | sort)"
           if [ -z "$stamps" ]; then
             echo '::warning::no scan.json stamps found, index left untouched'
             exit 0
           fi
           # shellcheck disable=SC2086
           jq -s '{scannedAt: ([.[].scannedAt] | max), refs: sort_by(.ref)}' $stamps \
-            > public/data/scan.json
+            > /tmp/scan.json
+          jq -e '(.refs | length) > 0' /tmp/scan.json > /dev/null
+          mv /tmp/scan.json public/data/scan.json
           cat public/data/scan.json
 
       - name: Commit
