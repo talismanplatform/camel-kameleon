@@ -6,7 +6,7 @@ import {NotFoundPage} from './NotFoundPage';
 
 // Pages are lazily loaded so each one becomes its own chunk and keeps its
 // dependencies (tables, charts) out of the shell entry bundle.
-const DashboardPage = lazy(() => import('@pages/dashboard/DashboardPage').then(m => ({default: m.DashboardPage})));
+const DashboardPage = lazy(() => import('@pages/dashboard/DashboardPage').then(m => ({default: m.default})));
 const CvesPage = lazy(() => import('@pages/cves/CvesPage').then(m => ({default: m.CvesPage})));
 const ComponentsPage = lazy(() => import('@pages/components/ComponentsPage').then(m => ({default: m.ComponentsPage})));
 const VersionsPage = lazy(() => import('@pages/versions/VersionsPage').then(m => ({default: m.VersionsPage})));

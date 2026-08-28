@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {Card, CardBody, CardFooter, CardHeader, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
-import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
+import {Content} from '@patternfly/react-core/dist/esm/components/Content';
 import {DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm} from '@patternfly/react-core/dist/esm/components/DescriptionList';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
@@ -26,7 +26,7 @@ import './DashboardPage.css';
 import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {componentRows, findingIndex, topModules} from '../components/componentTree';
 import {Badge} from "@patternfly/react-core/dist/esm/components/Badge";
-import {capitalize} from "@patternfly/react-core";
+import {capitalize, HelperText, HelperTextItem} from "@patternfly/react-core";
 import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-icon";
 import TagIcon from "@patternfly/react-icons/dist/esm/icons/tag-icon";
 import {LastScanDate} from "@shared/ui/LastScanDate";
@@ -68,7 +68,7 @@ function rank(vulnerability: Vulnerability): number {
     return risk * 1000 + epss * 100 + severity;
 }
 
-export const DashboardPage: React.FunctionComponent = () => {
+const DashboardPage: React.FunctionComponent = () => {
 
     const navigate = useNavigate();
     const cves = useCveStore((s) => s.cves);
@@ -168,34 +168,44 @@ export const DashboardPage: React.FunctionComponent = () => {
 
     return (
         <div className="page-section dashboard-page">
-            <Gallery hasGutter minWidths={{default: '20%'}}>
-                {CARD_SEVERITIES.map(severity => (
-                    <Card key={severity} isClickable isCompact className="stat-card">
-                        <CardTitle>
-                            <Flex justifyContent={{default: 'justifyContentSpaceBetween'}} alignItems={{default: 'alignItemsCenter'}}>
-                                <FlexItem><SeverityText severity={severity} text={`${severity} severity`}/></FlexItem>
-                                <FlexItem>
+
+            <Card isFullHeight isCompact>
+                <CardHeader>
+
+                </CardHeader>
+                <CardBody>
+                    <Gallery hasGutter minWidths={{default: '20%'}}>
+                        {CARD_SEVERITIES.map(severity => (
+                            <Card key={severity} variant="secondary" isCompact className="stat-card">
+                                <CardTitle>
+                                    <Flex justifyContent={{default: 'justifyContentSpaceBetween'}} alignItems={{default: 'alignItemsCenter'}}>
+                                        <FlexItem><SeverityText severity={severity} text={`${severity} severity`}/></FlexItem>
+                                        <FlexItem>
                                     <span className="stat-card-value" style={{color: SCAN_SEVERITY_COLOR[severity]}}>
                                         {camelBySeverity?.[severity] ?? 0}
                                     </span>
-                                </FlexItem>
-                            </Flex>
-                        </CardTitle>
-                        <CardBody>
-                            <Content component={ContentVariants.small}>
-                                Advisories against {CAMEL_GROUP_ID} artifacts themselves, across all scanned
-                                versions. Findings in Camel's dependencies are not counted.
-                            </Content>
-                        </CardBody>
-                        <CardFooter>
-                            <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
-                                    onClick={() => showSeverity(severity)}>
-                                View CVEs
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                ))}
-            </Gallery>
+                                        </FlexItem>
+                                    </Flex>
+                                </CardTitle>
+                                <CardBody>
+                                </CardBody>
+                                <CardFooter>
+                                    <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
+                                            onClick={() => showSeverity(severity)}>
+                                        View CVEs
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        ))}
+                    </Gallery>
+                </CardBody>
+                <CardFooter>
+                    <HelperText className={'stat-card-note'}>
+                        <HelperTextItem>Direct Apache Camel advisories across all scanned versions (excluding dependencies)</HelperTextItem>
+                    </HelperText>
+                </CardFooter>
+            </Card>
+
 
             <Grid hasGutter className="dashboard-grid">
                 <GridItem md={6} lg={4}>
@@ -403,3 +413,4 @@ export const DashboardPage: React.FunctionComponent = () => {
         </div>
     );
 };
+export default DashboardPage
