@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {Card, CardBody, CardFooter, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
@@ -19,6 +19,8 @@ import {isOpen, MODULE_GROUPS, SCAN_SEVERITIES, ScanSeverity, SEVERITIES, Severi
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
+import {useCompassStore} from '@compass/useCompassStore';
+import {VulnerabilityDrawer} from '../cves/VulnerabilityDrawer';
 import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity as SeverityText} from '@shared/ui/ScoreInfo';
 import {SeverityLabel} from '@shared/ui/SeverityLabel';
 import {StatusLabel} from '@shared/ui/StatusLabel';
@@ -87,6 +89,11 @@ export const DashboardPage: React.FunctionComponent = () => {
     const dependencyTrees = useCveStore((s) => s.dependencyTrees);
     const dependencyTreesLoading = useCveStore((s) => s.dependencyTreesLoading);
     const loadDependencyTrees = useCveStore((s) => s.loadDependencyTrees);
+    const setDrawerPanel = useCompassStore((s) => s.setDrawerPanel);
+    const setIsDrawerExpanded = useCompassStore((s) => s.setIsDrawerExpanded);
+
+    // The finding whose details the drawer shows, picked in the most dangerous CVEs card.
+    const [selected, setSelected] = useState<Vulnerability>();
 
     usePageContext(
         'Security overview',
@@ -108,6 +115,25 @@ export const DashboardPage: React.FunctionComponent = () => {
     useEffect(() => {
         loadDependencyTrees();
     }, [selectedRef]);
+
+    // A finding of another ref must not stay open once this one is shown.
+    useEffect(() => {
+        setSelected(undefined);
+    }, [vulnerabilities]);
+
+    const closeDrawer = useCallback(() => setSelected(undefined), []);
+
+    // Declared after usePageContext so the panel survives a page context refresh.
+    useEffect(() => {
+        setDrawerPanel(selected ? <VulnerabilityDrawer vulnerability={selected} onClose={closeDrawer}/> : null);
+        setIsDrawerExpanded(selected !== undefined);
+    }, [selected]);
+
+    // Leaving the page must not leave its drawer behind.
+    useEffect(() => () => {
+        setDrawerPanel(null);
+        setIsDrawerExpanded(false);
+    }, []);
 
     /**
      * The worst modules of the selected ref, scored exactly as the components
@@ -138,12 +164,6 @@ export const DashboardPage: React.FunctionComponent = () => {
     const cvesLoading = vulnerabilitiesLoading && vulnerabilities.length === 0;
     const modulesLoading = dependencyTreesLoading || cvesLoading;
 
-
-    /** A dangerous finding opens the CVE page filtered down to that advisory. */
-    function showCve(vulnerability: Vulnerability) {
-        setFilters({severities: [], search: vulnerability.vulnerability});
-        navigate(ROUTES.CVES);
-    }
 
     function showSeverity(severity: Severity) {
         setFilters({severities: [SCAN_SEVERITY_OF[severity]], search: ''});
@@ -257,7 +277,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                                         {dangerousCves.map(vulnerability => (
                                             <Tr key={vulnerability.vulnerability} isClickable
                                                 style={{verticalAlign: 'middle'}}
-                                                onRowClick={() => showCve(vulnerability)}>
+                                                onRowClick={() => setSelected(vulnerability)}>
                                                 <Td dataLabel="Vulnerability" modifier="nowrap">
                                                     {vulnerability.vulnerability}
                                                 </Td>
