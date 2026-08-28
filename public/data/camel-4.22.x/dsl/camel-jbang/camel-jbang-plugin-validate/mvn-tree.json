@@ -583,35 +583,6 @@
             },
             {
               "groupId": "org.apache.camel",
-              "artifactId": "camel-catalog",
-              "version": "4.22.1-SNAPSHOT",
-              "type": "jar",
-              "scope": "compile",
-              "classifier": "",
-              "optional": "false",
-              "children": [
-                {
-                  "groupId": "org.apache.camel",
-                  "artifactId": "camel-core-catalog",
-                  "version": "4.22.1-SNAPSHOT",
-                  "type": "jar",
-                  "scope": "compile",
-                  "classifier": "",
-                  "optional": "false"
-                },
-                {
-                  "groupId": "org.apache.camel",
-                  "artifactId": "camel-tooling-model",
-                  "version": "4.22.1-SNAPSHOT",
-                  "type": "jar",
-                  "scope": "compile",
-                  "classifier": "",
-                  "optional": "false"
-                }
-                ]
-            },
-            {
-              "groupId": "org.apache.camel",
               "artifactId": "camel-catalog-suggest",
               "version": "4.22.1-SNAPSHOT",
               "type": "jar",
@@ -1455,6 +1426,35 @@
             {
               "groupId": "org.apache.camel",
               "artifactId": "camel-seda",
+              "version": "4.22.1-SNAPSHOT",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-catalog",
+          "version": "4.22.1-SNAPSHOT",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-core-catalog",
+              "version": "4.22.1-SNAPSHOT",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-tooling-model",
               "version": "4.22.1-SNAPSHOT",
               "type": "jar",
               "scope": "compile",
