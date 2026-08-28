@@ -52,3 +52,15 @@
 .cve-tree-hit {
     color: var(--pf-t--global--icon--color--status--danger--default);
 }
+
+/* The Camel artifacts a finding reaches, listed one per line. */
+.cve-dependents-tooltip {
+    max-height: 60vh;
+    overflow-y: auto;
+    text-align: start;
+}
+
+.cve-dependents-more {
+    margin-block-start: var(--pf-t--global--spacer--xs);
+    font-style: italic;
+}

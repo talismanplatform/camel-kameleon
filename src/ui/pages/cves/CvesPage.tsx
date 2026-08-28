@@ -13,13 +13,15 @@ import {useCompassStore} from '@compass/useCompassStore';
 import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
 import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {CvesToolbar} from './CvesToolbar';
+import {DependentArtifacts} from './DependentArtifacts';
+import {dependentIndex, dependents} from './dependents';
 import {NO_FIX, VulnerabilityDrawer} from './VulnerabilityDrawer';
 import apacheLogo from '@shared/icons/apache-logo.svg';
 import camelLogo from '@shared/icons/camel-logo.svg';
 import './CvesPage.css';
 import {capitalize} from "@patternfly/react-core";
 
-type SortableColumn = 'vulnerability' | 'severity' | 'coordinates' | 'installed' | 'fixed_in' | 'epss' | 'risk';
+type SortableColumn = 'vulnerability' | 'severity' | 'coordinates' | 'installed' | 'fixed_in' | 'dependent' | 'epss' | 'risk';
 
 const COLUMNS: {
     key: SortableColumn | 'description' | 'logo';
@@ -34,6 +36,7 @@ const COLUMNS: {
     {key: 'coordinates', label: 'Group:Artifact', sortable: true},
     {key: 'installed', label: 'Installed', sortable: true},
     {key: 'fixed_in', label: 'Fixed in', sortable: true},
+    {key: 'dependent', label: 'Dependent', sortable: true, modifier: 'fitContent'},
     // {key: 'description', label: 'Description', sortable: false},
     {key: 'epss', label: <EpssHeader/>, sortable: true},
     {key: 'risk', label: <RiskHeader/>, sortable: true},
@@ -63,6 +66,10 @@ export const CvesPage: React.FunctionComponent = () => {
     const setFilters = useCveStore((s) => s.setFilters);
     const resetFilters = useCveStore((s) => s.resetFilters);
     const selectRef = useCveStore((s) => s.selectRef);
+    const dependencyTrees = useCveStore((s) => s.dependencyTrees);
+    const dependencyTreesLoading = useCveStore((s) => s.dependencyTreesLoading);
+    const dependencyTreesRef = useCveStore((s) => s.dependencyTreesRef);
+    const loadDependencyTrees = useCveStore((s) => s.loadDependencyTrees);
 
     // The details drawer lives in the Compass shell, the page only feeds it.
     const setDrawerPanel = useCompassStore((s) => s.setDrawerPanel);
@@ -94,6 +101,11 @@ export const CvesPage: React.FunctionComponent = () => {
         }
     }, [versions]);
 
+    // The dependent column needs the module trees of the ref, the drawer then finds them loaded.
+    useEffect(() => {
+        loadDependencyTrees();
+    }, [selectedRef]);
+
     // A finding of the previous report must not stay open once another ref is shown.
     useEffect(() => setSelected(undefined), [vulnerabilities]);
 
@@ -111,6 +123,13 @@ export const CvesPage: React.FunctionComponent = () => {
         setIsDrawerExpanded(false);
     }, []);
 
+    // Walked once per ref rather than once per finding: a ref carries tens of thousands of nodes.
+    const index = useMemo(() => dependencyTrees ? dependentIndex(dependencyTrees) : undefined, [dependencyTrees]);
+
+    const affected = useMemo(
+        () => new Map(vulnerabilities.map(vulnerability => [vulnerability, dependents(index, vulnerability)])),
+        [vulnerabilities, index]);
+
     const filtered = useMemo(() => filterVulnerabilities(vulnerabilities, filters), [vulnerabilities, filters]);
 
     const sorted = useMemo(() => {
@@ -123,12 +142,15 @@ export const CvesPage: React.FunctionComponent = () => {
             if (column === 'risk' || column === 'epss') {
                 return ((a[column] ?? -1) - (b[column] ?? -1)) * factor;
             }
+            if (column === 'dependent') {
+                return ((affected.get(a)?.length ?? 0) - (affected.get(b)?.length ?? 0)) * factor;
+            }
             if (column === 'coordinates') {
                 return coordinates(a).localeCompare(coordinates(b)) * factor;
             }
             return String(a[column] ?? '').localeCompare(String(b[column] ?? '')) * factor;
         });
-    }, [filtered, sortIndex, sortDirection]);
+    }, [filtered, sortIndex, sortDirection, affected]);
 
     if ((loading && versions.length === 0) || (vulnerabilitiesLoading && vulnerabilities.length === 0)) {
         return <Bullseye><Spinner aria-label="Loading vulnerabilities"/></Bullseye>;
@@ -211,6 +233,13 @@ export const CvesPage: React.FunctionComponent = () => {
                                 {/*<Td dataLabel="Description">*/}
                                 {/*    <span className="cve-description">{vulnerability.description}</span>*/}
                                 {/*</Td>*/}
+                                <Td dataLabel="Dependent" textCenter modifier="nowrap">
+                                    <DependentArtifacts
+                                        artifacts={affected.get(vulnerability) ?? []}
+                                        isLoading={dependencyTreesLoading || dependencyTreesRef !== selectedRef}
+                                        isKnown={dependencyTrees !== undefined}
+                                    />
+                                </Td>
                                 <Td dataLabel="EPSS" textCenter modifier="nowrap">
                                     <EpssScore value={vulnerability.epss ?? undefined}/>
                                 </Td>
