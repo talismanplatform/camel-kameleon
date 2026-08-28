@@ -29,3 +29,26 @@
 .coverage-table th:first-child {
     padding-inline-start: 0;
 }
+
+.modules-table {
+    --pf-v6-c-table--cell--PaddingBlockStart: var(--pf-t--global--spacer--xs);
+    --pf-v6-c-table--cell--PaddingBlockEnd: var(--pf-t--global--spacer--xs);
+}
+
+.modules-table td:first-child,
+.modules-table th:first-child {
+    padding-inline-start: 0;
+}
+
+.dashboard-card-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .pf-v6-c-label__text {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--pf-t--global--spacer--xs);
+    }
+}

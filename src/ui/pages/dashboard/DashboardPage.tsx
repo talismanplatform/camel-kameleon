@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {Card, CardBody, CardFooter, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
@@ -16,16 +16,19 @@ import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {isOpen, ScanSeverity, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
+import {isOpen, MODULE_GROUPS, ScanSeverity, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
-import {EpssHeader, EpssScore, RiskHeader, RiskScore} from '@shared/ui/ScoreInfo';
+import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity as SeverityText} from '@shared/ui/ScoreInfo';
 import {SeverityLabel} from '@shared/ui/SeverityLabel';
 import {StatusLabel} from '@shared/ui/StatusLabel';
 import './DashboardPage.css';
+import {defaultVersion, sortedVersions} from '@shared/versionOrder';
+import {componentRows, findingIndex, topModules} from '../components/componentTree';
+import {CardHeader} from "@patternfly/react-core/src";
+import {Badge} from "@patternfly/react-core/dist/esm/components/Badge";
 import {LastScanDate} from "@shared/ui/LastScanDate";
-import {sortedVersions} from '@shared/versionOrder';
 
 /** The advisory severities of this page map onto the scanner severities the CVE page filters by. */
 const SCAN_SEVERITY_OF: Record<Severity, ScanSeverity> = {
@@ -34,6 +37,9 @@ const SCAN_SEVERITY_OF: Record<Severity, ScanSeverity> = {
     moderate: 'Medium',
     low: 'Low',
 };
+
+/** Enough of the components table to triage on, without turning the card into a page. */
+const TOP_MODULES = 7;
 
 const SEVERITY_VARIANT: Record<Severity, ProgressVariant | undefined> = {
     critical: ProgressVariant.danger,
@@ -48,26 +54,61 @@ export const DashboardPage: React.FunctionComponent = () => {
     const cves = useCveStore((s) => s.cves);
     const versions = useCveStore((s) => s.versions);
     const summary = useCveStore((s) => s.summary);
-    const components = useCveStore((s) => s.components);
     const loading = useCveStore((s) => s.loading);
     const setFilters = useCveStore((s) => s.setFilters);
+    const selectedRef = useCveStore((s) => s.selectedRef);
+    const selectRef = useCveStore((s) => s.selectRef);
+    const vulnerabilities = useCveStore((s) => s.vulnerabilities);
+    const vulnerabilitiesLoading = useCveStore((s) => s.vulnerabilitiesLoading);
+    const dependencyTrees = useCveStore((s) => s.dependencyTrees);
+    const dependencyTreesLoading = useCveStore((s) => s.dependencyTreesLoading);
+    const loadDependencyTrees = useCveStore((s) => s.loadDependencyTrees);
 
     usePageContext(
         'Security overview',
         <Title headingLevel="h1" size="xl">Apache Camel CVE Dashboard</Title>,
-        <LastScanDate/>,
+        null,
         [loading]
     );
+
+    // The card reads the same ref the components page opens on, and picks it if nothing else has.
+    useEffect(() => {
+        if (!selectedRef) {
+            const ref = defaultVersion(versions);
+            if (ref) {
+                selectRef(ref);
+            }
+        }
+    }, [versions]);
+
+    useEffect(() => {
+        loadDependencyTrees();
+    }, [selectedRef]);
+
+    /**
+     * The worst modules of the selected ref, scored exactly as the components
+     * page scores them: the findings of the module itself and of everything it
+     * depends on, collapsed into one severity, risk and EPSS per module.
+     */
+    const worstModules = useMemo(() => {
+        if (!dependencyTrees) {
+            return [];
+        }
+        const index = findingIndex(vulnerabilities);
+        const modules = MODULE_GROUPS.flatMap(group =>
+            (dependencyTrees[group] ?? []).map(module => componentRows(module, index, group)));
+        return topModules(modules, TOP_MODULES);
+    }, [dependencyTrees, vulnerabilities]);
 
     if (loading && cves.length === 0) {
         return <Bullseye><Spinner aria-label="Loading vulnerabilities"/></Bullseye>;
     }
 
     const openCves = cves.filter(isOpen);
-    const topComponents = [...components].sort((a, b) => b.cveCount - a.cveCount).slice(0, 6);
     const latest = [...cves].sort((a, b) => b.published.localeCompare(a.published)).slice(0, 5);
 
     const coverage = sortedVersions(versions);
+    const modulesLoading = dependencyTreesLoading || (vulnerabilitiesLoading && vulnerabilities.length === 0);
 
 
     function showSeverity(severity: Severity) {
@@ -106,13 +147,19 @@ export const DashboardPage: React.FunctionComponent = () => {
             <Grid hasGutter className="dashboard-grid">
                 <GridItem md={6} lg={4}>
                     <Card isFullHeight isCompact>
+                        <CardHeader>
+                            <div className='dashboard-card-header'>
+                                <CardTitle>Scan coverage</CardTitle>
+                                <Label variant="outline" style={{gap: 6}}>
+                                    <LastScanDate/>
+                                </Label>
+                            </div>
+                        </CardHeader>
                         <CardBody>
                             <Table aria-label="Risk and EPSS per scanned version" variant="compact" className="coverage-table">
                                 <Thead>
                                     <Tr>
-                                        <Th>
-                                            <Content component={'h6'}>Scan coverage</Content>
-                                        </Th>
+                                        <Th>Release | Branch</Th>
                                         <Th textCenter modifier="fitContent"><RiskHeader/></Th>
                                         <Th textCenter modifier="fitContent"><EpssHeader/></Th>
                                     </Tr>
@@ -167,23 +214,50 @@ export const DashboardPage: React.FunctionComponent = () => {
 
                 <GridItem md={12} lg={4}>
                     <Card isFullHeight isCompact>
-                        <CardTitle>Most affected components</CardTitle>
+                        <CardHeader>
+                            <div className='dashboard-card-header'>
+                                <CardTitle>Most affected components</CardTitle>
+                                <Label variant="outline" style={{gap: 6}}>
+                                    {selectedRef}
+                                    <Badge>LTS</Badge>
+                                </Label>
+                            </div>
+                        </CardHeader>
                         <CardBody>
-                            <DescriptionList isCompact>
-                                {topComponents.map(component => (
-                                    <DescriptionListGroup key={component.artifactId}>
-                                        <DescriptionListTerm>{component.artifactId}</DescriptionListTerm>
-                                        <DescriptionListDescription>
-                                            <Flex gap={{default: 'gapSm'}} alignItems={{default: 'alignItemsCenter'}}>
-                                                <FlexItem>{component.cveCount} CVEs</FlexItem>
-                                                {component.highestSeverity !== 'none' && (
-                                                    <FlexItem><SeverityLabel severity={component.highestSeverity} isCompact/></FlexItem>
-                                                )}
-                                            </Flex>
-                                        </DescriptionListDescription>
-                                    </DescriptionListGroup>
-                                ))}
-                            </DescriptionList>
+                            {modulesLoading ? (
+                                <Bullseye><Spinner size="lg" aria-label="Loading modules"/></Bullseye>
+                            ) : (
+                                <Table aria-label="Riskiest Camel modules" variant="compact" className="modules-table">
+                                    <Thead>
+                                        <Tr>
+                                            <Th>
+                                                <Content component={'h6'}>Module</Content>
+                                            </Th>
+                                            <Th modifier="fitContent">Severity</Th>
+                                            <Th textCenter modifier="fitContent"><RiskHeader/></Th>
+                                            <Th textCenter modifier="fitContent"><EpssHeader/></Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {worstModules.map(({row, score}) => (
+                                            <Tr key={row.key} style={{verticalAlign: 'middle'}}>
+                                                <Td dataLabel="Module" modifier="truncate">{row.artifactId}</Td>
+                                                <Td dataLabel="Severity" modifier="nowrap">
+                                                    {score.severity
+                                                        ? <SeverityText severity={score.severity} text={score.severity}/>
+                                                        : '-'}
+                                                </Td>
+                                                <Td dataLabel="Risk" modifier="nowrap" textCenter>
+                                                    <RiskScore value={score.risk}/>
+                                                </Td>
+                                                <Td dataLabel="EPSS" modifier="nowrap" textCenter>
+                                                    <EpssScore value={score.epss}/>
+                                                </Td>
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                </Table>
+                            )}
                         </CardBody>
                         <CardFooter>
                             <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"

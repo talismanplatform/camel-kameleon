@@ -215,3 +215,42 @@ export function sortRows(rows: ComponentRow[], sort: ComponentSort, direction: '
             : score(a, sort) - score(b, sort)) * factor)
         .map(row => ({...row, children: sortRows(row.children, sort, direction)}));
 }
+
+/** The worst finding of a whole module: the one of its own artifact or of anything it pulls in. */
+export interface ModuleScore {
+    severity?: ScanSeverity;
+    risk?: number;
+    epss?: number;
+}
+
+const higher = (a: number | undefined, b: number | undefined): number | undefined =>
+    a === undefined ? b : b === undefined ? a : Math.max(a, b);
+
+/**
+ * Collapses the two halves of a row into one score. The components table keeps
+ * `this level` and `dependencies` apart because it says where a fix belongs; a
+ * summary only says how bad the module is, wherever the finding sits.
+ */
+export function moduleScore(row: ComponentRow): ModuleScore {
+    return {
+        // SCAN_SEVERITIES is ordered worst first, so the first band either half reports is the worst one.
+        severity: SCAN_SEVERITIES.find(severity => severity === row.own.maxSeverity || severity === row.transitive.maxSeverity),
+        risk: higher(row.own.maxRisk, row.transitive.maxRisk),
+        epss: higher(row.own.maxEpss, row.transitive.maxEpss),
+    };
+}
+
+/**
+ * The modules a reader triages first: worst risk anywhere in their tree, EPSS
+ * breaking ties, name last so the order does not move between renders. Modules
+ * without findings are left out, they say nothing on a summary.
+ */
+export function topModules(rows: ComponentRow[], limit: number): {row: ComponentRow; score: ModuleScore}[] {
+    return rows
+        .filter(row => total(row) > 0)
+        .map(row => ({row, score: moduleScore(row)}))
+        .sort((a, b) => (b.score.risk ?? MISSING_SCORE) - (a.score.risk ?? MISSING_SCORE)
+            || (b.score.epss ?? MISSING_SCORE) - (a.score.epss ?? MISSING_SCORE)
+            || a.row.artifactId.localeCompare(b.row.artifactId))
+        .slice(0, limit);
+}
