@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {Card, CardBody, CardFooter, CardHeader, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
-import {Content} from '@patternfly/react-core/dist/esm/components/Content';
+import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
 import {DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm} from '@patternfly/react-core/dist/esm/components/DescriptionList';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
@@ -13,7 +13,7 @@ import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
-import {ALL_REFS, isOpen, MODULE_GROUPS, SCAN_SEVERITIES, SCAN_SEVERITY_COLOR, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
+import {ALL_REFS, isOpen, MODULE_GROUPS, SCAN_SEVERITIES, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -31,7 +31,7 @@ import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-i
 import TagIcon from "@patternfly/react-icons/dist/esm/icons/tag-icon";
 import {LastScanDate} from "@shared/ui/LastScanDate";
 import {logoOf} from "@pages/cves/CvesPage";
-import {InfoIcon} from "@patternfly/react-icons";
+import {CheckCircleIcon, InfoIcon} from "@patternfly/react-icons";
 
 /**
  * The severities the stat cards break the Camel advisories down by: the four the
@@ -186,42 +186,51 @@ const DashboardPage: React.FunctionComponent = () => {
                     <div className='dashboard-card-header'>
                         <CardTitle>Apache Camel advisories</CardTitle>
                         <HelperText className={'stat-card-note'}>
-                            <HelperTextItem icon={<InfoIcon />}>Direct advisories across all scanned versions (excluding dependencies)</HelperTextItem>
+                            <HelperTextItem icon={<InfoIcon/>}>Direct advisories across all scanned versions (excluding dependencies)</HelperTextItem>
                         </HelperText>
                     </div>
                 </CardHeader>
                 <CardBody>
                     <Gallery hasGutter minWidths={{default: '20%'}}>
-                        {CARD_SEVERITIES.map(severity => (
-                            <Card key={severity} variant="secondary" isCompact className="stat-card">
-                                <CardTitle>
-                                    <Flex justifyContent={{default: 'justifyContentSpaceBetween'}} alignItems={{default: 'alignItemsCenter'}}>
-                                        <FlexItem><SeverityText severity={severity} text={`${severity} severity`}/></FlexItem>
-                                        <FlexItem>
-                                    <span className="stat-card-value" style={{color: SCAN_SEVERITY_COLOR[severity]}}>
-                                        {camelBySeverity[severity].length}
-                                    </span>
-                                        </FlexItem>
-                                    </Flex>
-                                </CardTitle>
-                                <CardBody>
-                                    {camelBySeverity[severity].length === 0 ? (
-                                        <span className="stat-card-empty">No advisories</span>
-                                    ) : (
-                                        <ul className="stat-card-cves" aria-label={`${severity} Apache Camel advisories`}>
-                                            {camelBySeverity[severity].map(vulnerability => (
-                                                <li key={vulnerability.vulnerability}>
-                                                    <Button variant="link" isInline
-                                                            onClick={() => setSelected(vulnerability)}>
-                                                        {vulnerability.vulnerability}
-                                                    </Button>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    )}
-                                </CardBody>
-                            </Card>
-                        ))}
+                        {CARD_SEVERITIES.map(severity => {
+                            const num = camelBySeverity[severity].length;
+                            const showNum = num > 0;
+                            return (
+                                <Card key={severity} variant="secondary" isCompact className="stat-card">
+                                    <CardTitle>
+                                        <Flex justifyContent={{default: 'justifyContentSpaceBetween'}} alignItems={{default: 'alignItemsCenter'}}>
+                                            <FlexItem>
+                                                <SeverityText severity={severity} text={`${severity} severity`} component={ContentVariants.h6}/>
+                                            </FlexItem>
+                                            <FlexItem>
+                                                {showNum &&
+                                                    <Label isCompact variant={'outline'}>
+                                                        <SeverityText severity={severity} text={num} component={ContentVariants.h6}/>
+                                                    </Label>
+                                                }
+                                                {!showNum && <CheckCircleIcon color={'var(--pf-t--global--color--status--success--default)'}/>}
+                                            </FlexItem>
+                                        </Flex>
+                                    </CardTitle>
+                                    <CardBody>
+                                        {num === 0 ? (
+                                            <span className="stat-card-empty">No advisories</span>
+                                        ) : (
+                                            <ul className="stat-card-cves" aria-label={`${severity} Apache Camel advisories`}>
+                                                {camelBySeverity[severity].map(vulnerability => (
+                                                    <li key={vulnerability.vulnerability}>
+                                                        <Button variant="link" isInline
+                                                                onClick={() => setSelected(vulnerability)}>
+                                                            {vulnerability.vulnerability}
+                                                        </Button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                    </CardBody>
+                                </Card>
+                            )
+                        })}
                     </Gallery>
                 </CardBody>
                 <CardFooter>

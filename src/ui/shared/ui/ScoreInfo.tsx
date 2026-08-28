@@ -106,11 +106,12 @@ export const RiskHeader: React.FunctionComponent = () => (
 interface SeverityProps {
     severity: ScanSeverity;
     text: number | string;
+    component?: ContentVariants
 }
 
 
-export const Severity: React.FunctionComponent<SeverityProps> = ({severity, text}) => (
-    <Content component={ContentVariants.p} style={{color: SCAN_SEVERITY_COLOR[severity]}}>{text}</Content>
+export const Severity: React.FunctionComponent<SeverityProps> = ({severity, text, component}) => (
+    <Content component={component || ContentVariants.p} style={{color: SCAN_SEVERITY_COLOR[severity]}}>{text}</Content>
 );
 
 /** Risk bands: green below 4.0, yellow below 7.0, red above. */
