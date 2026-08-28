@@ -1,0 +1,234 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-spring-rabbitmq",
+  "version": "4.18.0",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.18.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.springframework.amqp",
+      "artifactId": "spring-rabbit",
+      "version": "3.2.8",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.springframework.amqp",
+          "artifactId": "spring-amqp",
+          "version": "3.2.8",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-core",
+              "version": "6.2.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.springframework",
+                  "artifactId": "spring-jcl",
+                  "version": "6.2.12",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.springframework.retry",
+              "artifactId": "spring-retry",
+              "version": "2.0.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.rabbitmq",
+          "artifactId": "amqp-client",
+          "version": "5.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-context",
+          "version": "6.2.12",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-aop",
+              "version": "6.2.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-beans",
+              "version": "6.2.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-expression",
+              "version": "6.2.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-messaging",
+          "version": "6.2.12",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-tx",
+          "version": "6.2.12",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.micrometer",
+          "artifactId": "micrometer-observation",
+          "version": "1.15.6",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "micrometer-commons",
+              "version": "1.15.6",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}

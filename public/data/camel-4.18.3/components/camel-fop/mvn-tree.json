@@ -1,0 +1,368 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-fop",
+  "version": "4.18.3",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.18.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.xmlgraphics",
+      "artifactId": "fop",
+      "version": "2.11",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.xmlgraphics",
+          "artifactId": "fop-util",
+          "version": "2.11",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.xmlgraphics",
+              "artifactId": "xmlgraphics-commons",
+              "version": "2.11",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.xmlgraphics",
+          "artifactId": "fop-events",
+          "version": "2.11",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.thoughtworks.qdox",
+              "artifactId": "qdox",
+              "version": "1.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "commons-io",
+              "artifactId": "commons-io",
+              "version": "2.17.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.xmlgraphics",
+          "artifactId": "fop-core",
+          "version": "2.11",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.xmlgraphics",
+              "artifactId": "batik-anim",
+              "version": "1.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-css",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-dom",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "xml-apis",
+                      "artifactId": "xml-apis",
+                      "version": "1.4.01",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-ext",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-parser",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-shared-resources",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-svg-dom",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-util",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.apache.xmlgraphics",
+                      "artifactId": "batik-constants",
+                      "version": "1.19",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "org.apache.xmlgraphics",
+                      "artifactId": "batik-i18n",
+                      "version": "1.19",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "xml-apis",
+                  "artifactId": "xml-apis-ext",
+                  "version": "1.3.04",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.xmlgraphics",
+              "artifactId": "batik-awt-util",
+              "version": "1.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.xmlgraphics",
+              "artifactId": "batik-bridge",
+              "version": "1.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-script",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-xml",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.xmlgraphics",
+              "artifactId": "batik-extension",
+              "version": "1.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.xmlgraphics",
+              "artifactId": "batik-gvt",
+              "version": "1.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.xmlgraphics",
+              "artifactId": "batik-transcoder",
+              "version": "1.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.xmlgraphics",
+                  "artifactId": "batik-svggen",
+                  "version": "1.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.xmlgraphics",
+              "artifactId": "batik-codec",
+              "version": "1.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}

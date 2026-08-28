@@ -1,0 +1,301 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-cxf-common",
+  "version": "4.18.2",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.18.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-xml-jaxp",
+      "version": "4.18.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-core-model",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-core-processor",
+              "version": "4.18.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-io-util",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-attachments",
+      "version": "4.18.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-core-languages",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "jakarta.activation",
+          "artifactId": "jakarta.activation-api",
+          "version": "2.1.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-http-base",
+      "version": "4.18.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "org.apache.cxf",
+      "artifactId": "cxf-rt-transports-http",
+      "version": "4.1.5",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.cxf",
+          "artifactId": "cxf-core",
+          "version": "4.1.5",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.annotation",
+              "artifactId": "jakarta.annotation-api",
+              "version": "2.1.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.glassfish.jaxb",
+              "artifactId": "jaxb-runtime",
+              "version": "4.0.6",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.glassfish.jaxb",
+                  "artifactId": "jaxb-core",
+                  "version": "4.0.6",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.glassfish.jaxb",
+                      "artifactId": "txw2",
+                      "version": "4.0.6",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "com.sun.istack",
+                      "artifactId": "istack-commons-runtime",
+                      "version": "4.1.2",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "com.fasterxml.woodstox",
+              "artifactId": "woodstox-core",
+              "version": "7.1.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.codehaus.woodstox",
+                  "artifactId": "stax2-api",
+                  "version": "4.2.2",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.ws.xmlschema",
+              "artifactId": "xmlschema-core",
+              "version": "2.3.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.eclipse.angus",
+              "artifactId": "angus-activation",
+              "version": "2.0.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "jakarta.servlet",
+      "artifactId": "jakarta.servlet-api",
+      "version": "6.1.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "jakarta.xml.soap",
+      "artifactId": "jakarta.xml.soap-api",
+      "version": "3.0.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "jakarta.xml.ws",
+      "artifactId": "jakarta.xml.ws-api",
+      "version": "4.0.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "jakarta.xml.bind",
+          "artifactId": "jakarta.xml.bind-api",
+          "version": "4.0.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    }
+    ]
+}

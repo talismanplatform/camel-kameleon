@@ -1,0 +1,522 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-azure-eventgrid",
+  "version": "4.18.0",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.18.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "com.azure",
+      "artifactId": "azure-messaging-eventgrid",
+      "version": "4.31.4",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "com.azure",
+          "artifactId": "azure-core",
+          "version": "1.57.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.azure",
+              "artifactId": "azure-xml",
+              "version": "1.2.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.fasterxml.jackson.core",
+              "artifactId": "jackson-annotations",
+              "version": "2.19.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.fasterxml.jackson.core",
+              "artifactId": "jackson-core",
+              "version": "2.19.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.fasterxml.jackson.core",
+              "artifactId": "jackson-databind",
+              "version": "2.19.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.fasterxml.jackson.datatype",
+              "artifactId": "jackson-datatype-jsr310",
+              "version": "2.19.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.projectreactor",
+              "artifactId": "reactor-core",
+              "version": "3.7.11",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.reactivestreams",
+                  "artifactId": "reactive-streams",
+                  "version": "1.0.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "com.azure",
+          "artifactId": "azure-json",
+          "version": "1.5.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.azure",
+          "artifactId": "azure-core-http-netty",
+          "version": "1.16.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-handler",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-resolver",
+                  "version": "4.1.130.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-transport",
+                  "version": "4.1.130.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-handler-proxy",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-codec-socks",
+                  "version": "4.1.130.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-buffer",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-http",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-http2",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-transport-native-unix-common",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-transport-native-epoll",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "linux-x86_64",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-transport-classes-epoll",
+                  "version": "4.1.130.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-transport-native-kqueue",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "osx-x86_64",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-transport-classes-kqueue",
+                  "version": "4.1.130.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-tcnative-boringssl-static",
+              "version": "2.0.74.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-tcnative-classes",
+                  "version": "2.0.74.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-tcnative-boringssl-static",
+                  "version": "2.0.74.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "linux-x86_64",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-tcnative-boringssl-static",
+                  "version": "2.0.74.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "linux-aarch_64",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-tcnative-boringssl-static",
+                  "version": "2.0.74.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "osx-x86_64",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-tcnative-boringssl-static",
+                  "version": "2.0.74.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "osx-aarch_64",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-tcnative-boringssl-static",
+                  "version": "2.0.74.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "windows-x86_64",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.projectreactor.netty",
+              "artifactId": "reactor-netty-http",
+              "version": "1.2.10",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-resolver-dns",
+                  "version": "4.1.130.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "io.netty",
+                      "artifactId": "netty-codec-dns",
+                      "version": "4.1.130.Final",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "io.netty",
+                  "artifactId": "netty-resolver-dns-native-macos",
+                  "version": "4.1.130.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "osx-x86_64",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "io.netty",
+                      "artifactId": "netty-resolver-dns-classes-macos",
+                      "version": "4.1.130.Final",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "io.projectreactor.netty",
+                  "artifactId": "reactor-netty-core",
+                  "version": "1.2.10",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-common",
+              "version": "4.1.130.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "com.azure",
+      "artifactId": "azure-identity",
+      "version": "1.18.1",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "com.microsoft.azure",
+          "artifactId": "msal4j",
+          "version": "1.23.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.microsoft.azure",
+          "artifactId": "msal4j-persistence-extension",
+          "version": "1.3.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "net.java.dev.jna",
+              "artifactId": "jna",
+              "version": "5.13.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "net.java.dev.jna",
+          "artifactId": "jna-platform",
+          "version": "5.17.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    }
+    ]
+}

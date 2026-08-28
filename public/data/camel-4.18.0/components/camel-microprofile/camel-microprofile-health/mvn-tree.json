@@ -1,0 +1,301 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-microprofile-health",
+  "version": "4.18.0",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-health",
+      "version": "4.18.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-core-engine",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-base-engine",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-core-reifier",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-core-processor",
+                  "version": "4.18.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.jboss.logging",
+      "artifactId": "jboss-logging",
+      "version": "3.6.2.Final",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "io.smallrye",
+      "artifactId": "smallrye-health",
+      "version": "4.3.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.eclipse.microprofile.health",
+          "artifactId": "microprofile-health-api",
+          "version": "4.0.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.smallrye",
+          "artifactId": "smallrye-health-api",
+          "version": "4.3.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.smallrye.common",
+              "artifactId": "smallrye-common-annotation",
+              "version": "2.13.9",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.smallrye.reactive",
+              "artifactId": "mutiny",
+              "version": "3.0.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.jctools",
+                  "artifactId": "jctools-core",
+                  "version": "4.0.5",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "jakarta.enterprise",
+          "artifactId": "jakarta.enterprise.cdi-api",
+          "version": "4.0.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.enterprise",
+              "artifactId": "jakarta.enterprise.lang-model",
+              "version": "4.0.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "jakarta.annotation",
+              "artifactId": "jakarta.annotation-api",
+              "version": "2.1.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "jakarta.el",
+              "artifactId": "jakarta.el-api",
+              "version": "5.0.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "jakarta.interceptor",
+              "artifactId": "jakarta.interceptor-api",
+              "version": "2.1.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "jakarta.inject",
+              "artifactId": "jakarta.inject-api",
+              "version": "2.0.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "jakarta.json",
+          "artifactId": "jakarta.json-api",
+          "version": "2.1.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.eclipse.parsson",
+          "artifactId": "jakarta.json",
+          "version": "1.1.7",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "io.smallrye.config",
+      "artifactId": "smallrye-config",
+      "version": "3.16.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "io.smallrye.config",
+          "artifactId": "smallrye-config-core",
+          "version": "3.16.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.eclipse.microprofile.config",
+              "artifactId": "microprofile-config-api",
+              "version": "3.1.1-RC1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.smallrye.common",
+              "artifactId": "smallrye-common-expression",
+              "version": "2.15.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-function",
+                  "version": "2.15.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.smallrye.common",
+              "artifactId": "smallrye-common-constraint",
+              "version": "2.15.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.smallrye.common",
+              "artifactId": "smallrye-common-classloader",
+              "version": "2.15.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.ow2.asm",
+              "artifactId": "asm",
+              "version": "9.9.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.smallrye.config",
+              "artifactId": "smallrye-config-common",
+              "version": "3.16.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}

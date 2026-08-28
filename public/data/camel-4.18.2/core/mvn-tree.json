@@ -1,0 +1,9 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "core",
+  "version": "4.18.2",
+  "type": "pom",
+  "scope": "",
+  "classifier": "",
+  "optional": "false"
+}

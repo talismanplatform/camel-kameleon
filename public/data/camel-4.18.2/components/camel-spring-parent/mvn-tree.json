@@ -1,0 +1,9 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-spring-parent",
+  "version": "4.18.2",
+  "type": "pom",
+  "scope": "",
+  "classifier": "",
+  "optional": "false"
+}

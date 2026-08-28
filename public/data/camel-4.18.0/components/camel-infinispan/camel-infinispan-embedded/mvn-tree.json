@@ -1,0 +1,550 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-infinispan-embedded",
+  "version": "4.18.0",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-infinispan-common",
+      "version": "4.18.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-support",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-api",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.xml.bind",
+                  "artifactId": "jakarta.xml.bind-api",
+                  "version": "4.0.5",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "jakarta.activation",
+                      "artifactId": "jakarta.activation-api",
+                      "version": "2.1.4",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-management-api",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util-json",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-xml-jaxp-util",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-cluster",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-base-engine",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-base",
+                  "version": "4.18.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-core-model",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-core-processor",
+                  "version": "4.18.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.infinispan",
+      "artifactId": "infinispan-commons",
+      "version": "16.0.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.infinispan.protostream",
+          "artifactId": "protostream",
+          "version": "6.0.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.fasterxml.jackson.core",
+              "artifactId": "jackson-core",
+              "version": "2.19.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.infinispan.protostream",
+          "artifactId": "protostream-types",
+          "version": "6.0.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.github.ben-manes.caffeine",
+          "artifactId": "caffeine",
+          "version": "3.2.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.jspecify",
+              "artifactId": "jspecify",
+              "version": "1.0.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "io.reactivex.rxjava3",
+          "artifactId": "rxjava",
+          "version": "3.1.12",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.reactivestreams",
+              "artifactId": "reactive-streams",
+              "version": "1.0.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.jboss.logging",
+          "artifactId": "jboss-logging",
+          "version": "3.6.1.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.infinispan",
+      "artifactId": "infinispan-core",
+      "version": "16.0.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.infinispan",
+          "artifactId": "infinispan-counter-api",
+          "version": "16.0.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.jgroups",
+          "artifactId": "jgroups",
+          "version": "5.5.1.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "jakarta.transaction",
+          "artifactId": "jakarta.transaction-api",
+          "version": "2.0.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.jboss.threads",
+          "artifactId": "jboss-threads",
+          "version": "3.9.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.wildfly.common",
+              "artifactId": "wildfly-common",
+              "version": "2.0.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-expression",
+                  "version": "2.4.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-net",
+                  "version": "2.4.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-os",
+                  "version": "2.4.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-ref",
+                  "version": "2.4.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.smallrye.common",
+              "artifactId": "smallrye-common-annotation",
+              "version": "2.12.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.smallrye.common",
+              "artifactId": "smallrye-common-constraint",
+              "version": "2.12.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.smallrye.common",
+              "artifactId": "smallrye-common-cpu",
+              "version": "2.12.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.smallrye.common",
+              "artifactId": "smallrye-common-function",
+              "version": "2.12.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.infinispan",
+      "artifactId": "infinispan-query",
+      "version": "16.0.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.hibernate.models",
+          "artifactId": "hibernate-models",
+          "version": "1.0.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.hibernate.search",
+          "artifactId": "hibernate-search-mapper-pojo-base",
+          "version": "8.1.2.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.hibernate.search",
+              "artifactId": "hibernate-search-engine",
+              "version": "8.1.2.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.hibernate.search",
+                  "artifactId": "hibernate-search-util-common",
+                  "version": "8.1.2.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "io.smallrye",
+                      "artifactId": "jandex",
+                      "version": "3.3.1",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.hibernate.search",
+          "artifactId": "hibernate-search-backend-lucene",
+          "version": "8.1.2.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.lucene",
+              "artifactId": "lucene-core",
+              "version": "9.12.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.lucene",
+              "artifactId": "lucene-analysis-common",
+              "version": "9.12.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.lucene",
+              "artifactId": "lucene-queryparser",
+              "version": "9.12.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.lucene",
+                  "artifactId": "lucene-queries",
+                  "version": "9.12.2",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.lucene",
+                  "artifactId": "lucene-sandbox",
+                  "version": "9.12.2",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.apache.lucene",
+                      "artifactId": "lucene-facet",
+                      "version": "9.12.2",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.lucene",
+              "artifactId": "lucene-join",
+              "version": "9.12.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.carrotsearch",
+              "artifactId": "hppc",
+              "version": "0.10.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.lucene",
+              "artifactId": "lucene-highlighter",
+              "version": "9.12.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.lucene",
+                  "artifactId": "lucene-memory",
+                  "version": "9.12.2",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.infinispan",
+      "artifactId": "infinispan-component-annotations",
+      "version": "16.0.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    }
+    ]
+}

@@ -1,0 +1,421 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-spring-ai-tools",
+  "version": "4.18.2",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.18.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.18.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.springframework.ai",
+      "artifactId": "spring-ai-model",
+      "version": "1.1.2",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.springframework.ai",
+          "artifactId": "spring-ai-commons",
+          "version": "1.1.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-context",
+              "version": "6.2.14",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.springframework",
+                  "artifactId": "spring-aop",
+                  "version": "6.2.14",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.springframework",
+                  "artifactId": "spring-expression",
+                  "version": "6.2.14",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "micrometer-core",
+              "version": "1.15.10",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.hdrhistogram",
+                  "artifactId": "HdrHistogram",
+                  "version": "2.2.2",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.latencyutils",
+                  "artifactId": "LatencyUtils",
+                  "version": "2.0.3",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "context-propagation",
+              "version": "1.1.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.fasterxml.jackson.module",
+              "artifactId": "jackson-module-jsonSchema",
+              "version": "2.21.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "javax.validation",
+                  "artifactId": "validation-api",
+                  "version": "1.1.0.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "com.knuddels",
+              "artifactId": "jtokkit",
+              "version": "1.1.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.springframework.ai",
+          "artifactId": "spring-ai-template-st",
+          "version": "1.1.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.antlr",
+              "artifactId": "ST4",
+              "version": "4.3.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.antlr",
+                  "artifactId": "antlr-runtime",
+                  "version": "3.5.3",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "io.micrometer",
+          "artifactId": "micrometer-observation",
+          "version": "1.15.10",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "micrometer-commons",
+              "version": "1.15.10",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-messaging",
+          "version": "6.2.14",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-beans",
+              "version": "6.2.14",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-core",
+              "version": "6.2.14",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.springframework",
+                  "artifactId": "spring-jcl",
+                  "version": "6.2.14",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "io.projectreactor",
+          "artifactId": "reactor-core",
+          "version": "3.7.13",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.reactivestreams",
+              "artifactId": "reactive-streams",
+              "version": "1.0.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.antlr",
+          "artifactId": "antlr4-runtime",
+          "version": "4.13.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.github.victools",
+          "artifactId": "jsonschema-generator",
+          "version": "4.38.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.fasterxml",
+              "artifactId": "classmate",
+              "version": "1.7.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.fasterxml.jackson.core",
+              "artifactId": "jackson-core",
+              "version": "2.21.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.github.victools",
+          "artifactId": "jsonschema-module-jackson",
+          "version": "4.38.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.fasterxml.jackson.core",
+          "artifactId": "jackson-databind",
+          "version": "2.21.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.fasterxml.jackson.core",
+              "artifactId": "jackson-annotations",
+              "version": "2.21",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.fasterxml.jackson.datatype",
+          "artifactId": "jackson-datatype-jsr310",
+          "version": "2.21.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.github.victools",
+          "artifactId": "jsonschema-module-swagger-2",
+          "version": "4.38.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.swagger.core.v3",
+          "artifactId": "swagger-annotations-jakarta",
+          "version": "2.2.38",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    }
+    ]
+}

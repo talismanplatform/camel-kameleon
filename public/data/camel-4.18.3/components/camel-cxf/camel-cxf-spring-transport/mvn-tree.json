@@ -1,0 +1,305 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-cxf-spring-transport",
+  "version": "4.18.3",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-cxf-spring-common",
+      "version": "4.18.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-support",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-api",
+              "version": "4.18.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-management-api",
+              "version": "4.18.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util",
+              "version": "4.18.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util-json",
+              "version": "4.18.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-xml-jaxp-util",
+              "version": "4.18.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-attachments",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.activation",
+              "artifactId": "jakarta.activation-api",
+              "version": "2.1.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-http-base",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.cxf",
+          "artifactId": "cxf-rt-transports-http",
+          "version": "4.1.5",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "jakarta.servlet",
+          "artifactId": "jakarta.servlet-api",
+          "version": "6.1.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-beans",
+          "version": "6.2.19",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-core",
+              "version": "6.2.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.springframework",
+                  "artifactId": "spring-jcl",
+                  "version": "6.2.19",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-context",
+          "version": "6.2.19",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-aop",
+              "version": "6.2.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-expression",
+              "version": "6.2.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "micrometer-observation",
+              "version": "1.15.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.micrometer",
+                  "artifactId": "micrometer-commons",
+                  "version": "1.15.12",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-cxf-transport",
+      "version": "4.18.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-http-common",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-cloud",
+              "version": "4.18.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-cxf-common",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.soap",
+              "artifactId": "jakarta.xml.soap-api",
+              "version": "3.0.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "jakarta.xml.ws",
+              "artifactId": "jakarta.xml.ws-api",
+              "version": "4.0.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.cxf",
+          "artifactId": "cxf-rt-bindings-soap",
+          "version": "4.1.5",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.cxf",
+              "artifactId": "cxf-rt-wsdl",
+              "version": "4.1.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "wsdl4j",
+                  "artifactId": "wsdl4j",
+                  "version": "1.6.3",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.cxf",
+              "artifactId": "cxf-rt-databinding-jaxb",
+              "version": "4.1.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}

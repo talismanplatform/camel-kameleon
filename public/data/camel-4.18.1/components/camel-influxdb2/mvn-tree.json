@@ -1,0 +1,325 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-influxdb2",
+  "version": "4.18.1",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.18.1",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.18.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.18.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.18.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.18.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.18.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "com.influxdb",
+      "artifactId": "influxdb-client-java",
+      "version": "7.5.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "com.influxdb",
+          "artifactId": "influxdb-client-core",
+          "version": "7.5.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.influxdb",
+              "artifactId": "influxdb-client-utils",
+              "version": "7.5.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.squareup.okio",
+              "artifactId": "okio",
+              "version": "3.16.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.squareup.okio",
+                  "artifactId": "okio-jvm",
+                  "version": "3.16.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.jetbrains.kotlin",
+                      "artifactId": "kotlin-stdlib",
+                      "version": "2.2.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false",
+                      "children": [
+                        {
+                          "groupId": "org.jetbrains",
+                          "artifactId": "annotations",
+                          "version": "13.0",
+                          "type": "jar",
+                          "scope": "compile",
+                          "classifier": "",
+                          "optional": "false"
+                        }
+                        ]
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "com.squareup.okhttp3",
+              "artifactId": "okhttp",
+              "version": "4.12.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.jetbrains.kotlin",
+                  "artifactId": "kotlin-stdlib-jdk8",
+                  "version": "1.8.21",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.jetbrains.kotlin",
+                      "artifactId": "kotlin-stdlib-jdk7",
+                      "version": "1.8.21",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "com.squareup.retrofit2",
+              "artifactId": "retrofit",
+              "version": "2.11.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.squareup.okhttp3",
+              "artifactId": "logging-interceptor",
+              "version": "4.12.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.commons",
+              "artifactId": "commons-csv",
+              "version": "1.14.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "commons-io",
+                  "artifactId": "commons-io",
+                  "version": "2.20.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "commons-codec",
+                  "artifactId": "commons-codec",
+                  "version": "1.21.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "com.google.code.gson",
+              "artifactId": "gson",
+              "version": "2.13.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.google.errorprone",
+                  "artifactId": "error_prone_annotations",
+                  "version": "2.41.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "io.reactivex.rxjava3",
+          "artifactId": "rxjava",
+          "version": "3.1.10",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.reactivestreams",
+              "artifactId": "reactive-streams",
+              "version": "1.0.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.squareup.retrofit2",
+          "artifactId": "adapter-rxjava3",
+          "version": "2.11.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.squareup.retrofit2",
+          "artifactId": "converter-scalars",
+          "version": "2.11.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.squareup.retrofit2",
+          "artifactId": "converter-gson",
+          "version": "2.11.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.google.code.findbugs",
+          "artifactId": "jsr305",
+          "version": "3.0.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    }
+    ]
+}

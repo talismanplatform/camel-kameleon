@@ -1,0 +1,9 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-vertx-parent",
+  "version": "4.18.5-SNAPSHOT",
+  "type": "pom",
+  "scope": "",
+  "classifier": "",
+  "optional": "false"
+}

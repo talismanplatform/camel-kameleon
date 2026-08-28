@@ -1,0 +1,517 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-undertow-spring-security",
+  "version": "4.18.0",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-undertow",
+      "version": "4.18.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-base",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-api",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.xml.bind",
+                  "artifactId": "jakarta.xml.bind-api",
+                  "version": "4.0.5",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-management-api",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-support",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util-json",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-xml-jaxp-util",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-cloud",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-core-model",
+              "version": "4.18.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-core-processor",
+                  "version": "4.18.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-attachments",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.activation",
+              "artifactId": "jakarta.activation-api",
+              "version": "2.1.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-http-base",
+          "version": "4.18.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.undertow",
+          "artifactId": "undertow-core",
+          "version": "2.3.23.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.jboss.logging",
+              "artifactId": "jboss-logging",
+              "version": "3.4.3.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.jboss.xnio",
+              "artifactId": "xnio-api",
+              "version": "3.8.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.wildfly.common",
+                  "artifactId": "wildfly-common",
+                  "version": "1.5.4.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.wildfly.client",
+                  "artifactId": "wildfly-client-config",
+                  "version": "1.0.1.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.jboss.xnio",
+              "artifactId": "xnio-nio",
+              "version": "3.8.16.Final",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.jboss.threads",
+              "artifactId": "jboss-threads",
+              "version": "3.7.0.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-annotation",
+                  "version": "2.6.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-constraint",
+                  "version": "2.6.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-cpu",
+                  "version": "2.6.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "io.smallrye.common",
+                  "artifactId": "smallrye-common-function",
+                  "version": "2.6.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "io.undertow",
+          "artifactId": "undertow-servlet",
+          "version": "2.3.23.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.servlet",
+              "artifactId": "jakarta.servlet-api",
+              "version": "6.0.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "jakarta.annotation",
+              "artifactId": "jakarta.annotation-api",
+              "version": "2.1.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.springframework.security",
+      "artifactId": "spring-security-oauth2-client",
+      "version": "6.5.7",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.springframework.security",
+          "artifactId": "spring-security-core",
+          "version": "6.5.7",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework.security",
+              "artifactId": "spring-security-crypto",
+              "version": "6.5.7",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-aop",
+              "version": "6.2.13",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-beans",
+              "version": "6.2.13",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-context",
+              "version": "6.2.13",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-expression",
+              "version": "6.2.13",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "micrometer-observation",
+              "version": "1.15.6",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.micrometer",
+                  "artifactId": "micrometer-commons",
+                  "version": "1.15.6",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.springframework.security",
+          "artifactId": "spring-security-oauth2-core",
+          "version": "6.5.7",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-web",
+              "version": "6.2.13",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.springframework.security",
+          "artifactId": "spring-security-web",
+          "version": "6.5.7",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-core",
+          "version": "6.2.13",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-jcl",
+              "version": "6.2.13",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.nimbusds",
+          "artifactId": "oauth2-oidc-sdk",
+          "version": "9.43.6",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.github.stephenc.jcip",
+              "artifactId": "jcip-annotations",
+              "version": "1.0-1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.nimbusds",
+              "artifactId": "content-type",
+              "version": "2.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "net.minidev",
+              "artifactId": "json-smart",
+              "version": "2.5.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "net.minidev",
+                  "artifactId": "accessors-smart",
+                  "version": "2.5.2",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.ow2.asm",
+                      "artifactId": "asm",
+                      "version": "9.7.1",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "com.nimbusds",
+              "artifactId": "lang-tag",
+              "version": "1.7",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.springframework.security",
+      "artifactId": "spring-security-oauth2-jose",
+      "version": "6.5.7",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "org.springframework.security",
+      "artifactId": "spring-security-oauth2-resource-server",
+      "version": "6.5.7",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    }
+    ]
+}

@@ -1,0 +1,270 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-spring-ldap",
+  "version": "4.18.3",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.18.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.18.3",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.springframework.ldap",
+      "artifactId": "spring-ldap-core",
+      "version": "3.3.8",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-core",
+          "version": "6.2.19",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-jcl",
+              "version": "6.2.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-beans",
+          "version": "6.2.19",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-context",
+          "version": "6.2.19",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-aop",
+              "version": "6.2.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.springframework",
+              "artifactId": "spring-expression",
+              "version": "6.2.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "micrometer-observation",
+              "version": "1.15.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.springframework",
+          "artifactId": "spring-tx",
+          "version": "6.2.19",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.micrometer",
+          "artifactId": "micrometer-core",
+          "version": "1.15.12",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.micrometer",
+              "artifactId": "micrometer-commons",
+              "version": "1.15.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.hdrhistogram",
+              "artifactId": "HdrHistogram",
+              "version": "2.2.2",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.latencyutils",
+              "artifactId": "LatencyUtils",
+              "version": "2.0.3",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.springframework.ldap",
+      "artifactId": "spring-ldap-odm",
+      "version": "3.3.8",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.freemarker",
+          "artifactId": "freemarker",
+          "version": "2.3.34",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "commons-logging",
+          "artifactId": "commons-logging",
+          "version": "1.3.6",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "commons-cli",
+          "artifactId": "commons-cli",
+          "version": "1.9.0",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.springframework.ldap",
+      "artifactId": "spring-ldap-ldif-core",
+      "version": "3.3.8",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    }
+    ]
+}
