@@ -19,3 +19,13 @@
     color: var(--pf-t--global--text--color--subtle);
 }
 
+
+.coverage-table {
+    --pf-v6-c-table--cell--PaddingBlockStart: var(--pf-t--global--spacer--xs);
+    --pf-v6-c-table--cell--PaddingBlockEnd: var(--pf-t--global--spacer--xs);
+}
+
+.coverage-table td:first-child,
+.coverage-table th:first-child {
+    padding-inline-start: 0;
+}

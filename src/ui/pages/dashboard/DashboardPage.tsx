@@ -4,19 +4,19 @@ import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {Card, CardBody, CardFooter, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
 import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
 import {DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm} from '@patternfly/react-core/dist/esm/components/DescriptionList';
-import {Divider} from '@patternfly/react-core/dist/esm/components/Divider';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
 import {Progress, ProgressMeasureLocation, ProgressVariant} from '@patternfly/react-core/dist/esm/components/Progress';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Gallery} from '@patternfly/react-core/dist/esm/layouts/Gallery';
+import {Table, Tbody, Td, Th, Thead, Tr} from '@patternfly/react-table';
 import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {isOpen, SEVERITIES, Severity, SEVERITY_LABEL, VersionScan} from '@models/CveModels';
+import {isOpen, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -25,6 +25,8 @@ import {SeverityLabel} from '@shared/ui/SeverityLabel';
 import {StatusLabel} from '@shared/ui/StatusLabel';
 import './DashboardPage.css';
 import {LastScanDate} from "@shared/ui/LastScanDate";
+import {sortedVersions} from '@shared/versionOrder';
+import {CardHeader} from "@patternfly/react-core/src";
 
 const SEVERITY_VARIANT: Record<Severity, ProgressVariant | undefined> = {
     critical: ProgressVariant.danger,
@@ -62,8 +64,7 @@ export const DashboardPage: React.FunctionComponent = () => {
     const branches = versions.filter(version => version.kind === 'branch');
     const tags = versions.filter(version => version.kind === 'tag');
     const findings = scanned.reduce((total, version) => total + version.total, 0);
-    const riskiest = worstBy(scanned, version => version.maxRisk);
-    const mostExploitable = worstBy(scanned, version => version.maxEpss);
+    const coverage = sortedVersions(versions);
 
 
     function showSeverity(severity: Severity) {
@@ -101,47 +102,38 @@ export const DashboardPage: React.FunctionComponent = () => {
 
             <Grid hasGutter className="dashboard-grid">
                 <GridItem md={6} lg={4}>
-                    <Card isFullHeight>
-                        <CardTitle>Scan coverage</CardTitle>
+                    <Card isFullHeight isCompact>
+                        <CardHeader>
+                            <CardTitle>Scan coverage</CardTitle>
+                        </CardHeader>
                         <CardBody>
-                            <DescriptionList isCompact isHorizontal>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm>Scanned refs</DescriptionListTerm>
-                                    <DescriptionListDescription>
-                                        <Flex gap={{default: 'gapSm'}} alignItems={{default: 'alignItemsCenter'}}>
-                                            <FlexItem>
-                                                <Label variant="outline" isCompact icon={<CodeBranchIcon/>}>
-                                                    {`${branches.length} branches`}
+                            <Table aria-label="Risk and EPSS per scanned version" variant="compact" className="coverage-table">
+                                <Thead>
+                                    <Tr>
+                                        <Th screenReaderText="Version"/>
+                                        <Th textCenter modifier="fitContent"><RiskHeader/></Th>
+                                        <Th textCenter modifier="fitContent"><EpssHeader/></Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {coverage.map(version => (
+                                        <Tr key={version.ref} style={{verticalAlign: 'middle'}}>
+                                            <Td dataLabel="Version" modifier="nowrap">
+                                                <Label variant="outline" isCompact
+                                                       icon={version.kind === 'tag' ? <TagIcon/> : <CodeBranchIcon/>}>
+                                                    {version.ref}
                                                 </Label>
-                                            </FlexItem>
-                                            <FlexItem>
-                                                <Label variant="outline" isCompact icon={<TagIcon/>}>
-                                                    {`${tags.length} tags`}
-                                                </Label>
-                                            </FlexItem>
-                                        </Flex>
-                                    </DescriptionListDescription>
-                                </DescriptionListGroup>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm>Findings</DescriptionListTerm>
-                                    <DescriptionListDescription>{findings}</DescriptionListDescription>
-                                </DescriptionListGroup>
-                            </DescriptionList>
-                            <Divider className="dashboard-divider"/>
-                            <DescriptionList isCompact isHorizontal>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm><RiskHeader/></DescriptionListTerm>
-                                    <DescriptionListDescription>
-                                        <TopScore versionRef={riskiest?.ref} score={<RiskScore value={riskiest?.maxRisk}/>}/>
-                                    </DescriptionListDescription>
-                                </DescriptionListGroup>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm><EpssHeader/></DescriptionListTerm>
-                                    <DescriptionListDescription>
-                                        <TopScore versionRef={mostExploitable?.ref} score={<EpssScore value={mostExploitable?.maxEpss}/>}/>
-                                    </DescriptionListDescription>
-                                </DescriptionListGroup>
-                            </DescriptionList>
+                                            </Td>
+                                            <Td dataLabel="Max risk" modifier="nowrap" textCenter>
+                                                <RiskScore value={version.maxRisk}/>
+                                            </Td>
+                                            <Td dataLabel="Max EPSS" modifier="nowrap" textCenter>
+                                                <EpssScore value={version.maxEpss}/>
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
                         </CardBody>
                         <CardFooter>
                             <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
@@ -153,7 +145,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                 </GridItem>
 
                 <GridItem md={6} lg={4}>
-                    <Card isFullHeight>
+                    <Card isFullHeight isCompact>
                         <CardTitle>Severity distribution</CardTitle>
                         <CardBody>
                             {SEVERITIES.map(severity => (
@@ -172,7 +164,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                 </GridItem>
 
                 <GridItem md={12} lg={4}>
-                    <Card isFullHeight>
+                    <Card isFullHeight isCompact>
                         <CardTitle>Most affected components</CardTitle>
                         <CardBody>
                             <DescriptionList isCompact>
@@ -235,22 +227,3 @@ export const DashboardPage: React.FunctionComponent = () => {
         </div>
     );
 };
-
-/** A score with the ref that carries it, so the worst value is attributable. */
-const TopScore: React.FunctionComponent<{ versionRef?: string, score: React.ReactNode }> = ({versionRef, score}) => (
-    <Flex gap={{default: 'gapSm'}} alignItems={{default: 'alignItemsCenter'}}>
-        <FlexItem>{score}</FlexItem>
-        {versionRef && (
-            <FlexItem>
-                <Content component={ContentVariants.small}>{versionRef}</Content>
-            </FlexItem>
-        )}
-    </Flex>
-);
-
-/** The scan with the highest value of `score`, undefined when none carries one. */
-function worstBy(versions: VersionScan[], score: (version: VersionScan) => number | undefined): VersionScan | undefined {
-    return versions
-        .filter(version => score(version) !== undefined)
-        .sort((a, b) => (score(b) ?? 0) - (score(a) ?? 0))[0];
-}

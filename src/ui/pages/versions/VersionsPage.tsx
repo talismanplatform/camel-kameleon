@@ -15,6 +15,7 @@ import './VersionsPage.css';
 import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
 import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
 import {formatScanAge, formatScanDate} from '@shared/scanDate';
+import {sortedVersions} from '@shared/versionOrder';
 
 export const VersionsPage: React.FunctionComponent = () => {
 
@@ -62,7 +63,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                     </Tr>
                 </Thead>
                 <Tbody>
-                    {sorted(versions).map(version => (
+                    {sortedVersions(versions).map(version => (
                         <Tr key={version.ref} style={{verticalAlign: 'middle'}}>
                             <Td dataLabel="Type">
                                 <Label
@@ -125,16 +126,6 @@ const ScannedAt: React.FunctionComponent<{ scannedAt?: string }> = ({scannedAt})
         </Tooltip>
     );
 };
-
-/** By name: `main` leads because it is the development branch, the rest descend. */
-function sorted(versions: VersionScan[]): VersionScan[] {
-    return [...versions].sort((a, b) => {
-        if (a.ref === 'main' || b.ref === 'main') {
-            return a.ref === 'main' ? (b.ref === 'main' ? 0 : -1) : 1;
-        }
-        return b.ref.localeCompare(a.ref);
-    });
-}
 
 /** `camel version list` marks long term support releases with `kind: lts`. */
 function isLts(version: VersionScan): boolean {
