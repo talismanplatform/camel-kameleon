@@ -21,7 +21,7 @@ import camelLogo from '@shared/icons/camel-logo.svg';
 import './CvesPage.css';
 import {capitalize} from "@patternfly/react-core";
 
-type SortableColumn = 'vulnerability' | 'severity' | 'coordinates' | 'installed' | 'fixed_in' | 'dependent' | 'epss' | 'risk';
+type SortableColumn = 'vulnerability' | 'severity' | 'coordinates' | 'installed' | 'fixed_in' | 'affected' | 'epss' | 'risk';
 
 const COLUMNS: {
     key: SortableColumn | 'description' | 'logo';
@@ -36,7 +36,7 @@ const COLUMNS: {
     {key: 'coordinates', label: 'Group:Artifact', sortable: true},
     {key: 'installed', label: 'Installed', sortable: true},
     {key: 'fixed_in', label: 'Fixed in', sortable: true},
-    {key: 'dependent', label: 'Dependent', sortable: true, modifier: 'fitContent'},
+    {key: 'affected', label: 'Affected', sortable: true, modifier: 'fitContent'},
     // {key: 'description', label: 'Description', sortable: false},
     {key: 'epss', label: <EpssHeader/>, sortable: true},
     {key: 'risk', label: <RiskHeader/>, sortable: true},
@@ -142,7 +142,7 @@ export const CvesPage: React.FunctionComponent = () => {
             if (column === 'risk' || column === 'epss') {
                 return ((a[column] ?? -1) - (b[column] ?? -1)) * factor;
             }
-            if (column === 'dependent') {
+            if (column === 'affected') {
                 return ((affected.get(a)?.length ?? 0) - (affected.get(b)?.length ?? 0)) * factor;
             }
             if (column === 'coordinates') {
