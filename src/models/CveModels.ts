@@ -61,6 +61,15 @@ export const SCAN_SEVERITY_LABEL_COLOR: Record<ScanSeverity, 'red' | 'orange' | 
     Unknown: 'grey',
 };
 
+/**
+ * Stands for every scanned ref rather than one of them, so a version selector can
+ * offer a single entry that shows the findings of all versions at once.
+ */
+export const ALL_REFS = 'all';
+
+/** Label the `all` entry reads with wherever a ref is shown. */
+export const ALL_REFS_LABEL = 'All versions';
+
 /** One row of `public/data/<ref>/vulnerabilities.json`. */
 export interface Vulnerability {
     /** Dependency the finding was reported against, e.g. snakeyaml */

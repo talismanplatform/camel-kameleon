@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
 import {Badge} from '@patternfly/react-core/dist/esm/components/Badge';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
+import {Divider} from '@patternfly/react-core/dist/esm/components/Divider';
 import {MenuToggle, MenuToggleElement} from '@patternfly/react-core/dist/esm/components/MenuToggle';
 import {SearchInput} from '@patternfly/react-core/dist/esm/components/SearchInput';
 import {Select, SelectList, SelectOption} from '@patternfly/react-core/dist/esm/components/Select';
 import {Toolbar, ToolbarContent, ToolbarItem} from '@patternfly/react-core/dist/esm/components/Toolbar';
 import FilterIcon from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
+import LayerGroupIcon from '@patternfly/react-icons/dist/esm/icons/layer-group-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {SCAN_SEVERITIES, ScanSeverity, VersionScan} from '@models/CveModels';
+import {ALL_REFS, ALL_REFS_LABEL, SCAN_SEVERITIES, ScanSeverity, VersionScan} from '@models/CveModels';
 import {VulnerabilityFilters} from '@stores/useCveStore';
 
 interface Props {
@@ -42,7 +44,7 @@ export const CvesToolbar: React.FunctionComponent<Props> = (
             isExpanded={isVersionOpen}
             isDisabled={versions.length === 0}
         >
-            {selectedRef ?? 'Select version'}
+            {selectedRef === ALL_REFS ? ALL_REFS_LABEL : selectedRef ?? 'Select version'}
         </MenuToggle>
     );
 
@@ -74,6 +76,15 @@ export const CvesToolbar: React.FunctionComponent<Props> = (
                         toggle={versionToggle}
                     >
                         <SelectList>
+                            <SelectOption
+                                value={ALL_REFS}
+                                isSelected={selectedRef === ALL_REFS}
+                                icon={<LayerGroupIcon/>}
+                                description="Findings of every scanned version"
+                            >
+                                {ALL_REFS_LABEL}
+                            </SelectOption>
+                            <Divider component="li"/>
                             {versions.map(version => (
                                 <SelectOption
                                     key={version.ref}

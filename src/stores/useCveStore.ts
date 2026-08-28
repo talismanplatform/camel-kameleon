@@ -1,6 +1,6 @@
 import {create} from 'zustand';
 import {CveApi} from '@api/CveApi';
-import {CamelComponent, Cve, CveSummary, DependencyTrees, ScanInfo, ScanSeverity, VersionScan, Vulnerability} from '@models/CveModels';
+import {ALL_REFS, CamelComponent, Cve, CveSummary, DependencyTrees, ScanInfo, ScanSeverity, VersionScan, Vulnerability} from '@models/CveModels';
 
 export interface VulnerabilityFilters {
     search: string;
@@ -99,7 +99,8 @@ export const useCveStore = create<CveState>((set, get) => ({
      */
     loadDependencyTrees: async () => {
         const ref = get().selectedRef;
-        if (!ref || get().dependencyTreesRef === ref) {
+        // `all` is not a ref on disk, and no single tree describes every version.
+        if (!ref || ref === ALL_REFS || get().dependencyTreesRef === ref) {
             return;
         }
         set({dependencyTreesRef: ref, dependencyTrees: undefined, dependencyTreesLoading: true});

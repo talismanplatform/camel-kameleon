@@ -13,7 +13,7 @@ import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
-import {CAMEL_GROUP_ID, isOpen, MODULE_GROUPS, SCAN_SEVERITIES, SCAN_SEVERITY_COLOR, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
+import {ALL_REFS, CAMEL_GROUP_ID, isOpen, MODULE_GROUPS, SCAN_SEVERITIES, SCAN_SEVERITY_COLOR, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -98,7 +98,8 @@ export const DashboardPage: React.FunctionComponent = () => {
 
     // The card reads the same ref the components page opens on, and picks it if nothing else has.
     useEffect(() => {
-        if (!selectedRef) {
+        // `all` carries no module trees, so these pages fall back to a real ref.
+        if (!selectedRef || selectedRef === ALL_REFS) {
             const ref = defaultVersion(versions);
             if (ref) {
                 selectRef(ref);

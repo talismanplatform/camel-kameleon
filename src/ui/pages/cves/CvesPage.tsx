@@ -6,7 +6,7 @@ import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Table, Tbody, Td, Th, Thead, Tr} from '@patternfly/react-table';
 import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import {SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
+import {ALL_REFS, ALL_REFS_LABEL, SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
 import {filterVulnerabilities, useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
 import {useCompassStore} from '@compass/useCompassStore';
@@ -129,8 +129,12 @@ export const CvesPage: React.FunctionComponent = () => {
         () => new Map(vulnerabilities.map(vulnerability => [vulnerability, dependents(index, vulnerability)])),
         [vulnerabilities, index]);
 
+    // Across every version there is no single tree to walk, so the column stays unknown.
+    const treesApply = selectedRef !== ALL_REFS;
+
     // The counts only mean something once the trees of the selected ref are in.
-    const affectedKnown = dependencyTrees !== undefined && !dependencyTreesLoading && dependencyTreesRef === selectedRef;
+    const affectedKnown = treesApply
+        && dependencyTrees !== undefined && !dependencyTreesLoading && dependencyTreesRef === selectedRef;
 
     // A finding no Camel artifact depends on is not actionable here, so it is left out.
     const filtered = useMemo(() => {
@@ -177,7 +181,7 @@ export const CvesPage: React.FunctionComponent = () => {
                 <EmptyState headingLevel="h2" icon={SearchIcon} titleText="No matching vulnerabilities">
                     <EmptyStateBody>
                         {vulnerabilities.length === 0
-                            ? `No report is available for ${selectedRef ?? 'this version'}.`
+                            ? `No report is available for ${selectedRef === ALL_REFS ? ALL_REFS_LABEL.toLowerCase() : selectedRef ?? 'this version'}.`
                             : 'No finding matches the current filters.'}
                     </EmptyStateBody>
                     <EmptyStateFooter>
@@ -242,8 +246,8 @@ export const CvesPage: React.FunctionComponent = () => {
                                 <Td dataLabel="Dependent" textCenter modifier="nowrap">
                                     <DependentArtifacts
                                         artifacts={affected.get(vulnerability) ?? []}
-                                        isLoading={dependencyTreesLoading || dependencyTreesRef !== selectedRef}
-                                        isKnown={dependencyTrees !== undefined}
+                                        isLoading={treesApply && (dependencyTreesLoading || dependencyTreesRef !== selectedRef)}
+                                        isKnown={treesApply && dependencyTrees !== undefined}
                                     />
                                 </Td>
                                 <Td dataLabel="EPSS" textCenter modifier="nowrap">

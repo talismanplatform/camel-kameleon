@@ -1,5 +1,6 @@
 import cvesJson from '@data/cves.json';
 import {
+    ALL_REFS,
     CamelComponent,
     CamelVersion,
     Cve,
@@ -150,8 +151,14 @@ export const CveApi = {
         }));
     },
 
-    /** Findings of one scanned ref. Empty when the report is missing. */
+    /**
+     * Findings of one scanned ref, or of every ref when asked for `ALL_REFS`.
+     * Empty when the report is missing.
+     */
     async getVulnerabilities(ref: string): Promise<Vulnerability[]> {
+        if (ref === ALL_REFS) {
+            return allVulnerabilities();
+        }
         return await report(ref) ?? [];
     },
 
@@ -279,6 +286,34 @@ function releaseOf(ref: string, camelVersion?: string, camelVersions?: CamelVers
             .pop();
     }
     return camelVersions.find(candidate => candidate.camelVersion === version);
+}
+
+/**
+ * Every ref's findings in one list. A ref that ships the same vulnerable version of
+ * the same artifact reports the same advisory as its neighbours, so such a finding
+ * is kept once, at the worst severity any ref reported it with.
+ */
+async function allVulnerabilities(): Promise<Vulnerability[]> {
+    const versions = await fetchJson<Versions>(VERSIONS_URL).catch(() => undefined);
+    const refs = [...refsOf(versions?.tags), ...refsOf(versions?.branches)];
+    const findings = (await Promise.all(refs.map(({ref}) => report(ref))))
+        .flatMap(refReport => refReport ?? []);
+    const kept = new Map<string, Vulnerability>();
+    for (const vulnerability of findings) {
+        const key = [
+            vulnerability.vulnerability,
+            vulnerability.groupId ?? '',
+            vulnerability.artifactId ?? vulnerability.name,
+            vulnerability.installed,
+        ].join('\u0000');
+        const seen = kept.get(key);
+        const worse = !seen || SCAN_SEVERITIES.indexOf(scanSeverityOf(vulnerability.severity))
+            < SCAN_SEVERITIES.indexOf(scanSeverityOf(seen.severity));
+        if (worse) {
+            kept.set(key, vulnerability);
+        }
+    }
+    return [...kept.values()];
 }
 
 /**

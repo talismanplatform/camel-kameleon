@@ -17,7 +17,7 @@ import CodeIcon from '@patternfly/react-icons/dist/esm/icons/code-icon';
 import CubeIcon from '@patternfly/react-icons/dist/esm/icons/cube-icon';
 import CubesIcon from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {MODULE_GROUP_LABEL, MODULE_GROUPS, ModuleGroup, SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
+import {ALL_REFS, MODULE_GROUP_LABEL, MODULE_GROUPS, ModuleGroup, SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
 import {useCompassStore} from '@compass/useCompassStore';
@@ -111,7 +111,8 @@ export const ComponentsPage: React.FunctionComponent = () => {
 
     // The page opens on the last LTS release until the user picks another ref.
     useEffect(() => {
-        if (!selectedRef) {
+        // `all` carries no module trees, so these pages fall back to a real ref.
+        if (!selectedRef || selectedRef === ALL_REFS) {
             const ref = defaultVersion(versions);
             if (ref) {
                 selectRef(ref);
