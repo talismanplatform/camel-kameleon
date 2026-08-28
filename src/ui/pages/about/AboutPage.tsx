@@ -244,44 +244,6 @@ export const AboutPage: React.FunctionComponent = () => {
                         </CardBody>
                     </Card>
                 </GridItem>
-                <GridItem span={12}>
-                    <Card>
-                        <CardTitle>Built with</CardTitle>
-                        <CardBody>
-                            <DescriptionList isCompact isHorizontal columnModifier={{md: '3Col'}}>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm>UI</DescriptionListTerm>
-                                    <DescriptionListDescription>PatternFly 6, Compass shell</DescriptionListDescription>
-                                </DescriptionListGroup>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm>Framework</DescriptionListTerm>
-                                    <DescriptionListDescription>React 19, React Router 7</DescriptionListDescription>
-                                </DescriptionListGroup>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm>State</DescriptionListTerm>
-                                    <DescriptionListDescription>Zustand stores</DescriptionListDescription>
-                                </DescriptionListGroup>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm>Build</DescriptionListTerm>
-                                    <DescriptionListDescription>Vite, TypeScript</DescriptionListDescription>
-                                </DescriptionListGroup>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm>Scanner</DescriptionListTerm>
-                                    <DescriptionListDescription>grype on the Camel SBOM</DescriptionListDescription>
-                                </DescriptionListGroup>
-                                <DescriptionListGroup>
-                                    <DescriptionListTerm>Hosting</DescriptionListTerm>
-                                    <DescriptionListDescription>GitHub Pages, data committed to the repository</DescriptionListDescription>
-                                </DescriptionListGroup>
-                            </DescriptionList>
-                            <div className="about-links">
-                                <ExternalLink href="https://camel.apache.org/security/">camel.apache.org/security</ExternalLink>
-                                <ExternalLink href="https://github.com/anchore/grype">anchore/grype</ExternalLink>
-                                <ExternalLink href="https://www.first.org/epss/">first.org/epss</ExternalLink>
-                            </div>
-                        </CardBody>
-                    </Card>
-                </GridItem>
             </Grid>
         </div>
     );
