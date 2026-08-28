@@ -38,7 +38,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '25'
+          java-version: '21'
 
       # Release metadata for the Versions page: LTS flag, supported JDKs, release
       # and EOL dates. Only releases that are still supported - eolDate strictly
@@ -127,7 +127,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '25'
+          java-version: '21'
           cache: maven
 
       - name: Install mvnd
