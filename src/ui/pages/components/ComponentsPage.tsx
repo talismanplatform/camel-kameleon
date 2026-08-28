@@ -1,7 +1,5 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Badge} from '@patternfly/react-core/dist/esm/components/Badge';
-import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {EmptyState, EmptyStateBody} from '@patternfly/react-core/dist/esm/components/EmptyState';
 import {MenuToggle, MenuToggleElement} from '@patternfly/react-core/dist/esm/components/MenuToggle';
 import {SearchInput} from '@patternfly/react-core/dist/esm/components/SearchInput';
@@ -12,18 +10,19 @@ import {Toolbar, ToolbarContent, ToolbarItem} from '@patternfly/react-core/dist/
 import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import {Table, Tbody, Td, Th, Thead, ThProps, Tr, TreeRowWrapper} from '@patternfly/react-table';
-import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
+import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
 import FilterIcon from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import CubesIcon from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {SCAN_SEVERITIES, ScanSeverity} from '@models/CveModels';
+import {SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
-import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
+import {useCompassStore} from '@compass/useCompassStore';
 import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
 import {defaultVersion, sortedVersions} from '@shared/versionOrder';
-import {ComponentRow, componentRows, ComponentSort, findingIndex, FindingSummary, hasSeverity, pruneRows, sortRows, total,} from './componentTree';
+import {VulnerabilityDrawer} from '../cves/VulnerabilityDrawer';
+import {ComponentRow, componentRows, ComponentSort, findingIndex, FindingSummary, hasSeverity, pruneRows, rowFindings, scanSeverity, sortRows, total,} from './componentTree';
 import './ComponentsPage.css';
 
 interface SummaryProps {
@@ -70,7 +69,6 @@ const SeveritySummary: React.FunctionComponent<SummaryProps> = ({summary}) => {
  */
 export const ComponentsPage: React.FunctionComponent = () => {
 
-    const navigate = useNavigate();
     const versions = useCveStore((s) => s.versions);
     const selectedRef = useCveStore((s) => s.selectedRef);
     const selectRef = useCveStore((s) => s.selectRef);
@@ -80,7 +78,8 @@ export const ComponentsPage: React.FunctionComponent = () => {
     const dependencyTrees = useCveStore((s) => s.dependencyTrees);
     const dependencyTreesLoading = useCveStore((s) => s.dependencyTreesLoading);
     const loadDependencyTrees = useCveStore((s) => s.loadDependencyTrees);
-    const setFilters = useCveStore((s) => s.setFilters);
+    const setDrawerPanel = useCompassStore((s) => s.setDrawerPanel);
+    const setIsDrawerExpanded = useCompassStore((s) => s.setIsDrawerExpanded);
 
     const [isVersionOpen, setIsVersionOpen] = useState(false);
     const [search, setSearch] = useState('');
@@ -92,6 +91,8 @@ export const ComponentsPage: React.FunctionComponent = () => {
     );
     // Collapsed by default: a ref carries a few hundred components and tens of thousands of nodes.
     const [expanded, setExpanded] = useState<string[]>([]);
+    // The finding whose details the drawer shows, picked on the last level of the tree.
+    const [selected, setSelected] = useState<Vulnerability>();
 
     const options = useMemo(() => sortedVersions(versions), [versions]);
 
@@ -117,7 +118,24 @@ export const ComponentsPage: React.FunctionComponent = () => {
     }, [selectedRef]);
 
     // Rows of another ref must not stay open once this one is shown.
-    useEffect(() => setExpanded([]), [dependencyTrees, vulnerabilities]);
+    useEffect(() => {
+        setExpanded([]);
+        setSelected(undefined);
+    }, [dependencyTrees, vulnerabilities]);
+
+    const closeDrawer = useCallback(() => setSelected(undefined), []);
+
+    // Declared after usePageContext so the panel survives a page context refresh.
+    useEffect(() => {
+        setDrawerPanel(selected ? <VulnerabilityDrawer vulnerability={selected} onClose={closeDrawer}/> : null);
+        setIsDrawerExpanded(selected !== undefined);
+    }, [selected]);
+
+    // Leaving the page must not leave its drawer behind.
+    useEffect(() => () => {
+        setDrawerPanel(null);
+        setIsDrawerExpanded(false);
+    }, []);
 
     // Walked once per ref rather than once per row: the trees carry tens of thousands of nodes.
     const rows = useMemo(() => {
@@ -188,13 +206,61 @@ export const ComponentsPage: React.FunctionComponent = () => {
         columnIndex: index,
     });
 
-    function showCves(artifactId: string) {
-        setFilters({search: artifactId, severities: []});
-        navigate(ROUTES.CVES);
-    }
-
     const toggle = (key: string) =>
         setExpanded(keys => keys.includes(key) ? keys.filter(other => other !== key) : [...keys, key]);
+
+    /**
+     * The findings of one row, as the last level of the tree: one leaf per CVE
+     * reported against this very coordinate, which opens the drawer of that
+     * finding. The scores are the ones of the finding itself, so the `this level`
+     * columns of the row above read as the worst of the leaves below it.
+     */
+    const renderFindings = (row: ComponentRow, findings: Vulnerability[], level: number, index: {row: number}): React.ReactNode[] =>
+        findings.map((finding, position) => {
+            const props = {
+                // A finding has nothing below it, which is how the tree table knows to draw no toggle.
+                isExpanded: undefined,
+                'aria-level': level,
+                'aria-posinset': position + 1,
+                'aria-setsize': findings.length,
+                icon: <BugIcon/>,
+            };
+            const rowIndex = index.row++;
+            return (
+                <TreeRowWrapper
+                    key={`${row.key}#${position}:${finding.vulnerability}`}
+                    row={{props}}
+                    isClickable
+                    isRowSelected={finding === selected}
+                    onRowClick={() => setSelected(finding)}
+                >
+                    <Td
+                        dataLabel="Vulnerability"
+                        treeRow={{
+                            onCollapse: () => setSelected(finding),
+                            props,
+                            rowIndex,
+                        }}
+                    >
+                        <span className="components-cve">{finding.vulnerability}</span>
+                    </Td>
+                    <Td dataLabel="Version" modifier="nowrap">{finding.installed}</Td>
+                    <Td dataLabel="Severity (this level)">
+                        <Severity severity={scanSeverity(finding.severity)} text={finding.severity}/>
+                    </Td>
+                    <Td dataLabel="Risk (this level)" textCenter modifier="nowrap">
+                        <RiskScore value={finding.risk ?? undefined}/>
+                    </Td>
+                    <Td dataLabel="EPSS (this level)" textCenter modifier="nowrap">
+                        <EpssScore value={finding.epss ?? undefined}/>
+                    </Td>
+                    {/* The dependency columns say nothing about a finding, it sits at this level by definition. */}
+                    <Td dataLabel="Severity (dependencies)"><span className="components-none">-</span></Td>
+                    <Td dataLabel="Risk (dependencies)" textCenter><span className="components-none">-</span></Td>
+                    <Td dataLabel="EPSS (dependencies)" textCenter><span className="components-none">-</span></Td>
+                </TreeRowWrapper>
+            );
+        });
 
     /**
      * Only the rows a reader can actually see are rendered: a collapsed subtree
@@ -203,14 +269,16 @@ export const ComponentsPage: React.FunctionComponent = () => {
      */
     const renderRows = (treeRows: ComponentRow[], level: number, index: {row: number}): React.ReactNode[] =>
         treeRows.flatMap((row, position) => {
-            const hasChildren = row.children.length > 0;
+            // The findings of the row are children of it, listed before the dependencies they were reported against.
+            const findings = rowFindings(row, severities);
+            const hasChildren = row.children.length > 0 || findings.length > 0;
             const isExpanded = hasChildren && expanded.includes(row.key);
             const props = {
                 // Undefined on a leaf, which is how the tree table knows to draw no toggle.
                 isExpanded: hasChildren ? isExpanded : undefined,
                 'aria-level': level,
                 'aria-posinset': position + 1,
-                'aria-setsize': row.children.length,
+                'aria-setsize': row.children.length + findings.length,
                 icon: level === 1 ? <CubesIcon/> : undefined,
             };
             const rowIndex = index.row++;
@@ -249,21 +317,11 @@ export const ComponentsPage: React.FunctionComponent = () => {
                     <Td dataLabel="EPSS (dependencies)" textCenter modifier="nowrap">
                         <EpssScore value={row.transitive.maxEpss}/>
                     </Td>
-                    <Td modifier="fitContent">
-                        {row.own.count > 0 && (
-                            <Button
-                                variant="link"
-                                isInline
-                                icon={<ArrowRightIcon/>}
-                                iconPosition="end"
-                                onClick={() => showCves(row.artifactId)}
-                            >
-                                CVEs
-                            </Button>
-                        )}
-                    </Td>
                 </TreeRowWrapper>,
-                ...(isExpanded ? renderRows(row.children, level + 1, index) : []),
+                ...(isExpanded ? [
+                    ...renderFindings(row, findings, level + 1, index),
+                    ...renderRows(row.children, level + 1, index),
+                ] : []),
             ];
         });
 
@@ -358,7 +416,6 @@ export const ComponentsPage: React.FunctionComponent = () => {
                             <Th rowSpan={2} modifier="fitContent">Version</Th>
                             <Th colSpan={3} textCenter hasRightBorder>This level</Th>
                             <Th colSpan={3} textCenter>Dependencies</Th>
-                            <Th rowSpan={2} screenReaderText="Actions"/>
                         </Tr>
                         <Tr>
                             <Th modifier="fitContent">Severity</Th>

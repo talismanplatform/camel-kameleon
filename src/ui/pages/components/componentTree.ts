@@ -31,6 +31,8 @@ export interface ComponentRow {
     version: string;
     own: FindingSummary;
     transitive: FindingSummary;
+    /** The findings of this very coordinate, listed as the last level of the tree. */
+    findings: Vulnerability[];
     children: ComponentRow[];
 }
 
@@ -92,6 +94,7 @@ function walk(node: DependencyNode, index: FindingIndex, path: string): {row: Co
         version: node.v,
         own: summarize(own),
         transitive: summarize(beneath),
+        findings: own,
         children,
     };
     // The parent's transitive set is everything this subtree carries, its own findings included.
@@ -108,7 +111,7 @@ function emptyCounts(): Record<ScanSeverity, number> {
 }
 
 /** Severities the scanner does not recognise read as `Unknown`. */
-function scanSeverity(severity: string): ScanSeverity {
+export function scanSeverity(severity: string): ScanSeverity {
     return SCAN_SEVERITIES.find(known => known.toLowerCase() === severity?.toLowerCase()) ?? 'Unknown';
 }
 
@@ -152,6 +155,21 @@ export function total(row: ComponentRow): number {
  */
 export function hasSeverity(row: ComponentRow, severities: ScanSeverity[]): boolean {
     return severities.some(severity => row.own.bySeverity[severity] > 0 || row.transitive.bySeverity[severity] > 0);
+}
+
+/**
+ * The findings of one row as the last level of the tree lists them, worst first.
+ * The severity filter applies to them the way it applies to a row: a reader who
+ * asked for `Critical` is not shown the `Low` findings of a row that matched.
+ */
+export function rowFindings(row: ComponentRow, severities: ScanSeverity[]): Vulnerability[] {
+    const matching = severities.length > 0
+        ? row.findings.filter(finding => severities.includes(scanSeverity(finding.severity)))
+        : row.findings;
+    return [...matching].sort((a, b) =>
+        (b.risk ?? MISSING_SCORE) - (a.risk ?? MISSING_SCORE)
+        || SCAN_SEVERITIES.indexOf(scanSeverity(a.severity)) - SCAN_SEVERITIES.indexOf(scanSeverity(b.severity))
+        || a.vulnerability.localeCompare(b.vulnerability));
 }
 
 /**

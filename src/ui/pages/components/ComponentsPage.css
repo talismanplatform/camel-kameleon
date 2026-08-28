@@ -15,3 +15,8 @@
 .components-severity-tooltip {
     text-align: start;
 }
+
+/* The CVE leaves of the tree read as identifiers, not as prose. */
+.components-cve {
+    font-family: var(--pf-t--global--font--family--mono);
+}
