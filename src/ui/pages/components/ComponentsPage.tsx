@@ -216,13 +216,26 @@ export const ComponentsPage: React.FunctionComponent = () => {
                 icon: <BugIcon/>,
             };
             const rowIndex = index.row++;
+            // The wrapper only types the props the tree table itself reads and passes the
+            // rest to the `tr`, so the focus and keyboard wiring of the leaf goes through
+            // as plain row attributes.
+            const rowAttributes: React.HTMLAttributes<HTMLTableRowElement> = {
+                className: `pf-m-clickable${finding === selected ? ' pf-m-selected' : ''}`,
+                'aria-selected': finding === selected,
+                tabIndex: 0,
+                onClick: () => setSelected(finding),
+                onKeyDown: event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        setSelected(finding);
+                    }
+                },
+            };
             return (
                 <TreeRowWrapper
                     key={`${row.key}#${position}:${finding.vulnerability}`}
                     row={{props}}
-                    isClickable
-                    isRowSelected={finding === selected}
-                    onRowClick={() => setSelected(finding)}
+                    {...rowAttributes}
                 >
                     <Td
                         dataLabel="Vulnerability"
@@ -232,7 +245,7 @@ export const ComponentsPage: React.FunctionComponent = () => {
                             rowIndex,
                         }}
                     >
-                        <span className="components-cve">{finding.vulnerability}</span>
+                        {finding.vulnerability}
                     </Td>
                     <Td dataLabel="Version" modifier="nowrap">{finding.installed}</Td>
                     <Td dataLabel="Severity (this level)">
