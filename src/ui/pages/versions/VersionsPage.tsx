@@ -12,8 +12,9 @@ import {SCAN_SEVERITIES, VersionScan} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
 import './VersionsPage.css';
-import {LastScanDate} from "@shared/ui/LastScanDate";
 import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
+import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
+import {formatScanAge, formatScanDate} from '@shared/scanDate';
 
 export const VersionsPage: React.FunctionComponent = () => {
 
@@ -23,7 +24,7 @@ export const VersionsPage: React.FunctionComponent = () => {
     usePageContext(
         'Versions',
         <Title headingLevel="h1" size="xl">Scanned versions</Title>,
-        <LastScanDate/>,
+        null,
         [versions.length]
     );
 
@@ -53,6 +54,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                         <Th>JDK</Th>
                         <Th>Released</Th>
                         <Th>EOL</Th>
+                        <Th modifier={'fitContent'}>Scanned</Th>
                         <Th modifier={'fitContent'}>Vulnerabilities</Th>
                         <Th textCenter>Severities</Th>
                         <Th key="risk" textCenter modifier={'fitContent'}><RiskHeader/></Th>
@@ -80,6 +82,9 @@ export const VersionsPage: React.FunctionComponent = () => {
                             <Td dataLabel="JDK" modifier="nowrap">{isLts(version) ? version.release?.jdkVersion : ''}</Td>
                             <Td dataLabel="Released" modifier="nowrap">{isLts(version) ? version.release?.releaseDate : ''}</Td>
                             <Td dataLabel="EOL" modifier="nowrap">{isLts(version) ? version.release?.eolDate : ''}</Td>
+                            <Td dataLabel="Scanned" modifier="nowrap">
+                                <ScannedAt scannedAt={version.scannedAt}/>
+                            </Td>
                             <Td dataLabel="Vulnerabilities" textCenter>
                                 {version.loaded
                                     ? <p>{version.total}</p>
@@ -105,6 +110,19 @@ export const VersionsPage: React.FunctionComponent = () => {
                 </Tbody>
             </Table>
         </div>
+    );
+};
+
+/** The scan instant, with its relative age in a tooltip. `-` when never scanned. */
+const ScannedAt: React.FunctionComponent<{ scannedAt?: string }> = ({scannedAt}) => {
+    const age = formatScanAge(scannedAt);
+    if (!age) {
+        return <>{formatScanDate(scannedAt)}</>;
+    }
+    return (
+        <Tooltip content={age} position={"bottom"}>
+            <span>{formatScanDate(scannedAt)}</span>
+        </Tooltip>
     );
 };
 

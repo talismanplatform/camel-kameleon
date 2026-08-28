@@ -9,7 +9,7 @@ import "./TopRight.css"
 export const TopRight: React.FunctionComponent = () => {
 
     const pageTools = useCompassStore((s) => s.pageTools);
-
+    const showDivider = pageTools !== undefined && pageTools !== null;
     return (
         <Panel isPill className="top-panel">
             <PanelMain>
@@ -18,7 +18,7 @@ export const TopRight: React.FunctionComponent = () => {
                         <CompassNavMain>
                             <div className="app-nav-tools">
                                 {pageTools}
-                                <Divider orientation={{default: 'vertical'}}/>
+                                {showDivider && <Divider orientation={{default: 'vertical'}}/>}
                                 <DarkModeToggle/>
                             </div>
                         </CompassNavMain>
