@@ -1,0 +1,9 @@
+.pf-v6-c-compass {
+    .pf-v6-c-content--p {
+        margin: 0;
+        margin-block-end: 0;
+    }
+    :is(.pf-v6-c-content--p, .pf-v6-c-content--dl, .pf-v6-c-content--ol, .pf-v6-c-content--ul, .pf-v6-c-content--blockquote, .pf-v6-c-content--small, .pf-v6-c-content--pre, .pf-v6-c-content--table, .pf-v6-c-content--hr, .pf-v6-c-content p, .pf-v6-c-content dl, .pf-v6-c-content ol, .pf-v6-c-content ul, .pf-v6-c-content blockquote, .pf-v6-c-content small, .pf-v6-c-content pre, .pf-v6-c-content table, .pf-v6-c-content hr):not(:last-child) {
+        margin-block-end: 0;
+    }
+}

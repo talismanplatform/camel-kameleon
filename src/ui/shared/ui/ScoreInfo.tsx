@@ -3,6 +3,7 @@ import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {Divider} from '@patternfly/react-core/dist/esm/components/Divider';
 import {Popover} from '@patternfly/react-core/dist/esm/components/Popover';
 import {SCAN_SEVERITY_COLOR, ScanSeverity} from "@models/CveModels";
+import {Content, ContentVariants} from "@patternfly/react-core/dist/esm/components/Content";
 
 /** PatternFly status tokens, so a score reads the same wherever it is shown. */
 const GREY = 'var(--pf-t--global--color--severity--minor--100)';
@@ -109,9 +110,7 @@ interface SeverityProps {
 
 
 export const Severity: React.FunctionComponent<SeverityProps> = ({severity, count}) => (
-    severity === 'Critical' ?
-        <strong style={{color: SCAN_SEVERITY_COLOR[severity]}}>{count}</strong>
-        : <p style={{color: SCAN_SEVERITY_COLOR[severity]}}>{count}</p>
+    <Content component={ContentVariants.p} style={{color: SCAN_SEVERITY_COLOR[severity]}}>{count}</Content>
 );
 
 /** Risk bands: green below 4.0, yellow below 7.0, red above. */
@@ -138,12 +137,12 @@ interface ScoreProps {
 export const RiskScore: React.FunctionComponent<ScoreProps> = ({value}) => (
     value === undefined
         ? <span style={{color: SUBTLE}}>-</span>
-        : <strong style={{color: riskColor(value)}}>{value.toFixed(1)}</strong>
+        : <Content component={ContentVariants.p} style={{color: riskColor(value)}}>{value.toFixed(1)}</Content>
 );
 
 /** EPSS is a probability, so it reads best as a percentage. */
 export const EpssScore: React.FunctionComponent<ScoreProps> = ({value}) => (
     value === undefined
         ? <span style={{color: SUBTLE}}>-</span>
-        : <strong style={{color: epssColor(value)}}>{`${(value * 100).toFixed(1)}%`}</strong>
+        : <Content component={ContentVariants.p} style={{color: epssColor(value)}}>{`${(value * 100).toFixed(1)}%`}</Content>
 );

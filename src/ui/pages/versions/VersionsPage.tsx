@@ -63,7 +63,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                 </Thead>
                 <Tbody>
                     {sorted(versions).map(version => (
-                        <Tr key={version.ref}>
+                        <Tr key={version.ref} style={{verticalAlign: 'middle'}}>
                             <Td dataLabel="Type">
                                 <Label
                                     variant="outline"
@@ -87,7 +87,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                             </Td>
                             <Td dataLabel="Vulnerabilities" textCenter>
                                 {version.loaded
-                                    ? <p>{version.total}</p>
+                                    ? <Content component={ContentVariants.p}>{version.total}</Content>
                                     : <Content component={ContentVariants.small}>Report unavailable</Content>}
                             </Td>
                             <Td dataLabel="By severity" modifier={'fitContent'}>
