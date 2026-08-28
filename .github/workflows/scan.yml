@@ -14,7 +14,8 @@ permissions:
   contents: write
 
 # Scanning writes back to the repository, so never run two scans at once.
-# Deployment uses its own `pages` group and is triggered by the commit we push.
+# The commit this workflow pushes only touches public/data, which deploy.yml
+# ignores, so refreshing the data never triggers a Pages deployment.
 concurrency:
   group: scan
   cancel-in-progress: false

@@ -3,6 +3,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # Deploy is for application changes only. Everything the nightly scan touches
+    # is ignored, so the `chore: refresh scan data` commit it pushes - and any
+    # edit to the scan workflow itself - starts scan.yml and nothing else.
+    paths-ignore:
+      - 'public/data/**'
+      - '.github/workflows/scan.yml'
   workflow_dispatch:
 
 permissions:
