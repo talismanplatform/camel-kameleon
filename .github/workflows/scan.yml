@@ -71,16 +71,20 @@ jobs:
           echo "supported releases: $(jq 'length' public/data/camel_versions.json)"
 
       # versions.json is derived, never hand-edited: one tag per supported
-      # release, one branch per supported LTS release line, plus main.
+      # release line - only its latest patch, since older patches are
+      # superseded - one branch per supported LTS release line, plus main.
       - name: Write public/data/versions.json
         run: |
-          jq '{
-            tags: [.[] | "camel-" + .camelVersion] | unique,
-            branches: (["main"] + [
-              .[] | select(.kind == "lts")
-                  | "camel-" + (.camelVersion | sub("[.][0-9]+$"; ".x"))
-            ] | unique)
-          }' public/data/camel_versions.json > /tmp/versions.json
+          jq '
+            def ver: .camelVersion | split(".") | map(tonumber);
+            def line: .camelVersion | sub("[.][0-9]+$"; "");
+            {
+              tags: ([group_by(line)[] | max_by(ver) | "camel-" + .camelVersion] | sort),
+              branches: (["main"] + [
+                .[] | select(.kind == "lts")
+                    | "camel-" + (.camelVersion | sub("[.][0-9]+$"; ".x"))
+              ] | unique)
+            }' public/data/camel_versions.json > /tmp/versions.json
           jq -e '(.tags | length) > 0' /tmp/versions.json > /dev/null
           mv /tmp/versions.json public/data/versions.json
           cat public/data/versions.json
