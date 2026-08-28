@@ -1,11 +1,24 @@
 {
   "tags": [
-    "camel-4.18.4",
-    "camel-4.22.0"
+    {
+      "ref": "camel-4.18.4",
+      "camelVersion": "4.18.4"
+    },
+    {
+      "ref": "camel-4.22.0",
+      "camelVersion": "4.22.0"
+    }
   ],
   "branches": [
-    "camel-4.18.x",
-    "camel-4.22.x",
-    "main"
+    {
+      "ref": "camel-4.18.x",
+      "camelVersion": "4.18.5-SNAPSHOT"
+    },
+    {
+      "ref": "camel-4.22.x"
+    },
+    {
+      "ref": "main"
+    }
   ]
 }

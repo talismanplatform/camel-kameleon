@@ -52,16 +52,21 @@ jobs:
           echo "supported releases: $(jq 'length' public/data/camel_versions.json)"
 
       - name: Write public/data/versions.json
+        # Every ref carries the Camel version it builds. A tag names its release, so
+        # it is known here; a branch only reveals its project.version once checked
+        # out, so the scan job resolves it and the publish job writes it back.
         run: |
           jq '
             def ver: .camelVersion | split(".") | map(tonumber);
             def line: .camelVersion | sub("[.][0-9]+$"; "");
+            [group_by(line)[] | max_by(ver)] as $latest |
             {
-              tags: ([group_by(line)[] | max_by(ver) | "camel-" + .camelVersion] | sort),
-              branches: (["main"] + [
-                .[] | select(.kind == "lts")
-                    | "camel-" + (.camelVersion | sub("[.][0-9]+$"; ".x"))
-              ] | unique)
+              tags: ([$latest[] | {ref: ("camel-" + .camelVersion), camelVersion: .camelVersion}]
+                     | sort_by(.ref)),
+              branches: ([{ref: "main"}] + [
+                $latest[] | select(.kind == "lts")
+                          | {ref: ("camel-" + (.camelVersion | sub("[.][0-9]+$"; ".x")))}
+              ] | unique_by(.ref))
             }' public/data/camel_versions.json > /tmp/versions.json
           jq -e '(.tags | length) > 0' /tmp/versions.json > /dev/null
           mv /tmp/versions.json public/data/versions.json
@@ -70,7 +75,7 @@ jobs:
       - id: read
         name: Read versions.json
         run: |
-          refs=$(jq -c '[(.tags // []) + (.branches // []) | .[]] | unique' public/data/versions.json)
+          refs=$(jq -c '[(.tags // []) + (.branches // []) | .[].ref] | unique' public/data/versions.json)
           echo "refs=$refs" >> "$GITHUB_OUTPUT"
           echo "Scanning: $refs"
 
@@ -110,6 +115,16 @@ jobs:
           java-version: '21'
           cache: maven
 
+      - name: Resolve the Camel version of ${{ matrix.ref }}
+        working-directory: camel
+        run: |
+          version=$(mvn -q -N --batch-mode \
+            org.apache.maven.plugins:maven-help-plugin:evaluate \
+            -Dexpression=project.version -DforceStdout)
+          test -n "$version"
+          echo "CAMEL_VERSION=$version" >> "$GITHUB_ENV"
+          echo "${{ matrix.ref }} builds Camel $version"
+
       - name: Generate mvn-tree.json
         working-directory: camel
         run: |
@@ -143,6 +158,37 @@ jobs:
       - name: Install grype
         uses: anchore/scan-action/download-grype@v7
         id: grype
+
+      - name: Align camel-sbom with ${{ matrix.ref }}
+        # camel-sbom/camel-sbom.json is committed to apache/camel and keeps the
+        # development version it was generated with, so a release tag ships an SBOM
+        # that still calls itself 4.18.0-SNAPSHOT. Rewrite that stale version to the
+        # ref's own project.version before grype reads it, otherwise every finding
+        # against a Camel artifact is reported and matched at the wrong version.
+        working-directory: camel
+        run: |
+          sbom=camel-sbom/camel-sbom.json
+          if [ ! -s "$sbom" ]; then
+            echo "::error::$sbom is missing in ${{ matrix.ref }}"
+            exit 1
+          fi
+          stale=$(jq -r '[.metadata.component.version?]
+            + [.. | objects | select(.group? == "org.apache.camel") | .version?]
+            | map(select(type == "string" and endswith("-SNAPSHOT")))
+            | unique | .[0] // empty' "$sbom")
+          if [ -z "$stale" ] || [ "$stale" = "$CAMEL_VERSION" ]; then
+            echo "sbom already reports $CAMEL_VERSION"
+            exit 0
+          fi
+          echo "::warning::sbom of ${{ matrix.ref }} reports $stale, rewriting to $CAMEL_VERSION"
+          # Only Camel's own artifacts are built from source, so the stale version
+          # string is theirs alone and can be replaced wherever it appears: component
+          # versions, purls, bom-refs and the dependency graph that points at them.
+          jq --arg stale "$stale" --arg version "$CAMEL_VERSION" '
+            ($stale | gsub("[.]"; "\\.")) as $pattern
+            | walk(if type == "string" then gsub($pattern; $version) else . end)' \
+            "$sbom" > /tmp/camel-sbom.json
+          mv /tmp/camel-sbom.json "$sbom"
 
       - name: Scan SBOM
         working-directory: camel
@@ -180,12 +226,13 @@ jobs:
           mv camel/vulnerabilities.json "$target/vulnerabilities.json"
           jq -n \
             --arg ref '${{ matrix.ref }}' \
+            --arg camelVersion "$CAMEL_VERSION" \
             --arg scannedAt "$SCANNED_AT" \
             --arg camelCommit "$CAMEL_COMMIT" \
             --arg grypeVersion "$GRYPE_VERSION" \
             --arg runUrl '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}' \
             --argjson findings "$(jq 'length' "$target/vulnerabilities.json")" \
-            '{ref: $ref, scannedAt: $scannedAt, camelCommit: $camelCommit, grypeVersion: $grypeVersion, findings: $findings, runUrl: $runUrl}' \
+            '{ref: $ref, camelVersion: $camelVersion, scannedAt: $scannedAt, camelCommit: $camelCommit, grypeVersion: $grypeVersion, findings: $findings, runUrl: $runUrl}' \
             > "$target/scan.json"
           cat "$target/scan.json"
 
@@ -264,6 +311,35 @@ jobs:
           jq -e '(.refs | length) > 0' /tmp/scan.json > /dev/null
           mv /tmp/scan.json public/data/scan.json
           cat public/data/scan.json
+
+      - name: Match the scanned Camel versions into versions.json
+        # scan.json carries the project.version each ref actually built, which is the
+        # only source for a branch. Fold it back so versions.json holds the ref to
+        # Camel version mapping the dashboard reads, and a ref that failed to scan
+        # keeps whatever version it already had.
+        run: |
+          stamps=$(find public/data -mindepth 2 -maxdepth 2 -name scan.json | sort)
+          if [ -z "$stamps" ]; then
+            echo '::warning::no scan.json stamps found, versions.json left untouched'
+            exit 0
+          fi
+          # versions.json comes from the artifact and names no version for a branch,
+          # so the last commit is what a ref that failed to scan falls back on.
+          git show HEAD:public/data/versions.json > /tmp/committed.json 2>/dev/null \
+            || echo '{"tags": [], "branches": []}' > /tmp/committed.json
+          jq -s '[.[0] | (.tags // []) + (.branches // []) | .[]
+                       | select(type == "object" and .ref and .camelVersion)]
+                 + [.[1:][] | select(.ref and .camelVersion)]
+                 | map({key: .ref, value: .camelVersion}) | from_entries' \
+            /tmp/committed.json $stamps > /tmp/scanned.json
+          jq --slurpfile scanned /tmp/scanned.json '
+            ($scanned[0] // {}) as $byRef
+            | def matched: map(if $byRef[.ref] then .camelVersion = $byRef[.ref] else . end);
+              .tags |= matched | .branches |= matched' public/data/versions.json \
+            > /tmp/versions.json
+          jq -e '(.tags | length) > 0' /tmp/versions.json > /dev/null
+          mv /tmp/versions.json public/data/versions.json
+          cat public/data/versions.json
 
       - name: Commit
         run: |

@@ -1,9 +1,0 @@
-{
-  "groupId": "org.apache.camel",
-  "artifactId": "camel-yaml-dsl-parent",
-  "version": "4.23.0-SNAPSHOT",
-  "type": "pom",
-  "scope": "",
-  "classifier": "",
-  "optional": "false"
-}

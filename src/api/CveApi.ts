@@ -18,6 +18,7 @@ import {
     scanSeverityOf,
     SEVERITIES,
     Severity,
+    VersionRef,
     VersionScan,
     Versions,
     Vulnerability,
@@ -162,8 +163,9 @@ export const CveApi = {
      */
     async getCamelSeverityCounts(): Promise<Record<ScanSeverity, number>> {
         const versions = await fetchJson<Versions>(VERSIONS_URL).catch(() => undefined);
-        const refs = [...(versions?.tags ?? []), ...(versions?.branches ?? [])];
-        const findings = (await Promise.all(refs.map(report))).flatMap(refReport => refReport ?? []);
+        const refs = [...refsOf(versions?.tags), ...refsOf(versions?.branches)];
+        const findings = (await Promise.all(refs.map(({ref}) => report(ref))))
+            .flatMap(refReport => refReport ?? []);
         const worst = new Map<string, ScanSeverity>();
         for (const vulnerability of findings.filter(isCamelArtifact)) {
             const severity = scanSeverityOf(vulnerability.severity);
@@ -230,18 +232,23 @@ export const CveApi = {
             fetchJson<CamelVersion[]>(CAMEL_VERSIONS_URL).catch(() => undefined),
         ]);
 
-        const refs: { ref: string, kind: 'tag' | 'branch' }[] = [
-            ...(versions?.tags ?? []).map(ref => ({ref, kind: 'tag' as const})),
-            ...(versions?.branches ?? []).map(ref => ({ref, kind: 'branch' as const})),
+        const refs = [
+            ...refsOf(versions?.tags).map(entry => ({...entry, kind: 'tag' as const})),
+            ...refsOf(versions?.branches).map(entry => ({...entry, kind: 'branch' as const})),
         ];
 
-        return Promise.all(refs.map(async ({ref, kind}) => {
+        return Promise.all(refs.map(async ({ref, camelVersion, kind}) => {
             const vulnerabilities = await report(ref);
+            const scan = scanInfo?.refs?.find(candidate => candidate.ref === ref);
+            // The stamp of the last scan knows the version that was actually built,
+            // versions.json only what was expected of the ref before it was cloned.
+            const version = scan?.camelVersion ?? camelVersion;
             return {
                 ref,
                 kind,
-                scannedAt: scanInfo?.refs?.find(scan => scan.ref === ref)?.scannedAt,
-                release: releaseOf(ref, camelVersions),
+                camelVersion: version,
+                scannedAt: scan?.scannedAt,
+                release: releaseOf(ref, version, camelVersions),
                 ...aggregate(vulnerabilities),
             };
         }));
@@ -249,14 +256,19 @@ export const CveApi = {
 };
 
 /**
- * Release metadata for a scanned ref. Tags map straight onto a release once the
- * `camel-` prefix is dropped, while a maintenance branch such as `camel-4.22.x`
- * takes the newest release of its series. `main` has not been released, so it
- * has no entry.
+ * Release metadata for a scanned ref. A ref that builds a released version matches
+ * it outright; otherwise a tag maps onto a release once the `camel-` prefix is
+ * dropped, and a maintenance branch such as `camel-4.22.x`, which builds a snapshot
+ * of the next patch, takes the newest release of its series. `main` has not been
+ * released, so it has no entry.
  */
-function releaseOf(ref: string, camelVersions?: CamelVersion[]): CamelVersion | undefined {
+function releaseOf(ref: string, camelVersion?: string, camelVersions?: CamelVersion[]): CamelVersion | undefined {
     if (!camelVersions) {
         return undefined;
+    }
+    const released = camelVersions.find(candidate => candidate.camelVersion === camelVersion);
+    if (released) {
+        return released;
     }
     const version = ref.replace(/^camel-/, '');
     if (version.endsWith('.x')) {
@@ -267,6 +279,14 @@ function releaseOf(ref: string, camelVersions?: CamelVersion[]): CamelVersion | 
             .pop();
     }
     return camelVersions.find(candidate => candidate.camelVersion === version);
+}
+
+/**
+ * The refs of one `versions.json` list, tolerating the older shape that held bare
+ * ref names, so a deployed dashboard still reads data written before this change.
+ */
+function refsOf(entries?: (VersionRef | string)[]): VersionRef[] {
+    return (entries ?? []).map(entry => typeof entry === 'string' ? {ref: entry} : entry);
 }
 
 /** Numeric, segment by segment, so 4.22.10 sorts after 4.22.9. */

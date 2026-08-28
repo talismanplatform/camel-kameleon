@@ -51,6 +51,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                     <Tr>
                         <Th>Type</Th>
                         <Th>Name</Th>
+                        <Th>Camel</Th>
                         <Th>Kind</Th>
                         <Th>JDK</Th>
                         <Th>Released</Th>
@@ -75,6 +76,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                                 </Label>
                             </Td>
                             <Td dataLabel="Name" modifier="nowrap">{version.ref}</Td>
+                            <Td dataLabel="Camel" modifier="nowrap">{version.camelVersion ?? ''}</Td>
                             <Td dataLabel="Kind" modifier="nowrap">
                                 {isLts(version)
                                     ? <Label  color="green" >LTS</Label>

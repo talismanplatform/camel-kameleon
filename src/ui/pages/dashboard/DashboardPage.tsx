@@ -202,7 +202,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                         <CardHeader>
                             <div className='dashboard-card-header'>
                                 <CardTitle>Most dangerous CVEs</CardTitle>
-                                <Label variant="filled" style={{gap: 6}}>
+                                <Label variant="outline" style={{gap: 6}}>
                                     {selectedRef}
                                     <Badge>LTS</Badge>
                                 </Label>
@@ -261,7 +261,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                         <CardHeader>
                             <div className='dashboard-card-header'>
                                 <CardTitle>Most affected components</CardTitle>
-                                <Label variant="filled" style={{gap: 6}}>
+                                <Label variant="outline" style={{gap: 6}}>
                                     {selectedRef}
                                     <Badge>LTS</Badge>
                                 </Label>
@@ -317,7 +317,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                         <CardHeader>
                             <div className='dashboard-card-header'>
                                 <CardTitle>Scan coverage</CardTitle>
-                                <Label variant="filled" style={{gap: 6}}>
+                                <Label variant="outline" style={{gap: 6}}>
                                     <LastScanDate/>
                                 </Label>
                             </div>
@@ -335,10 +335,10 @@ export const DashboardPage: React.FunctionComponent = () => {
                                     {coverage.map(version => (
                                         <Tr key={version.ref} style={{verticalAlign: 'middle'}}>
                                             <Td dataLabel="Version" modifier="nowrap">
-                                                <Label variant="outline" isCompact
-                                                       icon={version.kind === 'tag' ? <TagIcon/> : <CodeBranchIcon/>}>
+                                                <div style={{display: 'flex', gap: 6, alignItems: 'center'}}>
+                                                    {version.kind === 'tag' ? <TagIcon/> : <CodeBranchIcon/>}
                                                     {version.ref}
-                                                </Label>
+                                                </div>
                                             </Td>
                                             <Td dataLabel="Max risk" modifier="nowrap" textCenter>
                                                 <RiskScore value={version.maxRisk}/>

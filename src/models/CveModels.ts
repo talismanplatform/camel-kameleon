@@ -163,6 +163,8 @@ export interface VersionScan {
     /** Branch or tag name, e.g. camel-4.22.0 */
     ref: string;
     kind: 'tag' | 'branch';
+    /** `project.version` of the ref, e.g. 4.18.4 or 4.18.5-SNAPSHOT. Absent until scanned. */
+    camelVersion?: string;
     /** UTC ISO 8601 instant of the last scan, absent when never scanned. */
     scannedAt?: string;
     /** Total findings in `vulnerabilities.json`. */
@@ -177,16 +179,28 @@ export interface VersionScan {
     release?: CamelVersion;
 }
 
+/**
+ * One ref of `public/data/versions.json`, paired with the Camel version it builds:
+ * a tag names its release, a branch only says so through its `project.version`, so
+ * `camelVersion` is filled in by the scan and absent until then.
+ */
+export interface VersionRef {
+    ref: string;
+    camelVersion?: string;
+}
+
 /** `public/data/versions.json`: the refs the nightly scan walks. */
 export interface Versions {
-    tags: string[];
-    branches: string[];
+    tags: VersionRef[];
+    branches: VersionRef[];
 }
 
 /** When a single Camel branch or tag was last scanned. Written by scan.yml. */
 export interface RefScan {
     /** Branch or tag of apache/camel that was scanned, e.g. camel-4.22.0 */
     ref: string;
+    /** `project.version` the ref builds, e.g. 4.22.0. Absent in hand seeded stamps. */
+    camelVersion?: string;
     /** UTC ISO 8601 instant the scanner produced the report. */
     scannedAt: string;
     /** Optional provenance, absent in hand seeded stamps. */
