@@ -14,11 +14,13 @@ import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
-import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
-import {isOpen, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
+import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
+import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
+import {isOpen, SEVERITIES, Severity, SEVERITY_LABEL, VersionScan} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
+import {EpssHeader, EpssScore, RiskHeader, RiskScore} from '@shared/ui/ScoreInfo';
 import {SeverityLabel} from '@shared/ui/SeverityLabel';
 import {StatusLabel} from '@shared/ui/StatusLabel';
 import './DashboardPage.css';
@@ -35,6 +37,7 @@ export const DashboardPage: React.FunctionComponent = () => {
 
     const navigate = useNavigate();
     const cves = useCveStore((s) => s.cves);
+    const versions = useCveStore((s) => s.versions);
     const summary = useCveStore((s) => s.summary);
     const components = useCveStore((s) => s.components);
     const loading = useCveStore((s) => s.loading);
@@ -54,6 +57,13 @@ export const DashboardPage: React.FunctionComponent = () => {
     const openCves = cves.filter(isOpen);
     const topComponents = [...components].sort((a, b) => b.cveCount - a.cveCount).slice(0, 6);
     const latest = [...cves].sort((a, b) => b.published.localeCompare(a.published)).slice(0, 5);
+
+    const scanned = versions.filter(version => version.loaded);
+    const branches = versions.filter(version => version.kind === 'branch');
+    const tags = versions.filter(version => version.kind === 'tag');
+    const findings = scanned.reduce((total, version) => total + version.total, 0);
+    const riskiest = worstBy(scanned, version => version.maxRisk);
+    const mostExploitable = worstBy(scanned, version => version.maxEpss);
 
 
     function showSeverity(severity: Severity) {
@@ -92,29 +102,53 @@ export const DashboardPage: React.FunctionComponent = () => {
             <Grid hasGutter className="dashboard-grid">
                 <GridItem md={6} lg={4}>
                     <Card isFullHeight>
-                        <CardTitle>Remediation status</CardTitle>
+                        <CardTitle>Scan coverage</CardTitle>
                         <CardBody>
-                            <Progress
-                                value={summary && summary.total > 0 ? (summary.fixed / summary.total) * 100 : 0}
-                                title="Fixed upstream"
-                                measureLocation={ProgressMeasureLocation.outside}
-                                label={summary ? `${summary.fixed} of ${summary.total}` : '-'}
-                                variant={ProgressVariant.success}
-                            />
+                            <DescriptionList isCompact isHorizontal>
+                                <DescriptionListGroup>
+                                    <DescriptionListTerm>Scanned refs</DescriptionListTerm>
+                                    <DescriptionListDescription>
+                                        <Flex gap={{default: 'gapSm'}} alignItems={{default: 'alignItemsCenter'}}>
+                                            <FlexItem>
+                                                <Label variant="outline" isCompact icon={<CodeBranchIcon/>}>
+                                                    {`${branches.length} branches`}
+                                                </Label>
+                                            </FlexItem>
+                                            <FlexItem>
+                                                <Label variant="outline" isCompact icon={<TagIcon/>}>
+                                                    {`${tags.length} tags`}
+                                                </Label>
+                                            </FlexItem>
+                                        </Flex>
+                                    </DescriptionListDescription>
+                                </DescriptionListGroup>
+                                <DescriptionListGroup>
+                                    <DescriptionListTerm>Findings</DescriptionListTerm>
+                                    <DescriptionListDescription>{findings}</DescriptionListDescription>
+                                </DescriptionListGroup>
+                            </DescriptionList>
                             <Divider className="dashboard-divider"/>
                             <DescriptionList isCompact isHorizontal>
                                 <DescriptionListGroup>
-                                    <DescriptionListTerm>Open</DescriptionListTerm>
-                                    <DescriptionListDescription>{summary?.open ?? 0}</DescriptionListDescription>
+                                    <DescriptionListTerm><RiskHeader/></DescriptionListTerm>
+                                    <DescriptionListDescription>
+                                        <TopScore versionRef={riskiest?.ref} score={<RiskScore value={riskiest?.maxRisk}/>}/>
+                                    </DescriptionListDescription>
                                 </DescriptionListGroup>
                                 <DescriptionListGroup>
-                                    <DescriptionListTerm>Known exploited</DescriptionListTerm>
+                                    <DescriptionListTerm><EpssHeader/></DescriptionListTerm>
                                     <DescriptionListDescription>
-                                        <Label color="red" isCompact icon={<BugIcon/>}>{summary?.withExploit ?? 0}</Label>
+                                        <TopScore versionRef={mostExploitable?.ref} score={<EpssScore value={mostExploitable?.maxEpss}/>}/>
                                     </DescriptionListDescription>
                                 </DescriptionListGroup>
                             </DescriptionList>
                         </CardBody>
+                        <CardFooter>
+                            <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
+                                    onClick={() => navigate(ROUTES.VERSIONS)}>
+                                All scanned versions
+                            </Button>
+                        </CardFooter>
                     </Card>
                 </GridItem>
 
@@ -202,3 +236,21 @@ export const DashboardPage: React.FunctionComponent = () => {
     );
 };
 
+/** A score with the ref that carries it, so the worst value is attributable. */
+const TopScore: React.FunctionComponent<{ versionRef?: string, score: React.ReactNode }> = ({versionRef, score}) => (
+    <Flex gap={{default: 'gapSm'}} alignItems={{default: 'alignItemsCenter'}}>
+        <FlexItem>{score}</FlexItem>
+        {versionRef && (
+            <FlexItem>
+                <Content component={ContentVariants.small}>{versionRef}</Content>
+            </FlexItem>
+        )}
+    </Flex>
+);
+
+/** The scan with the highest value of `score`, undefined when none carries one. */
+function worstBy(versions: VersionScan[], score: (version: VersionScan) => number | undefined): VersionScan | undefined {
+    return versions
+        .filter(version => score(version) !== undefined)
+        .sort((a, b) => (score(b) ?? 0) - (score(a) ?? 0))[0];
+}
