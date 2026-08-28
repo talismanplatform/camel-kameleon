@@ -38,7 +38,7 @@ import {CheckCircleIcon, InfoIcon} from "@patternfly/react-icons";
 const CARD_SEVERITIES: ScanSeverity[] = ['Critical', 'High', 'Medium', 'Low'];
 
 /** Enough of the components table to triage on, without turning the card into a page. */
-const TOP_MODULES = 7;
+const TOP_MODULES = 10;
 
 /** The findings the card ranks, few enough to read at a glance. */
 const TOP_CVES = 7;
@@ -241,7 +241,7 @@ const DashboardPage: React.FunctionComponent = () => {
                     <Card isFullHeight isCompact>
                         <CardHeader>
                             <div className='dashboard-card-header'>
-                                <CardTitle>Most dangerous CVEs</CardTitle>
+                                <CardTitle>Most dangerous dependencies</CardTitle>
                                 <Label variant="outline" style={{gap: 6}}>
                                     {selectedRef}
                                     <Badge>LTS</Badge>
@@ -270,11 +270,14 @@ const DashboardPage: React.FunctionComponent = () => {
                                                 <Tr key={vulnerability.vulnerability} isClickable
                                                     style={{verticalAlign: 'middle'}}
                                                     onRowClick={() => setSelected(vulnerability)}>
-                                                    <Td dataLabel="Vulnerability" modifier="nowrap">
-                                                        <div style={{display: 'flex', alignItems: 'center', gap: '0.1rem'}}>
-                                                            {vulnerability.vulnerability}
+                                                    <Td dataLabel="Vulnerability">
+                                                        <div style={{display: 'flex', alignItems: 'center', gap: '0.1rem', justifyContent: 'flex-start'}}>
+                                                            <p>{vulnerability.vulnerability}</p>
                                                             {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
                                                         </div>
+                                                        <HelperText>
+                                                            <HelperTextItem>{`${vulnerability.groupId}:${vulnerability.artifactId}`}</HelperTextItem>
+                                                        </HelperText>
                                                     </Td>
                                                     <Td dataLabel="Severity" modifier="nowrap">
                                                         <SeverityText severity={capitalize(vulnerability.severity) as ScanSeverity}
