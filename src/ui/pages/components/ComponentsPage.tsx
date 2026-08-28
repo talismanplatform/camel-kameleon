@@ -7,6 +7,7 @@ import {Select, SelectList, SelectOption} from '@patternfly/react-core/dist/esm/
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Toolbar, ToolbarContent, ToolbarItem} from '@patternfly/react-core/dist/esm/components/Toolbar';
+import {ToggleGroup, ToggleGroupItem} from '@patternfly/react-core/dist/esm/components/ToggleGroup';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import {Table, Tbody, Td, Th, Thead, ThProps, Tr, TreeRowWrapper} from '@patternfly/react-table';
 import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
@@ -16,7 +17,7 @@ import CodeIcon from '@patternfly/react-icons/dist/esm/icons/code-icon';
 import CubeIcon from '@patternfly/react-icons/dist/esm/icons/cube-icon';
 import CubesIcon from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {MODULE_GROUPS, ModuleGroup, SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
+import {MODULE_GROUP_LABEL, MODULE_GROUPS, ModuleGroup, SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
 import {useCompassStore} from '@compass/useCompassStore';
@@ -87,6 +88,8 @@ export const ComponentsPage: React.FunctionComponent = () => {
     const [isVersionOpen, setIsVersionOpen] = useState(false);
     const [search, setSearch] = useState('');
     const [severities, setSeverities] = useState<ScanSeverity[]>([]);
+    // All three source trees at once, so the page opens on every module of the ref.
+    const [groups, setGroups] = useState<ModuleGroup[]>(MODULE_GROUPS);
     const [isSeverityOpen, setIsSeverityOpen] = useState(false);
     // Highest dependency risk first: the page opens on what a reader triages, until they sort on another column.
     const [sort, setSort] = useState<{index: number; sort: ComponentSort; direction: 'asc' | 'desc'}>(
@@ -159,12 +162,13 @@ export const ComponentsPage: React.FunctionComponent = () => {
      */
     const visible = useMemo(() => {
         const needle = search.trim().toLowerCase();
-        const matching = rows.filter(row => needle.length === 0 || row.artifactId.toLowerCase().includes(needle));
+        const matching = rows.filter(row => (row.group === undefined || groups.includes(row.group))
+            && (needle.length === 0 || row.artifactId.toLowerCase().includes(needle)));
         const pruned = severities.length > 0
             ? pruneRows(matching, row => hasSeverity(row, severities))
             : pruneRows(matching, row => total(row) > 0);
         return sortRows(pruned, sort.sort, sort.direction);
-    }, [rows, search, severities, sort]);
+    }, [rows, search, groups, severities, sort]);
 
     if (loading && versions.length === 0) {
         return <Bullseye><Spinner aria-label="Loading components"/></Bullseye>;
@@ -195,6 +199,16 @@ export const ComponentsPage: React.FunctionComponent = () => {
             {severities.length > 0 && <Badge isRead>{severities.length}</Badge>}
         </MenuToggle>
     );
+
+    /**
+     * Unselecting the last group would leave the page empty with nothing saying
+     * why, so a group only comes off while another one is still on.
+     */
+    function toggleGroup(group: ModuleGroup) {
+        setGroups(current => current.includes(group)
+            ? (current.length > 1 ? current.filter(other => other !== group) : current)
+            : MODULE_GROUPS.filter(other => other === group || current.includes(other)));
+    }
 
     function toggleSeverity(severity: ScanSeverity) {
         setSeverities(current => current.includes(severity)
@@ -381,6 +395,20 @@ export const ComponentsPage: React.FunctionComponent = () => {
                             onChange={(_event, value) => setSearch(value)}
                             onClear={() => setSearch('')}
                         />
+                    </ToolbarItem>
+                    <ToolbarItem>
+                        <ToggleGroup aria-label="Filter modules by source tree">
+                            {MODULE_GROUPS.map(group => (
+                                <ToggleGroupItem
+                                    key={group}
+                                    text={MODULE_GROUP_LABEL[group]}
+                                    icon={GROUP_ICON[group]}
+                                    buttonId={`components-group-${group}`}
+                                    isSelected={groups.includes(group)}
+                                    onChange={() => toggleGroup(group)}
+                                />
+                            ))}
+                        </ToggleGroup>
                     </ToolbarItem>
                     <ToolbarItem>
                         <Select
