@@ -7,10 +7,6 @@
     font-weight: var(--pf-t--global--font--weight--body--bold);
 }
 
-.severity-progress {
-    margin-block-end: var(--pf-t--global--spacer--md);
-}
-
 .dashboard-divider {
     margin-block: var(--pf-t--global--spacer--md);
 }
@@ -30,11 +26,14 @@
     padding-inline-start: 0;
 }
 
+.dangerous-table,
 .modules-table {
     --pf-v6-c-table--cell--PaddingBlockStart: var(--pf-t--global--spacer--xs);
     --pf-v6-c-table--cell--PaddingBlockEnd: var(--pf-t--global--spacer--xs);
 }
 
+.dangerous-table td:first-child,
+.dangerous-table th:first-child,
 .modules-table td:first-child,
 .modules-table th:first-child {
     padding-inline-start: 0;

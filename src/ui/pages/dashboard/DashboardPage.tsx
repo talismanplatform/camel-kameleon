@@ -5,7 +5,6 @@ import {Card, CardBody, CardFooter, CardTitle} from '@patternfly/react-core/dist
 import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
 import {DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm} from '@patternfly/react-core/dist/esm/components/DescriptionList';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
-import {Progress, ProgressMeasureLocation, ProgressVariant} from '@patternfly/react-core/dist/esm/components/Progress';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Gallery} from '@patternfly/react-core/dist/esm/layouts/Gallery';
@@ -16,7 +15,7 @@ import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {isOpen, MODULE_GROUPS, ScanSeverity, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
+import {isOpen, MODULE_GROUPS, SCAN_SEVERITIES, ScanSeverity, SEVERITIES, Severity, SEVERITY_LABEL, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -29,6 +28,7 @@ import {componentRows, findingIndex, topModules} from '../components/componentTr
 import {CardHeader} from "@patternfly/react-core/src";
 import {Badge} from "@patternfly/react-core/dist/esm/components/Badge";
 import {LastScanDate} from "@shared/ui/LastScanDate";
+import {capitalize} from "@patternfly/react-core";
 
 /** The advisory severities of this page map onto the scanner severities the CVE page filters by. */
 const SCAN_SEVERITY_OF: Record<Severity, ScanSeverity> = {
@@ -41,12 +41,36 @@ const SCAN_SEVERITY_OF: Record<Severity, ScanSeverity> = {
 /** Enough of the components table to triage on, without turning the card into a page. */
 const TOP_MODULES = 7;
 
-const SEVERITY_VARIANT: Record<Severity, ProgressVariant | undefined> = {
-    critical: ProgressVariant.danger,
-    important: ProgressVariant.warning,
-    moderate: ProgressVariant.warning,
-    low: ProgressVariant.success,
-};
+/** The findings the card ranks, few enough to read at a glance. */
+const TOP_CVES = 7;
+
+/** Severities the scanner does not recognise read as `Unknown`, as on the CVE page. */
+function severityOf(severity: string): ScanSeverity {
+    return SCAN_SEVERITIES.find(known => known.toLowerCase() === severity?.toLowerCase()) ?? 'Unknown';
+}
+
+/**
+ * Dangerous means what the CVE page opens on: the highest risk first, EPSS then
+ * severity breaking the ties. One row per advisory, the worst of its artifacts.
+ */
+function mostDangerous(vulnerabilities: Vulnerability[], count: number): Vulnerability[] {
+    const worst = new Map<string, Vulnerability>();
+    for (const vulnerability of vulnerabilities) {
+        const kept = worst.get(vulnerability.vulnerability);
+        if (!kept || rank(vulnerability) > rank(kept)) {
+            worst.set(vulnerability.vulnerability, vulnerability);
+        }
+    }
+    return [...worst.values()].sort((a, b) => rank(b) - rank(a)).slice(0, count);
+}
+
+/** Risk dominates, EPSS and severity only separate findings that score the same. */
+function rank(vulnerability: Vulnerability): number {
+    const risk = vulnerability.risk ?? -1;
+    const epss = vulnerability.epss ?? 0;
+    const severity = SCAN_SEVERITIES.length - SCAN_SEVERITIES.indexOf(severityOf(vulnerability.severity));
+    return risk * 1000 + epss * 100 + severity;
+}
 
 export const DashboardPage: React.FunctionComponent = () => {
 
@@ -100,6 +124,9 @@ export const DashboardPage: React.FunctionComponent = () => {
         return topModules(modules, TOP_MODULES);
     }, [dependencyTrees, vulnerabilities]);
 
+    /** The worst findings of the selected ref, ranked as the CVE page ranks them. */
+    const dangerousCves = useMemo(() => mostDangerous(vulnerabilities, TOP_CVES), [vulnerabilities]);
+
     if (loading && cves.length === 0) {
         return <Bullseye><Spinner aria-label="Loading vulnerabilities"/></Bullseye>;
     }
@@ -108,8 +135,15 @@ export const DashboardPage: React.FunctionComponent = () => {
     const latest = [...cves].sort((a, b) => b.published.localeCompare(a.published)).slice(0, 5);
 
     const coverage = sortedVersions(versions);
-    const modulesLoading = dependencyTreesLoading || (vulnerabilitiesLoading && vulnerabilities.length === 0);
+    const cvesLoading = vulnerabilitiesLoading && vulnerabilities.length === 0;
+    const modulesLoading = dependencyTreesLoading || cvesLoading;
 
+
+    /** A dangerous finding opens the CVE page filtered down to that advisory. */
+    function showCve(vulnerability: Vulnerability) {
+        setFilters({severities: [], search: vulnerability.vulnerability});
+        navigate(ROUTES.CVES);
+    }
 
     function showSeverity(severity: Severity) {
         setFilters({severities: [SCAN_SEVERITY_OF[severity]], search: ''});
@@ -195,20 +229,60 @@ export const DashboardPage: React.FunctionComponent = () => {
 
                 <GridItem md={6} lg={4}>
                     <Card isFullHeight isCompact>
-                        <CardTitle>Severity distribution</CardTitle>
+                        <CardHeader>
+                            <div className='dashboard-card-header'>
+                                <CardTitle>Most dangerous CVEs</CardTitle>
+                                <Label variant="outline" style={{gap: 6}}>
+                                    {selectedRef}
+                                    <Badge>LTS</Badge>
+                                </Label>
+                            </div>
+                        </CardHeader>
                         <CardBody>
-                            {SEVERITIES.map(severity => (
-                                <Progress
-                                    key={severity}
-                                    className="severity-progress"
-                                    value={summary && summary.total > 0 ? ((summary.bySeverity[severity] ?? 0) / summary.total) * 100 : 0}
-                                    title={SEVERITY_LABEL[severity]}
-                                    measureLocation={ProgressMeasureLocation.outside}
-                                    label={`${summary?.bySeverity[severity] ?? 0}`}
-                                    variant={SEVERITY_VARIANT[severity]}
-                                />
-                            ))}
+                            {cvesLoading ? (
+                                <Bullseye><Spinner size="lg" aria-label="Loading vulnerabilities"/></Bullseye>
+                            ) : (
+                                <Table aria-label="Most dangerous vulnerabilities" variant="compact" className="dangerous-table">
+                                    <Thead>
+                                        <Tr>
+                                            <Th>
+                                                <Content component={'h6'}>Vulnerability</Content>
+                                            </Th>
+                                            <Th modifier="fitContent">Severity</Th>
+                                            <Th textCenter modifier="fitContent"><RiskHeader/></Th>
+                                            <Th textCenter modifier="fitContent"><EpssHeader/></Th>
+                                        </Tr>
+                                    </Thead>
+                                    <Tbody>
+                                        {dangerousCves.map(vulnerability => (
+                                            <Tr key={vulnerability.vulnerability} isClickable
+                                                style={{verticalAlign: 'middle'}}
+                                                onRowClick={() => showCve(vulnerability)}>
+                                                <Td dataLabel="Vulnerability" modifier="nowrap">
+                                                    {vulnerability.vulnerability}
+                                                </Td>
+                                                <Td dataLabel="Severity" modifier="nowrap">
+                                                    <SeverityText severity={capitalize(vulnerability.severity) as ScanSeverity}
+                                                                  text={vulnerability.severity}/>
+                                                </Td>
+                                                <Td dataLabel="Risk" modifier="nowrap" textCenter>
+                                                    <RiskScore value={vulnerability.risk ?? undefined}/>
+                                                </Td>
+                                                <Td dataLabel="EPSS" modifier="nowrap" textCenter>
+                                                    <EpssScore value={vulnerability.epss ?? undefined}/>
+                                                </Td>
+                                            </Tr>
+                                        ))}
+                                    </Tbody>
+                                </Table>
+                            )}
                         </CardBody>
+                        <CardFooter>
+                            <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
+                                    onClick={() => navigate(ROUTES.CVES)}>
+                                All vulnerabilities
+                            </Button>
+                        </CardFooter>
                     </Card>
                 </GridItem>
 
