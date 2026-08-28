@@ -48,11 +48,6 @@
     gap: var(--pf-t--global--spacer--sm);
 }
 
-.cve-dependency-tree .cve-tree-note {
-    color: var(--pf-t--global--text--color--subtle);
-    font-size: var(--pf-t--global--font--size--sm);
-}
-
 /* The leaf every branch of the tree ends in: the vulnerable dependency. */
 .cve-tree-hit {
     color: var(--pf-t--global--icon--color--status--danger--default);

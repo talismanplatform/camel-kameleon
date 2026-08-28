@@ -19,13 +19,17 @@ interface TreeRow {
     children: TreeRow[];
 }
 
-/** Matches the reported artifact. The group is compared only when the report names one. */
-function matcher(vulnerability: Vulnerability, version?: string): (node: DependencyNode) => boolean {
-    const artifactId = vulnerability.artifactId ?? vulnerability.name;
-    const groupId = vulnerability.groupId;
-    return node => node.a === artifactId
-        && (!groupId || node.g === groupId)
-        && (!version || node.v === version);
+/**
+ * Matches the reported artifact: `groupId:artifactId` at the installed version.
+ * A finding without maven coordinates cannot be placed in a tree, so it matches
+ * nothing rather than every node that happens to share the scanner's name.
+ */
+function matcher(vulnerability: Vulnerability): (node: DependencyNode) => boolean {
+    const {groupId, artifactId, installed} = vulnerability;
+    if (!groupId || !artifactId) {
+        return () => false;
+    }
+    return node => node.g === groupId && node.a === artifactId && node.v === installed;
 }
 
 /**
@@ -68,8 +72,9 @@ interface DependencyTreeProps {
 
 /**
  * Where the finding enters Camel: the `core`, `components` and `dsl` modules of
- * the selected ref whose dependency tree reaches the vulnerable artifact, with
- * the path that pulls it in. Branches that end anywhere else are pruned away.
+ * the selected ref whose dependency tree reaches the vulnerable artifact at the
+ * installed version, with the path that pulls it in. Branches that end anywhere
+ * else, another artifact or another version, are pruned away.
  */
 export const DependencyTree: React.FunctionComponent<DependencyTreeProps> = ({vulnerability}) => {
 
@@ -88,19 +93,13 @@ export const DependencyTree: React.FunctionComponent<DependencyTreeProps> = ({vu
     useEffect(() => setCollapsed([]), [vulnerability, trees]);
 
     /**
-     * The installed version first. Camel pins a dependency per module, so a
-     * finding on 42.7.9 can coexist with modules already on a fixed 42.7.10;
-     * showing those only when nothing matches exactly keeps the tree honest.
+     * The installed version only. Camel pins a dependency per module, so a
+     * finding on 42.7.9 says nothing about a module already on a fixed
+     * 42.7.10; those branches are not this finding and stay out of the tree.
      */
-    const {rows, otherVersions} = useMemo(() => {
-        if (!trees) {
-            return {rows: [], otherVersions: false};
-        }
-        const installed = affectedModules(trees, matcher(vulnerability, vulnerability.installed));
-        return installed.length > 0
-            ? {rows: installed, otherVersions: false}
-            : {rows: affectedModules(trees, matcher(vulnerability)), otherVersions: true};
-    }, [trees, vulnerability]);
+    const rows = useMemo(
+        () => trees ? affectedModules(trees, matcher(vulnerability)) : [],
+        [trees, vulnerability]);
 
     if (loading) {
         return <Bullseye><Spinner size="lg" aria-label="Loading dependency trees"/></Bullseye>;
@@ -149,11 +148,6 @@ export const DependencyTree: React.FunctionComponent<DependencyTreeProps> = ({vu
             <Title headingLevel="h3" size="md">
                 {`Affected modules (${moduleCount(rows)})`}
             </Title>
-            {otherVersions && (
-                <div className="cve-tree-note">
-                    {`No module depends on ${vulnerability.installed}, these pull the artifact at another version.`}
-                </div>
-            )}
             <Table aria-label={`Modules depending on ${coordinates(vulnerability)}`} variant="compact" isTreeTable>
                 <Thead>
                     <Tr>
@@ -169,8 +163,8 @@ export const DependencyTree: React.FunctionComponent<DependencyTreeProps> = ({vu
     );
 };
 
-/** `group:artifact` of the finding, falling back to the scanner's package name. */
+/** `group:artifact:version` of the finding, falling back to the scanner's package name. */
 function coordinates(vulnerability: Vulnerability): string {
-    const artifactId = vulnerability.artifactId ?? vulnerability.name;
-    return vulnerability.groupId ? `${vulnerability.groupId}:${artifactId}` : artifactId;
+    const {groupId, artifactId, name, installed} = vulnerability;
+    return groupId && artifactId ? `${groupId}:${artifactId}:${installed}` : `${name} ${installed}`;
 }
