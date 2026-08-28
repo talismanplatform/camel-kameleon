@@ -13,7 +13,7 @@ import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
-import {isOpen, MODULE_GROUPS, SCAN_SEVERITIES, ScanSeverity, SEVERITIES, Severity, SEVERITY_LABEL, Vulnerability} from '@models/CveModels';
+import {CAMEL_GROUP_ID, isOpen, MODULE_GROUPS, SCAN_SEVERITIES, SCAN_SEVERITY_COLOR, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -32,24 +32,18 @@ import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-i
 import TagIcon from "@patternfly/react-icons/dist/esm/icons/tag-icon";
 import {LastScanDate} from "@shared/ui/LastScanDate";
 
-/** The advisory severities of this page map onto the scanner severities the CVE page filters by. */
-const SCAN_SEVERITY_OF: Record<Severity, ScanSeverity> = {
-    critical: 'Critical',
-    important: 'High',
-    moderate: 'Medium',
-    low: 'Low',
-};
+/**
+ * The severities the stat cards break the Camel advisories down by: the four the
+ * scanner ranks, worst first. `Negligible` and `Unknown` are not shown, no Camel
+ * advisory carries them.
+ */
+const CARD_SEVERITIES: ScanSeverity[] = ['Critical', 'High', 'Medium', 'Low'];
 
 /** Enough of the components table to triage on, without turning the card into a page. */
 const TOP_MODULES = 7;
 
 /** The findings the card ranks, few enough to read at a glance. */
 const TOP_CVES = 7;
-
-/** Severities the scanner does not recognise read as `Unknown`, as on the CVE page. */
-function severityOf(severity: string): ScanSeverity {
-    return SCAN_SEVERITIES.find(known => known.toLowerCase() === severity?.toLowerCase()) ?? 'Unknown';
-}
 
 /**
  * Dangerous means what the CVE page opens on: the highest risk first, EPSS then
@@ -70,7 +64,7 @@ function mostDangerous(vulnerabilities: Vulnerability[], count: number): Vulnera
 function rank(vulnerability: Vulnerability): number {
     const risk = vulnerability.risk ?? -1;
     const epss = vulnerability.epss ?? 0;
-    const severity = SCAN_SEVERITIES.length - SCAN_SEVERITIES.indexOf(severityOf(vulnerability.severity));
+    const severity = SCAN_SEVERITIES.length - SCAN_SEVERITIES.indexOf(scanSeverityOf(vulnerability.severity));
     return risk * 1000 + epss * 100 + severity;
 }
 
@@ -79,7 +73,7 @@ export const DashboardPage: React.FunctionComponent = () => {
     const navigate = useNavigate();
     const cves = useCveStore((s) => s.cves);
     const versions = useCveStore((s) => s.versions);
-    const summary = useCveStore((s) => s.summary);
+    const camelBySeverity = useCveStore((s) => s.camelBySeverity);
     const loading = useCveStore((s) => s.loading);
     const setFilters = useCveStore((s) => s.setFilters);
     const selectedRef = useCveStore((s) => s.selectedRef);
@@ -165,27 +159,31 @@ export const DashboardPage: React.FunctionComponent = () => {
     const modulesLoading = dependencyTreesLoading || cvesLoading;
 
 
-    function showSeverity(severity: Severity) {
-        setFilters({severities: [SCAN_SEVERITY_OF[severity]], search: ''});
+    /** Opens the CVE page on the same slice the card counts: this severity, Camel's own artifacts. */
+    function showSeverity(severity: ScanSeverity) {
+        setFilters({severities: [severity], search: CAMEL_GROUP_ID});
         navigate(ROUTES.CVES);
     }
 
     return (
         <div className="page-section dashboard-page">
-            <Gallery hasGutter minWidths={{default: '220px'}}>
-                {SEVERITIES.map(severity => (
+            <Gallery hasGutter minWidths={{default: '20%'}}>
+                {CARD_SEVERITIES.map(severity => (
                     <Card key={severity} isClickable isCompact className="stat-card">
                         <CardTitle>
                             <Flex justifyContent={{default: 'justifyContentSpaceBetween'}} alignItems={{default: 'alignItemsCenter'}}>
-                                <FlexItem><SeverityLabel severity={severity}/></FlexItem>
+                                <FlexItem><SeverityText severity={severity} text={`${severity} severity`}/></FlexItem>
                                 <FlexItem>
-                                    <span className="stat-card-value">{summary?.bySeverity[severity] ?? 0}</span>
+                                    <span className="stat-card-value" style={{color: SCAN_SEVERITY_COLOR[severity]}}>
+                                        {camelBySeverity?.[severity] ?? 0}
+                                    </span>
                                 </FlexItem>
                             </Flex>
                         </CardTitle>
                         <CardBody>
                             <Content component={ContentVariants.small}>
-                                {SEVERITY_LABEL[severity]} severity advisories affecting Apache Camel
+                                Advisories against {CAMEL_GROUP_ID} artifacts themselves, across all scanned
+                                versions. Findings in Camel's dependencies are not counted.
                             </Content>
                         </CardBody>
                         <CardFooter>

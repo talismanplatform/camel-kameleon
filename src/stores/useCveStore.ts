@@ -14,6 +14,11 @@ interface CveState {
     summary?: CveSummary;
     components: CamelComponent[];
     versions: VersionScan[];
+    /**
+     * Advisories against `org.apache.camel` artifacts per scanner severity, over
+     * every scanned ref. Undefined until the first fetch, or when it failed.
+     */
+    camelBySeverity?: Record<ScanSeverity, number>;
     scanInfo?: ScanInfo;
     loading: boolean;
     error?: string;
@@ -40,6 +45,7 @@ export const useCveStore = create<CveState>((set, get) => ({
     summary: undefined,
     components: [],
     versions: [],
+    camelBySeverity: undefined,
     scanInfo: undefined,
     loading: false,
     error: undefined,
@@ -54,15 +60,16 @@ export const useCveStore = create<CveState>((set, get) => ({
     fetchAll: async () => {
         set({loading: true, error: undefined});
         try {
-            const [cves, summary, components, versions, scanInfo] = await Promise.all([
+            const [cves, summary, components, versions, camelBySeverity, scanInfo] = await Promise.all([
                 CveApi.getCves(),
                 CveApi.getSummary(),
                 CveApi.getComponents(),
                 // Missing scan data must not blank the whole dashboard.
                 CveApi.getVersions().catch(() => []),
+                CveApi.getCamelSeverityCounts().catch(() => undefined),
                 CveApi.getScanInfo().catch(() => undefined),
             ]);
-            set({cves, summary, components, versions, scanInfo, loading: false});
+            set({cves, summary, components, versions, camelBySeverity, scanInfo, loading: false});
         } catch (error) {
             set({loading: false, error: error instanceof Error ? error.message : String(error)});
         }

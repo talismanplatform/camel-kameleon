@@ -82,6 +82,19 @@ export interface Vulnerability {
     risk: number | null;
 }
 
+/** Camel's own artifacts all live under this group; anything else is a dependency of Camel. */
+export const CAMEL_GROUP_ID = 'org.apache.camel';
+
+/** True for a finding reported against one of Camel's own artifacts rather than a dependency. */
+export function isCamelArtifact(vulnerability: Vulnerability): boolean {
+    return (vulnerability.groupId ?? '').startsWith(CAMEL_GROUP_ID);
+}
+
+/** Severities the scanner does not recognise read as `Unknown`, wherever they are shown. */
+export function scanSeverityOf(severity: string): ScanSeverity {
+    return SCAN_SEVERITIES.find(known => known.toLowerCase() === severity?.toLowerCase()) ?? 'Unknown';
+}
+
 /**
  * One node of a module's dependency tree as the application keeps it: `g`roup,
  * `a`rtifact, `v`ersion and the children it pulls in. `CveApi` compacts the

@@ -3,6 +3,7 @@ import {
     CamelComponent,
     CamelVersion,
     Cve,
+    isCamelArtifact,
     DependencyNode,
     DependencyTrees,
     CveSummary,
@@ -14,6 +15,7 @@ import {
     ScanInfo,
     SCAN_SEVERITIES,
     ScanSeverity,
+    scanSeverityOf,
     SEVERITIES,
     Severity,
     VersionScan,
@@ -50,6 +52,24 @@ const moduleIndexUrl = (ref: string) => dataUrl(`${encodeURIComponent(ref)}/modu
 /** `path` is a module directory relative to its group, so its segments are encoded one by one. */
 const moduleTreeUrl = (ref: string, group: ModuleGroup, path: string) =>
     dataUrl(`${encodeURIComponent(ref)}/${group}/${path.split('/').map(encodeURIComponent).join('/')}/mvn-tree.json`);
+
+/**
+ * One `vulnerabilities.json` per ref per session: the version table, the CVE page
+ * and the dashboard counts all read the same reports, and the dashboard needs every
+ * ref at once. Undefined is cached too, so a missing report stays distinguishable
+ * from an empty one.
+ */
+const reports = new Map<string, Promise<Vulnerability[] | undefined>>();
+
+function report(ref: string): Promise<Vulnerability[] | undefined> {
+    const cached = reports.get(ref);
+    if (cached) {
+        return cached;
+    }
+    const pending = fetchJson<Vulnerability[]>(vulnerabilitiesUrl(ref)).catch(() => undefined);
+    reports.set(ref, pending);
+    return pending;
+}
 
 /** Trees are assembled from a few hundred files, so a ref is folded once per session. */
 const dependencyTrees = new Map<string, DependencyTrees>();
@@ -131,7 +151,31 @@ export const CveApi = {
 
     /** Findings of one scanned ref. Empty when the report is missing. */
     async getVulnerabilities(ref: string): Promise<Vulnerability[]> {
-        return await fetchJson<Vulnerability[]>(vulnerabilitiesUrl(ref)).catch(() => undefined) ?? [];
+        return await report(ref) ?? [];
+    },
+
+    /**
+     * Advisories against Camel's own artifacts, counted per scanner severity over
+     * every scanned ref. Findings against dependencies are left out, and an
+     * advisory hitting several modules or several refs counts once, at the worst
+     * severity it was reported with.
+     */
+    async getCamelSeverityCounts(): Promise<Record<ScanSeverity, number>> {
+        const versions = await fetchJson<Versions>(VERSIONS_URL).catch(() => undefined);
+        const refs = [...(versions?.tags ?? []), ...(versions?.branches ?? [])];
+        const findings = (await Promise.all(refs.map(report))).flatMap(refReport => refReport ?? []);
+        const worst = new Map<string, ScanSeverity>();
+        for (const vulnerability of findings.filter(isCamelArtifact)) {
+            const severity = scanSeverityOf(vulnerability.severity);
+            const kept = worst.get(vulnerability.vulnerability);
+            if (!kept || SCAN_SEVERITIES.indexOf(severity) < SCAN_SEVERITIES.indexOf(kept)) {
+                worst.set(vulnerability.vulnerability, severity);
+            }
+        }
+        return [...worst.values()].reduce((counts, severity) => {
+            counts[severity] += 1;
+            return counts;
+        }, EMPTY_COUNTS());
     },
 
     /**
@@ -192,7 +236,7 @@ export const CveApi = {
         ];
 
         return Promise.all(refs.map(async ({ref, kind}) => {
-            const vulnerabilities = await fetchJson<Vulnerability[]>(vulnerabilitiesUrl(ref)).catch(() => undefined);
+            const vulnerabilities = await report(ref);
             return {
                 ref,
                 kind,
@@ -273,17 +317,12 @@ const EMPTY_COUNTS = () => SCAN_SEVERITIES.reduce((acc, severity) => {
     return acc;
 }, {} as Record<ScanSeverity, number>);
 
-/** Severities the scanner does not recognise are counted as `Unknown`. */
-function scanSeverity(severity: string): ScanSeverity {
-    return SCAN_SEVERITIES.find(known => known.toLowerCase() === severity?.toLowerCase()) ?? 'Unknown';
-}
-
 function aggregate(vulnerabilities?: Vulnerability[]): Pick<VersionScan, 'total' | 'bySeverity' | 'maxRisk' | 'maxEpss' | 'loaded'> {
     if (!vulnerabilities) {
         return {total: 0, bySeverity: EMPTY_COUNTS(), loaded: false};
     }
     const bySeverity = vulnerabilities.reduce((acc, vulnerability) => {
-        acc[scanSeverity(vulnerability.severity)] += 1;
+        acc[scanSeverityOf(vulnerability.severity)] += 1;
         return acc;
     }, EMPTY_COUNTS());
     return {
