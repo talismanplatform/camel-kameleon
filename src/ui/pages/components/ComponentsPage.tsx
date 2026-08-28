@@ -3,28 +3,27 @@ import {useNavigate} from 'react-router-dom';
 import {Badge} from '@patternfly/react-core/dist/esm/components/Badge';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {EmptyState, EmptyStateBody} from '@patternfly/react-core/dist/esm/components/EmptyState';
-import {Label} from '@patternfly/react-core/dist/esm/components/Label';
 import {MenuToggle, MenuToggleElement} from '@patternfly/react-core/dist/esm/components/MenuToggle';
 import {SearchInput} from '@patternfly/react-core/dist/esm/components/SearchInput';
 import {Select, SelectList, SelectOption} from '@patternfly/react-core/dist/esm/components/Select';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
-import {Switch} from '@patternfly/react-core/dist/esm/components/Switch';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Toolbar, ToolbarContent, ToolbarItem} from '@patternfly/react-core/dist/esm/components/Toolbar';
 import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
-import {Table, Tbody, Td, Th, Thead, Tr, TreeRowWrapper} from '@patternfly/react-table';
+import {Table, Tbody, Td, Th, Thead, ThProps, Tr, TreeRowWrapper} from '@patternfly/react-table';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
+import FilterIcon from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import CubesIcon from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {SCAN_SEVERITIES, SCAN_SEVERITY_LABEL_COLOR} from '@models/CveModels';
+import {SCAN_SEVERITIES, ScanSeverity} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
-import {EpssHeader, EpssScore, RiskHeader, RiskScore} from '@shared/ui/ScoreInfo';
+import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
 import {defaultVersion, sortedVersions} from '@shared/versionOrder';
-import {ComponentRow, FindingSummary, componentRows, findingIndex, total} from './componentTree';
+import {ComponentRow, componentRows, ComponentSort, findingIndex, FindingSummary, hasSeverity, pruneRows, sortRows, total,} from './componentTree';
 import './ComponentsPage.css';
 
 interface SummaryProps {
@@ -43,13 +42,19 @@ const SeveritySummary: React.FunctionComponent<SummaryProps> = ({summary}) => {
                 <div className="components-severity-tooltip">
                     {SCAN_SEVERITIES
                         .filter(severity => summary.bySeverity[severity] > 0)
-                        .map(severity => <div key={severity}>{`${severity}: ${summary.bySeverity[severity]}`}</div>)}
+                        .map(severity => (
+                            <Severity
+                                key={severity}
+                                severity={severity}
+                                text={`${severity}: ${summary.bySeverity[severity]}`}
+                            />
+                        ))}
                 </div>
             }
         >
-            <Label color={SCAN_SEVERITY_LABEL_COLOR[summary.maxSeverity]} isCompact>
-                {`${summary.maxSeverity} ${summary.count}`}
-            </Label>
+            <span className="components-severity">
+                <Severity severity={summary.maxSeverity} text={`${summary.maxSeverity} ${summary.count}`}/>
+            </span>
         </Tooltip>
     );
 };
@@ -79,7 +84,10 @@ export const ComponentsPage: React.FunctionComponent = () => {
 
     const [isVersionOpen, setIsVersionOpen] = useState(false);
     const [search, setSearch] = useState('');
-    const [onlyAffected, setOnlyAffected] = useState(true);
+    const [severities, setSeverities] = useState<ScanSeverity[]>([]);
+    const [isSeverityOpen, setIsSeverityOpen] = useState(false);
+    // Alphabetical until the reader sorts on a score, which is what the columns offer.
+    const [sort, setSort] = useState<{index: number; sort: ComponentSort; direction: 'asc' | 'desc'}>();
     // Collapsed by default: a ref carries a few hundred components and tens of thousands of nodes.
     const [expanded, setExpanded] = useState<string[]>([]);
 
@@ -120,12 +128,20 @@ export const ComponentsPage: React.FunctionComponent = () => {
             .sort((a, b) => a.artifactId.localeCompare(b.artifactId));
     }, [dependencyTrees, vulnerabilities]);
 
+    /**
+     * A component and a dependency are held to the same test, so a subtree is
+     * only shown down to the rows that carry what the reader asked for. The
+     * search only applies to the components, a reader looking for `camel-http`
+     * wants its whole tree, not the dependencies that happen to be named alike.
+     */
     const visible = useMemo(() => {
         const needle = search.trim().toLowerCase();
-        return rows.filter(row =>
-            (!onlyAffected || total(row) > 0)
-            && (needle.length === 0 || row.artifactId.toLowerCase().includes(needle)));
-    }, [rows, search, onlyAffected]);
+        const matching = rows.filter(row => needle.length === 0 || row.artifactId.toLowerCase().includes(needle));
+        const pruned = severities.length > 0
+            ? pruneRows(matching, row => hasSeverity(row, severities))
+            : pruneRows(matching, row => total(row) > 0);
+        return sort ? sortRows(pruned, sort.sort, sort.direction) : pruned;
+    }, [rows, search, severities, sort]);
 
     if (loading && versions.length === 0) {
         return <Bullseye><Spinner aria-label="Loading components"/></Bullseye>;
@@ -144,6 +160,31 @@ export const ComponentsPage: React.FunctionComponent = () => {
             {selectedRef ?? 'Select version'}
         </MenuToggle>
     );
+
+    const severityToggle = (toggleRef: React.Ref<MenuToggleElement>) => (
+        <MenuToggle
+            ref={toggleRef}
+            onClick={() => setIsSeverityOpen(!isSeverityOpen)}
+            isExpanded={isSeverityOpen}
+            icon={<FilterIcon/>}
+        >
+            Severity
+            {severities.length > 0 && <Badge isRead>{severities.length}</Badge>}
+        </MenuToggle>
+    );
+
+    function toggleSeverity(severity: ScanSeverity) {
+        setSeverities(current => current.includes(severity)
+            ? current.filter(other => other !== severity)
+            : [...current, severity]);
+    }
+
+    /** `index` is the position of the column in the header grid, which is what carries the indicator. */
+    const sortProps = (index: number, column: ComponentSort): ThProps['sort'] => ({
+        sortBy: {index: sort?.index ?? -1, direction: sort?.direction},
+        onSort: (_event, columnIndex, direction) => setSort({index: columnIndex, sort: column, direction}),
+        columnIndex: index,
+    });
 
     function showCves(artifactId: string) {
         setFilters({search: artifactId, severities: []});
@@ -184,7 +225,10 @@ export const ComponentsPage: React.FunctionComponent = () => {
                         <span className="components-group">{`${row.groupId}:`}</span>
                         {row.artifactId}
                     </Td>
-                    <Td dataLabel="Version" modifier="nowrap">{row.version}</Td>
+                    <Td dataLabel="Version" modifier="nowrap">
+                        {/* A camel artifact is built from the selected ref, so its version says nothing new. */}
+                        {row.groupId.startsWith('org.apache.camel') ? '' : row.version}
+                    </Td>
                     <Td dataLabel="Severity (this level)">
                         <SeveritySummary summary={row.own}/>
                     </Td>
@@ -262,12 +306,27 @@ export const ComponentsPage: React.FunctionComponent = () => {
                         />
                     </ToolbarItem>
                     <ToolbarItem>
-                        <Switch
-                            id="components-only-affected"
-                            label="Only components with findings"
-                            isChecked={onlyAffected}
-                            onChange={(_event, checked) => setOnlyAffected(checked)}
-                        />
+                        <Select
+                            id="components-severity-select"
+                            isOpen={isSeverityOpen}
+                            selected={severities}
+                            onSelect={(_event, value) => toggleSeverity(value as ScanSeverity)}
+                            onOpenChange={setIsSeverityOpen}
+                            toggle={severityToggle}
+                        >
+                            <SelectList>
+                                {SCAN_SEVERITIES.map(severity => (
+                                    <SelectOption
+                                        key={severity}
+                                        value={severity}
+                                        hasCheckbox
+                                        isSelected={severities.includes(severity)}
+                                    >
+                                        {severity}
+                                    </SelectOption>
+                                ))}
+                            </SelectList>
+                        </Select>
                     </ToolbarItem>
                     <ToolbarItem variant="pagination">
                         <Badge>{`${visible.length} components`}</Badge>
@@ -282,7 +341,7 @@ export const ComponentsPage: React.FunctionComponent = () => {
                     <EmptyStateBody>
                         {rows.length === 0
                             ? `No component dependency trees have been published for ${selectedRef ?? 'this version'}.`
-                            : 'No component matches the current search.'}
+                            : 'No component matches the current search and filters.'}
                     </EmptyStateBody>
                 </EmptyState>
             ) : (
@@ -301,11 +360,11 @@ export const ComponentsPage: React.FunctionComponent = () => {
                         </Tr>
                         <Tr>
                             <Th modifier="fitContent">Severity</Th>
-                            <Th modifier="fitContent"><RiskHeader/></Th>
-                            <Th modifier="fitContent" hasRightBorder><EpssHeader/></Th>
+                            <Th modifier="fitContent" sort={sortProps(3, 'ownRisk')}><RiskHeader/></Th>
+                            <Th modifier="fitContent" hasRightBorder sort={sortProps(4, 'ownEpss')}><EpssHeader/></Th>
                             <Th modifier="fitContent">Severity</Th>
-                            <Th modifier="fitContent"><RiskHeader/></Th>
-                            <Th modifier="fitContent"><EpssHeader/></Th>
+                            <Th modifier="fitContent" sort={sortProps(6, 'transitiveRisk')}><RiskHeader/></Th>
+                            <Th modifier="fitContent" sort={sortProps(7, 'transitiveEpss')}><EpssHeader/></Th>
                         </Tr>
                     </Thead>
                     <Tbody>

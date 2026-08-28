@@ -100,11 +100,6 @@ function walk(node: DependencyNode, index: FindingIndex, path: string): {row: Co
     return {row, all};
 }
 
-/** Total findings of a row, wherever in its subtree they sit. */
-export function total(row: ComponentRow): number {
-    return row.own.count + row.transitive.count;
-}
-
 function emptyCounts(): Record<ScanSeverity, number> {
     return SCAN_SEVERITIES.reduce((acc, severity) => {
         acc[severity] = 0;
@@ -143,4 +138,58 @@ function summarize(findings: Iterable<Vulnerability>): FindingSummary {
         maxRisk,
         maxEpss,
     };
+}
+
+/** Total findings of a row, wherever in its subtree they sit. */
+export function total(row: ComponentRow): number {
+    return row.own.count + row.transitive.count;
+}
+
+/**
+ * A row matches a severity filter when the band was reported against its own
+ * artifact or anywhere beneath it, which is the same rule the table reads: the
+ * row is shown because the problem is either here or under here.
+ */
+export function hasSeverity(row: ComponentRow, severities: ScanSeverity[]): boolean {
+    return severities.some(severity => row.own.bySeverity[severity] > 0 || row.transitive.bySeverity[severity] > 0);
+}
+
+/**
+ * Drops every row the reader did not ask for, at every level. Because a row
+ * carries the findings of its whole subtree, a row that fails the test cannot
+ * hide a child that would pass it, so a failing row is cut with its subtree.
+ */
+export function pruneRows(rows: ComponentRow[], keep: (row: ComponentRow) => boolean): ComponentRow[] {
+    return rows.flatMap(row => keep(row) ? [{...row, children: pruneRows(row.children, keep)}] : []);
+}
+
+/** Columns the tree can be ordered by. The scores are the ones a reader triages on. */
+export type ComponentSort = 'name' | 'ownRisk' | 'ownEpss' | 'transitiveRisk' | 'transitiveEpss';
+
+/** Rows without a score sort below any row that has one, in either direction. */
+const MISSING_SCORE = -1;
+
+function score(row: ComponentRow, sort: ComponentSort): number {
+    switch (sort) {
+        case 'ownRisk':
+            return row.own.maxRisk ?? MISSING_SCORE;
+        case 'ownEpss':
+            return row.own.maxEpss ?? MISSING_SCORE;
+        case 'transitiveRisk':
+            return row.transitive.maxRisk ?? MISSING_SCORE;
+        case 'transitiveEpss':
+            return row.transitive.maxEpss ?? MISSING_SCORE;
+        default:
+            return MISSING_SCORE;
+    }
+}
+
+/** Orders a tree at every level, so an expanded dependency list reads like its parents. */
+export function sortRows(rows: ComponentRow[], sort: ComponentSort, direction: 'asc' | 'desc'): ComponentRow[] {
+    const factor = direction === 'asc' ? 1 : -1;
+    return [...rows]
+        .sort((a, b) => (sort === 'name'
+            ? a.artifactId.localeCompare(b.artifactId)
+            : score(a, sort) - score(b, sort)) * factor)
+        .map(row => ({...row, children: sortRows(row.children, sort, direction)}));
 }
