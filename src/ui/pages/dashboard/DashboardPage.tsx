@@ -13,7 +13,7 @@ import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
-import {ALL_REFS, CAMEL_GROUP_ID, isOpen, MODULE_GROUPS, SCAN_SEVERITIES, SCAN_SEVERITY_COLOR, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
+import {ALL_REFS, isOpen, MODULE_GROUPS, SCAN_SEVERITIES, SCAN_SEVERITY_COLOR, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -31,6 +31,7 @@ import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-i
 import TagIcon from "@patternfly/react-icons/dist/esm/icons/tag-icon";
 import {LastScanDate} from "@shared/ui/LastScanDate";
 import {logoOf} from "@pages/cves/CvesPage";
+import {InfoIcon} from "@patternfly/react-icons";
 
 /**
  * The severities the stat cards break the Camel advisories down by: the four the
@@ -73,9 +74,8 @@ const DashboardPage: React.FunctionComponent = () => {
     const navigate = useNavigate();
     const cves = useCveStore((s) => s.cves);
     const versions = useCveStore((s) => s.versions);
-    const camelBySeverity = useCveStore((s) => s.camelBySeverity);
+    const camelVulnerabilities = useCveStore((s) => s.camelVulnerabilities);
     const loading = useCveStore((s) => s.loading);
-    const setFilters = useCveStore((s) => s.setFilters);
     const selectedRef = useCveStore((s) => s.selectedRef);
     const selectRef = useCveStore((s) => s.selectRef);
     const vulnerabilities = useCveStore((s) => s.vulnerabilities);
@@ -86,7 +86,7 @@ const DashboardPage: React.FunctionComponent = () => {
     const setDrawerPanel = useCompassStore((s) => s.setDrawerPanel);
     const setIsDrawerExpanded = useCompassStore((s) => s.setIsDrawerExpanded);
 
-    // The finding whose details the drawer shows, picked in the most dangerous CVEs card.
+    // The finding whose details the drawer shows, picked in a severity card or in the most dangerous CVEs card.
     const [selected, setSelected] = useState<Vulnerability>();
 
     usePageContext(
@@ -145,6 +145,24 @@ const DashboardPage: React.FunctionComponent = () => {
         return topModules(modules, TOP_MODULES);
     }, [dependencyTrees, vulnerabilities]);
 
+    /**
+     * The direct Camel advisories the stat cards list, grouped by the severity they
+     * were reported with and ranked as the CVE page ranks them.
+     */
+    const camelBySeverity = useMemo(() => {
+        const grouped = {} as Record<ScanSeverity, Vulnerability[]>;
+        for (const severity of SCAN_SEVERITIES) {
+            grouped[severity] = [];
+        }
+        for (const vulnerability of camelVulnerabilities) {
+            grouped[scanSeverityOf(vulnerability.severity)].push(vulnerability);
+        }
+        for (const severity of SCAN_SEVERITIES) {
+            grouped[severity].sort((a, b) => rank(b) - rank(a));
+        }
+        return grouped;
+    }, [camelVulnerabilities]);
+
     /** The worst findings of the selected ref, ranked as the CVE page ranks them. */
     const dangerousCves = useMemo(() => mostDangerous(vulnerabilities, TOP_CVES), [vulnerabilities]);
 
@@ -160,18 +178,17 @@ const DashboardPage: React.FunctionComponent = () => {
     const modulesLoading = dependencyTreesLoading || cvesLoading;
 
 
-    /** Opens the CVE page on the same slice the card counts: this severity, Camel's own artifacts. */
-    function showSeverity(severity: ScanSeverity) {
-        setFilters({severities: [severity], search: CAMEL_GROUP_ID});
-        navigate(ROUTES.CVES);
-    }
-
     return (
         <div className="page-section dashboard-page">
 
             <Card isFullHeight isCompact>
                 <CardHeader>
-
+                    <div className='dashboard-card-header'>
+                        <CardTitle>Apache Camel advisories</CardTitle>
+                        <HelperText className={'stat-card-note'}>
+                            <HelperTextItem icon={<InfoIcon />}>Direct advisories across all scanned versions (excluding dependencies)</HelperTextItem>
+                        </HelperText>
+                    </div>
                 </CardHeader>
                 <CardBody>
                     <Gallery hasGutter minWidths={{default: '20%'}}>
@@ -182,27 +199,33 @@ const DashboardPage: React.FunctionComponent = () => {
                                         <FlexItem><SeverityText severity={severity} text={`${severity} severity`}/></FlexItem>
                                         <FlexItem>
                                     <span className="stat-card-value" style={{color: SCAN_SEVERITY_COLOR[severity]}}>
-                                        {camelBySeverity?.[severity] ?? 0}
+                                        {camelBySeverity[severity].length}
                                     </span>
                                         </FlexItem>
                                     </Flex>
                                 </CardTitle>
                                 <CardBody>
+                                    {camelBySeverity[severity].length === 0 ? (
+                                        <span className="stat-card-empty">No advisories</span>
+                                    ) : (
+                                        <ul className="stat-card-cves" aria-label={`${severity} Apache Camel advisories`}>
+                                            {camelBySeverity[severity].map(vulnerability => (
+                                                <li key={vulnerability.vulnerability}>
+                                                    <Button variant="link" isInline
+                                                            onClick={() => setSelected(vulnerability)}>
+                                                        {vulnerability.vulnerability}
+                                                    </Button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
                                 </CardBody>
-                                <CardFooter>
-                                    <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
-                                            onClick={() => showSeverity(severity)}>
-                                        View CVEs
-                                    </Button>
-                                </CardFooter>
                             </Card>
                         ))}
                     </Gallery>
                 </CardBody>
                 <CardFooter>
-                    <HelperText className={'stat-card-note'}>
-                        <HelperTextItem>Direct Apache Camel advisories across all scanned versions (excluding dependencies)</HelperTextItem>
-                    </HelperText>
+
                 </CardFooter>
             </Card>
 

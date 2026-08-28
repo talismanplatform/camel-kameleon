@@ -105,6 +105,11 @@ function highestSeverity(cves: Cve[]): Severity | 'none' {
     return SEVERITIES.find(severity => cves.some(cve => cve.severity === severity)) ?? 'none';
 }
 
+/** Position of a finding's severity in `SCAN_SEVERITIES`, so the worst of two sorts first. */
+function severityRank(vulnerability: Vulnerability): number {
+    return SCAN_SEVERITIES.indexOf(scanSeverityOf(vulnerability.severity));
+}
+
 function delayed<T>(value: T): Promise<T> {
     return new Promise(resolve => setTimeout(() => resolve(value), LATENCY_MS));
 }
@@ -163,28 +168,24 @@ export const CveApi = {
     },
 
     /**
-     * Advisories against Camel's own artifacts, counted per scanner severity over
-     * every scanned ref. Findings against dependencies are left out, and an
-     * advisory hitting several modules or several refs counts once, at the worst
-     * severity it was reported with.
+     * Advisories against Camel's own artifacts over every scanned ref, one finding
+     * per advisory. Findings against dependencies are left out, and an advisory
+     * hitting several modules or several refs is kept once, with the finding that
+     * reported the worst severity.
      */
-    async getCamelSeverityCounts(): Promise<Record<ScanSeverity, number>> {
+    async getCamelVulnerabilities(): Promise<Vulnerability[]> {
         const versions = await fetchJson<Versions>(VERSIONS_URL).catch(() => undefined);
         const refs = [...refsOf(versions?.tags), ...refsOf(versions?.branches)];
         const findings = (await Promise.all(refs.map(({ref}) => report(ref))))
             .flatMap(refReport => refReport ?? []);
-        const worst = new Map<string, ScanSeverity>();
+        const worst = new Map<string, Vulnerability>();
         for (const vulnerability of findings.filter(isCamelArtifact)) {
-            const severity = scanSeverityOf(vulnerability.severity);
             const kept = worst.get(vulnerability.vulnerability);
-            if (!kept || SCAN_SEVERITIES.indexOf(severity) < SCAN_SEVERITIES.indexOf(kept)) {
-                worst.set(vulnerability.vulnerability, severity);
+            if (!kept || severityRank(vulnerability) < severityRank(kept)) {
+                worst.set(vulnerability.vulnerability, vulnerability);
             }
         }
-        return [...worst.values()].reduce((counts, severity) => {
-            counts[severity] += 1;
-            return counts;
-        }, EMPTY_COUNTS());
+        return [...worst.values()];
     },
 
     /**
@@ -307,8 +308,7 @@ async function allVulnerabilities(): Promise<Vulnerability[]> {
             vulnerability.installed,
         ].join('\u0000');
         const seen = kept.get(key);
-        const worse = !seen || SCAN_SEVERITIES.indexOf(scanSeverityOf(vulnerability.severity))
-            < SCAN_SEVERITIES.indexOf(scanSeverityOf(seen.severity));
+        const worse = !seen || severityRank(vulnerability) < severityRank(seen);
         if (worse) {
             kept.set(key, vulnerability);
         }
