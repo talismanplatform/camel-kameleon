@@ -7,7 +7,6 @@ import {Select, SelectList, SelectOption} from '@patternfly/react-core/dist/esm/
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Toolbar, ToolbarContent, ToolbarItem} from '@patternfly/react-core/dist/esm/components/Toolbar';
-import {Tooltip} from '@patternfly/react-core/dist/esm/components/Tooltip';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import {Table, Tbody, Td, Th, Thead, ThProps, Tr, TreeRowWrapper} from '@patternfly/react-table';
 import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
@@ -29,32 +28,23 @@ interface SummaryProps {
     summary: FindingSummary;
 }
 
-/** Worst severity of a set of findings plus how many there are, the breakdown in the tooltip. */
+/** How many findings of each severity a set carries, read left to right worst first. */
 const SeveritySummary: React.FunctionComponent<SummaryProps> = ({summary}) => {
     if (summary.maxSeverity === undefined) {
         return <span className="components-none">-</span>;
     }
     return (
-        <Tooltip
-            position="top"
-            content={
-                <div className="components-severity-tooltip">
-                    {SCAN_SEVERITIES
-                        .filter(severity => summary.bySeverity[severity] > 0)
-                        .map(severity => (
-                            <Severity
-                                key={severity}
-                                severity={severity}
-                                text={`${severity}: ${summary.bySeverity[severity]}`}
-                            />
-                        ))}
-                </div>
-            }
-        >
-            <span className="components-severity">
-                <Severity severity={summary.maxSeverity} text={`${summary.maxSeverity} ${summary.count}`}/>
-            </span>
-        </Tooltip>
+        <div className="components-severity-values">
+            {SCAN_SEVERITIES
+                .filter(severity => !['Negligible', 'Unknown'].includes(severity) )
+                .map(severity => (
+                    <Severity
+                        key={severity}
+                        severity={severity}
+                        text={summary.bySeverity[severity]}
+                    />
+                ))}
+        </div>
     );
 };
 

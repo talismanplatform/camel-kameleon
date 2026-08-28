@@ -7,16 +7,17 @@
     color: var(--pf-t--global--text--color--subtle);
 }
 
-/* The severity reads as one line, whatever the palette colour says. */
-.components-severity {
+/* Every severity of a row reads left to right, worst first, as on the versions page. */
+.components-severity-values {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
     white-space: nowrap;
-}
-
-.components-severity-tooltip {
-    text-align: start;
 }
 
 /* The CVE leaves of the tree read as identifiers, not as prose. */
 .components-cve {
-    font-family: var(--pf-t--global--font--family--mono);
+    font-family: var(--pf-t--global--font--family--300);
 }
