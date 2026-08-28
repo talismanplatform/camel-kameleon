@@ -30,6 +30,7 @@ import {capitalize} from "@patternfly/react-core";
 import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-icon";
 import TagIcon from "@patternfly/react-icons/dist/esm/icons/tag-icon";
 import {LastScanDate} from "@shared/ui/LastScanDate";
+import {logoOf} from "@pages/cves/CvesPage";
 
 /**
  * The severities the stat cards break the Camel advisories down by: the four the
@@ -223,25 +224,31 @@ export const DashboardPage: React.FunctionComponent = () => {
                                         </Tr>
                                     </Thead>
                                     <Tbody>
-                                        {dangerousCves.map(vulnerability => (
-                                            <Tr key={vulnerability.vulnerability} isClickable
-                                                style={{verticalAlign: 'middle'}}
-                                                onRowClick={() => setSelected(vulnerability)}>
-                                                <Td dataLabel="Vulnerability" modifier="nowrap">
-                                                    {vulnerability.vulnerability}
-                                                </Td>
-                                                <Td dataLabel="Severity" modifier="nowrap">
-                                                    <SeverityText severity={capitalize(vulnerability.severity) as ScanSeverity}
-                                                                  text={vulnerability.severity}/>
-                                                </Td>
-                                                <Td dataLabel="Risk" modifier="nowrap" textCenter>
-                                                    <RiskScore value={vulnerability.risk ?? undefined}/>
-                                                </Td>
-                                                <Td dataLabel="EPSS" modifier="nowrap" textCenter>
-                                                    <EpssScore value={vulnerability.epss ?? undefined}/>
-                                                </Td>
-                                            </Tr>
-                                        ))}
+                                        {dangerousCves.map(vulnerability => {
+                                            const logo = logoOf(vulnerability.groupId);
+                                            return (
+                                                <Tr key={vulnerability.vulnerability} isClickable
+                                                    style={{verticalAlign: 'middle'}}
+                                                    onRowClick={() => setSelected(vulnerability)}>
+                                                    <Td dataLabel="Vulnerability" modifier="nowrap">
+                                                        <div style={{display: 'flex', alignItems: 'center', gap: '0.1rem'}}>
+                                                            {vulnerability.vulnerability}
+                                                            {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
+                                                        </div>
+                                                    </Td>
+                                                    <Td dataLabel="Severity" modifier="nowrap">
+                                                        <SeverityText severity={capitalize(vulnerability.severity) as ScanSeverity}
+                                                                      text={vulnerability.severity}/>
+                                                    </Td>
+                                                    <Td dataLabel="Risk" modifier="nowrap" textCenter>
+                                                        <RiskScore value={vulnerability.risk ?? undefined}/>
+                                                    </Td>
+                                                    <Td dataLabel="EPSS" modifier="nowrap" textCenter>
+                                                        <EpssScore value={vulnerability.epss ?? undefined}/>
+                                                    </Td>
+                                                </Tr>
+                                            )
+                                        })}
                                     </Tbody>
                                 </Table>
                             )}
@@ -337,6 +344,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                                                 <div style={{display: 'flex', gap: 6, alignItems: 'center'}}>
                                                     {version.kind === 'tag' ? <TagIcon/> : <CodeBranchIcon/>}
                                                     {version.ref}
+                                                    {version.kind === 'tag' && version.release?.kind === 'lts' && <Badge>LTS</Badge>}
                                                 </div>
                                             </Td>
                                             <Td dataLabel="Max risk" modifier="nowrap" textCenter>

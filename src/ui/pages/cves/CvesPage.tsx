@@ -30,7 +30,6 @@ const COLUMNS: {
     modifier?: 'breakWord' | 'fitContent' | 'nowrap' | 'truncate' | 'wrap';
     textCenter?: boolean;
 }[] = [
-    {key: 'logo', label: '', sortable: false, modifier: 'fitContent'},
     {key: 'vulnerability', label: 'Vulnerability', sortable: true},
     {key: 'severity', label: 'Severity', sortable: true, modifier: 'fitContent'},
     {key: 'coordinates', label: 'Group:Artifact', sortable: true},
@@ -45,7 +44,7 @@ const COLUMNS: {
 const RISK_INDEX = COLUMNS.findIndex(column => column.key === 'risk');
 
 /** Camel artifacts are ours, the rest of `org.apache` is upstream. */
-function logoOf(groupId?: string | null): {src: string; alt: string} | undefined {
+export function logoOf(groupId?: string | null): {src: string; alt: string} | undefined {
     if (groupId?.startsWith('org.apache.camel')) {
         return {src: camelLogo, alt: 'Apache Camel'};
     }
@@ -218,11 +217,11 @@ export const CvesPage: React.FunctionComponent = () => {
                                 isRowSelected={vulnerability === selected}
                                 onRowClick={() => setSelected(vulnerability)}
                             >
-                                <Td modifier="fitContent">
-                                    {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
-                                </Td>
                                 <Td dataLabel="Vulnerability" modifier="nowrap">
-                                    <span className="cve-id">{vulnerability.vulnerability}</span>
+                                    <div style={{display: 'flex', alignItems: 'center', gap: '0.1rem'}}>
+                                        <span className="cve-id">{vulnerability.vulnerability}</span>
+                                        {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
+                                    </div>
                                 </Td>
                                 <Td dataLabel="Severity">
                                     <Severity text={vulnerability.severity} severity={capitalize(vulnerability.severity) as ScanSeverity} />
