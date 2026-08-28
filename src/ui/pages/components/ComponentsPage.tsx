@@ -12,9 +12,11 @@ import {Table, Tbody, Td, Th, Thead, ThProps, Tr, TreeRowWrapper} from '@pattern
 import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
 import FilterIcon from '@patternfly/react-icons/dist/esm/icons/filter-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
+import CodeIcon from '@patternfly/react-icons/dist/esm/icons/code-icon';
+import CubeIcon from '@patternfly/react-icons/dist/esm/icons/cube-icon';
 import CubesIcon from '@patternfly/react-icons/dist/esm/icons/cubes-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
+import {MODULE_GROUPS, ModuleGroup, SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
 import {useCompassStore} from '@compass/useCompassStore';
@@ -23,6 +25,16 @@ import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {VulnerabilityDrawer} from '../cves/VulnerabilityDrawer';
 import {ComponentRow, componentRows, ComponentSort, findingIndex, FindingSummary, hasSeverity, pruneRows, rowFindings, scanSeverity, sortRows, total,} from './componentTree';
 import './ComponentsPage.css';
+
+/**
+ * One icon per Camel source tree, so a root row says which of the three it was
+ * read from, and none of them reads like the findings below it.
+ */
+const GROUP_ICON: Record<ModuleGroup, React.ReactNode> = {
+    core: <CubeIcon/>,
+    components: <CubesIcon/>,
+    dsl: <CodeIcon/>,
+};
 
 interface SummaryProps {
     summary: FindingSummary;
@@ -49,8 +61,9 @@ const SeveritySummary: React.FunctionComponent<SummaryProps> = ({summary}) => {
 };
 
 /**
- * Every Camel component of one scanned ref with its dependencies, read from the
- * `components` module trees the scan publishes under `public/data/<ref>/components`.
+ * Every Camel module of one scanned ref with its dependencies, read from the
+ * `core`, `components` and `dsl` trees the scan publishes under
+ * `public/data/<ref>/<group>`.
  *
  * Each level is scored twice: the findings reported against the artifact of that
  * very row, and the findings of everything it depends on. A row whose own columns
@@ -133,15 +146,15 @@ export const ComponentsPage: React.FunctionComponent = () => {
             return [];
         }
         const index = findingIndex(vulnerabilities);
-        return (dependencyTrees.components ?? [])
-            .map(module => componentRows(module, index))
+        return MODULE_GROUPS
+            .flatMap(group => (dependencyTrees[group] ?? []).map(module => componentRows(module, index, group)))
             .sort((a, b) => a.artifactId.localeCompare(b.artifactId));
     }, [dependencyTrees, vulnerabilities]);
 
     /**
      * A component and a dependency are held to the same test, so a subtree is
      * only shown down to the rows that carry what the reader asked for. The
-     * search only applies to the components, a reader looking for `camel-http`
+     * search only applies to the modules, a reader looking for `camel-http`
      * wants its whole tree, not the dependencies that happen to be named alike.
      */
     const visible = useMemo(() => {
@@ -282,13 +295,14 @@ export const ComponentsPage: React.FunctionComponent = () => {
                 'aria-level': level,
                 'aria-posinset': position + 1,
                 'aria-setsize': row.children.length + findings.length,
-                icon: level === 1 ? <CubesIcon/> : undefined,
+                // Only a root row belongs to a group; a dependency below it is not a Camel module.
+                icon: row.group ? GROUP_ICON[row.group] : undefined,
             };
             const rowIndex = index.row++;
             return [
                 <TreeRowWrapper key={row.key} row={{props}}>
                     <Td
-                        dataLabel="Component"
+                        dataLabel="Module"
                         treeRow={{
                             onCollapse: () => toggle(row.key),
                             props,
@@ -361,8 +375,8 @@ export const ComponentsPage: React.FunctionComponent = () => {
                     </ToolbarItem>
                     <ToolbarItem>
                         <SearchInput
-                            aria-label="Search components"
-                            placeholder="Search component"
+                            aria-label="Search modules"
+                            placeholder="Search module"
                             value={search}
                             onChange={(_event, value) => setSearch(value)}
                             onClear={() => setSearch('')}
@@ -392,7 +406,7 @@ export const ComponentsPage: React.FunctionComponent = () => {
                         </Select>
                     </ToolbarItem>
                     <ToolbarItem variant="pagination">
-                        <Badge>{`${visible.length} components`}</Badge>
+                        <Badge>{`${visible.length} modules`}</Badge>
                     </ToolbarItem>
                 </ToolbarContent>
             </Toolbar>
@@ -400,22 +414,22 @@ export const ComponentsPage: React.FunctionComponent = () => {
             {isLoadingRef ? (
                 <Bullseye><Spinner aria-label="Loading component dependency trees"/></Bullseye>
             ) : visible.length === 0 ? (
-                <EmptyState headingLevel="h2" icon={CubesIcon} titleText="No components">
+                <EmptyState headingLevel="h2" icon={CubesIcon} titleText="No modules">
                     <EmptyStateBody>
                         {rows.length === 0
-                            ? `No component dependency trees have been published for ${selectedRef ?? 'this version'}.`
-                            : 'No component matches the current search and filters.'}
+                            ? `No module dependency trees have been published for ${selectedRef ?? 'this version'}.`
+                            : 'No module matches the current search and filters.'}
                     </EmptyStateBody>
                 </EmptyState>
             ) : (
                 <Table
-                    aria-label={`Camel components of ${selectedRef} and their dependencies`}
+                    aria-label={`Camel core, components and dsl modules of ${selectedRef} and their dependencies`}
                     variant="compact"
                     isTreeTable
                 >
                     <Thead>
                         <Tr>
-                            <Th rowSpan={2}>Component / dependency</Th>
+                            <Th rowSpan={2}>Module / dependency</Th>
                             <Th rowSpan={2} modifier="fitContent">Version</Th>
                             <Th colSpan={3} textCenter hasRightBorder>This level</Th>
                             <Th colSpan={3} textCenter>Dependencies</Th>

@@ -1,4 +1,4 @@
-import {DependencyNode, SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
+import {DependencyNode, ModuleGroup, SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
 
 /**
  * The findings of one node of a dependency tree, aggregated: how many there are,
@@ -26,6 +26,8 @@ export const NO_FINDINGS: FindingSummary = {count: 0, bySeverity: emptyCounts()}
 export interface ComponentRow {
     /** Stable across renders, and unique even where the same artifact appears twice. */
     key: string;
+    /** The Camel source tree the root of this row's subtree was read from, undefined below it. */
+    group?: ModuleGroup;
     groupId: string;
     artifactId: string;
     version: string;
@@ -65,17 +67,19 @@ export function findingIndex(vulnerabilities: Vulnerability[]): FindingIndex {
 }
 
 /**
- * The rows of one Camel module: the module itself and, recursively, every
- * dependency it declares. Each row carries the findings of its own coordinate
- * and those of its whole subtree, so a reader sees at which level the problem
- * actually sits.
+ * The rows of one Camel module of `group`: the module itself and, recursively,
+ * every dependency it declares. The group is only carried by the root, the rows
+ * beneath it are dependencies rather than modules of a Camel source tree.
+ *
+ * Each row carries the findings of its own coordinate and those of its whole
+ * subtree, so a reader sees at which level the problem actually sits.
  *
  * Findings are collected as objects rather than counted on the way up: the same
  * dependency appears in several branches of a module, and a shared library must
  * not be counted once per path that reaches it.
  */
-export function componentRows(module: DependencyNode, index: FindingIndex): ComponentRow {
-    return walk(module, index, module.a).row;
+export function componentRows(module: DependencyNode, index: FindingIndex, group: ModuleGroup): ComponentRow {
+    return {...walk(module, index, `${group}/${module.a}`).row, group};
 }
 
 function walk(node: DependencyNode, index: FindingIndex, path: string): {row: ComponentRow; all: Set<Vulnerability>} {
