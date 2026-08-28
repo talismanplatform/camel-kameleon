@@ -1,0 +1,12 @@
+/* The group of a coordinate is context, the artifact is what the reader scans for. */
+.components-group {
+    color: var(--pf-t--global--text--color--subtle);
+}
+
+.components-none {
+    color: var(--pf-t--global--text--color--subtle);
+}
+
+.components-severity-tooltip {
+    text-align: start;
+}

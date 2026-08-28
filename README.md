@@ -49,7 +49,9 @@ declared in both `vite.config.ts` and `tsconfig.json`.
 
 * **Dashboard** – severity stat cards, remediation progress, most affected components, latest advisories.
 * **CVEs** – searchable and sortable advisory table with a resizable detail drawer; `/cves/:cveId` deep links open that drawer.
-* **Components** – affected Camel artifacts grouped by category, linking back into a filtered CVE list.
+* **Components** – tree table of every Camel component of the selected version and, level by level,
+  the dependencies it pulls in; each level scores its own findings and those of its dependencies
+  separately (severity, risk, EPSS) so it is clear whether the issue sits in the component or below it.
 * **Versions** – every scanned tag and branch: kind, name, scan date, vulnerability counts by severity, max risk and max EPSS, read from `public/data/<ref>/vulnerabilities.json`.
 * **About** – stack summary and data sources.
 
@@ -77,6 +79,10 @@ no generated artifact to keep in sync.
 The vulnerability drawer asks for them the first time it is opened and shows the `core`,
 `components` and `dsl` modules whose tree reaches the reported artifact, pruned to the
 branches that end in it.
+
+The components page reads the same trees: it walks the `components` group recursively into
+a tree table and, for every level, folds the report into the findings of that artifact and
+the findings of its subtree.
 
 ### Scan date
 
