@@ -15,11 +15,10 @@ import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
 import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
-import {isOpen, RefScan, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
+import {isOpen, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
-import {formatScanDate} from '@shared/scanDate';
 import {SeverityLabel} from '@shared/ui/SeverityLabel';
 import {StatusLabel} from '@shared/ui/StatusLabel';
 import './DashboardPage.css';
@@ -203,10 +202,3 @@ export const DashboardPage: React.FunctionComponent = () => {
     );
 };
 
-/** Tooltip body for the last scan date: every ref and when it was scanned. */
-function scannedRefs(refs?: RefScan[]): React.ReactNode {
-    if (!refs || refs.length === 0) {
-        return 'No scan has been published yet';
-    }
-    return <>{refs.map(ref => <div key={ref.ref}>{`${ref.ref}: ${formatScanDate(ref.scannedAt)}`}</div>)}</>;
-}

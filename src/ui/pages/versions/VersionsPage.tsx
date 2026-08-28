@@ -123,6 +123,3 @@ function isLts(version: VersionScan): boolean {
     return version.release?.kind?.toLowerCase() === 'lts' && version.kind === 'tag';
 }
 
-function count(versions: VersionScan[], kind: VersionScan['kind']): number {
-    return versions.filter(version => version.kind === kind).length;
-}
