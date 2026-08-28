@@ -12,7 +12,7 @@ import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
-import {ALL_REFS, isOpen, MODULE_GROUPS, SCAN_SEVERITIES, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
+import {ALL_REFS, MODULE_GROUPS, SCAN_SEVERITIES, ScanSeverity, scanSeverityOf, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -167,8 +167,8 @@ const DashboardPage: React.FunctionComponent = () => {
         return <Bullseye><Spinner aria-label="Loading vulnerabilities"/></Bullseye>;
     }
 
-    const openCves = cves.filter(isOpen);
-    const latest = [...cves].sort((a, b) => b.published.localeCompare(a.published)).slice(0, 5);
+    // const openCves = cves.filter(isOpen);
+    // const latest = [...cves].sort((a, b) => b.published.localeCompare(a.published)).slice(0, 5);
 
     const coverage = sortedVersions(versions);
     const cvesLoading = vulnerabilitiesLoading && vulnerabilities.length === 0;
