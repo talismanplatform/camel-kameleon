@@ -1,9 +1,0 @@
-{
-  "groupId": "org.apache.camel",
-  "artifactId": "camel-test-parent",
-  "version": "4.18.4",
-  "type": "pom",
-  "scope": "",
-  "classifier": "",
-  "optional": "false"
-}

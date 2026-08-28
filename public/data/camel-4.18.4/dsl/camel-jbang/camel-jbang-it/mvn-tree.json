@@ -1,9 +1,0 @@
-{
-  "groupId": "org.apache.camel",
-  "artifactId": "camel-jbang-it",
-  "version": "4.18.4",
-  "type": "jar",
-  "scope": "",
-  "classifier": "",
-  "optional": "false"
-}

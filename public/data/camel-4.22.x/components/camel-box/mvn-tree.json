@@ -1,9 +1,0 @@
-{
-  "groupId": "org.apache.camel",
-  "artifactId": "camel-box-parent",
-  "version": "4.22.1-SNAPSHOT",
-  "type": "pom",
-  "scope": "",
-  "classifier": "",
-  "optional": "false"
-}
