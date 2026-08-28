@@ -13,20 +13,11 @@ on:
 permissions:
   contents: write
 
-# Scanning writes back to the repository, so never run two scans at once.
-# The commit this workflow pushes only touches public/data, which deploy.yml
-# ignores, so refreshing the data never triggers a Pages deployment.
 concurrency:
   group: scan
   cancel-in-progress: false
 
-env:
-  MVND_VERSION: '1.0.2'
-
 jobs:
-  # Refresh the Camel release list, derive the refs to scan from it, and hand
-  # both files to the later jobs as an artifact. This has to run first: every
-  # other job is driven by what lands in versions.json here.
   versions:
     runs-on: ubuntu-latest
     outputs:
@@ -40,26 +31,16 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      # Release metadata for the Versions page: LTS flag, supported JDKs, release
-      # and EOL dates. Only releases that are still supported - eolDate strictly
-      # after today - are kept; anything already EOL is neither published nor
-      # scanned.
       - name: Write public/data/camel_versions.json
         env:
           CAMEL_JBANG_VERSION: '4.22.0'
         run: |
           curl -Ls https://sh.jbang.dev | bash -s - app setup
           export PATH="$HOME/.jbang/bin:$PATH"
-          # The runner has no console, so jbang cannot ask whether to trust the
-          # CamelJBang source and aborts with exit code 10. Trust apache/camel
-          # up front - both the catalog host (raw.githubusercontent.com) and the
-          # blob URL the alias resolves to (github.com) are checked.
           jbang trust add \
             https://github.com/apache/camel/ \
             https://raw.githubusercontent.com/apache/camel/
           jbang trust list
-          # Write to a temp file so a failed run cannot commit a truncated or
-          # empty release list.
           jbang "-Dcamel.jbang.version=${CAMEL_JBANG_VERSION}" \
             camel@apache/camel version list --json > /tmp/camel_versions.all.json
           jq -e 'length > 0' /tmp/camel_versions.all.json > /dev/null
@@ -70,9 +51,6 @@ jobs:
           mv /tmp/camel_versions.json public/data/camel_versions.json
           echo "supported releases: $(jq 'length' public/data/camel_versions.json)"
 
-      # versions.json is derived, never hand-edited: one tag per supported
-      # release line - only its latest patch, since older patches are
-      # superseded - one branch per supported LTS release line, plus main.
       - name: Write public/data/versions.json
         run: |
           jq '
@@ -89,7 +67,6 @@ jobs:
           mv /tmp/versions.json public/data/versions.json
           cat public/data/versions.json
 
-      # Turn public/data/versions.json into a job matrix: one job per tag and branch.
       - id: read
         name: Read versions.json
         run: |
@@ -120,7 +97,6 @@ jobs:
       - name: Checkout dashboard
         uses: actions/checkout@v7
 
-      # 1. Clone the branch or tag of apache/camel, no history, single branch.
       - name: Clone apache/camel@${{ matrix.ref }}
         run: |
           git clone --depth=1 --single-branch \
@@ -134,25 +110,16 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Install mvnd
-        run: |
-          url="https://github.com/apache/maven-mvnd/releases/download/${MVND_VERSION}/maven-mvnd-${MVND_VERSION}-linux-amd64.zip"
-          curl -fsSL -o /tmp/mvnd.zip "$url"
-          unzip -q /tmp/mvnd.zip -d /opt
-          echo "/opt/maven-mvnd-${MVND_VERSION}-linux-amd64/bin" >> "$GITHUB_PATH"
-
-      # 1.1. Write a runtime dependency tree next to every module's pom.xml.
       - name: Generate mvn-tree.json
         working-directory: camel
         run: |
-          mvnd dependency:tree \
+          mvn dependency:tree \
             -DoutputType=json \
             -DoutputFile=mvn-tree.json \
             -Dscope=runtime \
             -q --batch-mode --fail-at-end -Dmaven.wagon.http.retryHandler.count=3
           echo "trees: $(find components core dsl -name mvn-tree.json | wc -l)"
 
-      # 2. Copy the Maven dependency trees, keeping the module directory layout.
       - name: Collect mvn-tree.json files
         working-directory: camel
         run: |
@@ -162,14 +129,10 @@ jobs:
             components core dsl \
             '${{ github.workspace }}/public/data/${{ matrix.ref }}/'
 
-      # 3. Install grype.
       - name: Install grype
         uses: anchore/scan-action/download-grype@v7
         id: grype
 
-      # 4. Scan the SBOM published in the Camel source tree.
-      #    The scan date is taken here, from the runner, so it records when the
-      #    vulnerability data was actually produced - not when it was committed.
       - name: Scan SBOM
         working-directory: camel
         run: |
@@ -181,7 +144,6 @@ jobs:
             echo "CAMEL_COMMIT=$(git rev-parse HEAD)"
           } >> "$GITHUB_ENV"
 
-      # 5. Reduce the grype report to the fields the dashboard consumes.
       - name: Reshape report
         working-directory: camel
         run: |
@@ -201,9 +163,6 @@ jobs:
             }]' vulnerabilities.json > vulnerabilities.reshaped.json
           mv vulnerabilities.reshaped.json vulnerabilities.json
 
-      # 6. Publish the report, plus a scan.json stamp, next to the dependency
-      #    trees for this ref. scan.json is what the dashboard reads to show
-      #    when this ref was last scanned.
       - name: Move report into public/data/${{ matrix.ref }}
         run: |
           target='public/data/${{ matrix.ref }}'
@@ -219,9 +178,6 @@ jobs:
             > "$target/scan.json"
           cat "$target/scan.json"
 
-      # Upload even when an earlier step failed: a crashed ref must not take the
-      # refs that did finish down with it. publish only adopts an artifact that
-      # carries a complete scan.json, so a partial upload is harmless.
       - name: Upload scan result
         if: always()
         uses: actions/upload-artifact@v5
@@ -231,9 +187,6 @@ jobs:
           retention-days: 1
           if-no-files-found: warn
 
-  # Merge every matrix result back into the repository in a single commit.
-  # Runs whatever the scan matrix did: as long as one ref produced a scan, its
-  # result is published; refs that crashed keep the data already committed.
   publish:
     needs: [versions, scan]
     if: always() && needs.versions.result == 'success'
@@ -241,17 +194,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # camel_versions.json and versions.json are produced by the versions job;
-      # take them from there so the refreshed release list lands in the same
-      # commit as the scan data it produced.
       - name: Download version metadata
         uses: actions/download-artifact@v6
         with:
           name: version-metadata
           path: public/data
 
-      # Not fatal when it finds nothing: if every scan job crashed there is still
-      # refreshed version metadata to commit.
       - name: Download scan results
         continue-on-error: true
         uses: actions/download-artifact@v6
@@ -259,10 +207,6 @@ jobs:
           pattern: scan-*
           path: scans
 
-      # A ref is only replaced when its artifact is complete - a valid scan.json
-      # stamp plus the report it describes. Anything less (job crashed early, or
-      # crashed after writing the dependency trees) is left alone, so the ref
-      # keeps the last good data instead of being wiped.
       - name: Move results into public/data
         run: |
           adopted=0
@@ -289,11 +233,6 @@ jobs:
             echo '::warning::no ref produced a scan in this run'
           fi
 
-      # One index for the whole dashboard: the newest scan date plus a per-ref
-      # breakdown, so the UI needs a single request to render "last scan".
-      # Built from every stamp on disk, not just the ones this run refreshed, so
-      # a ref whose job crashed stays in the index with its previous scan date.
-      # Unreadable stamps are skipped rather than failing the whole index.
       - name: Write public/data/scan.json index
         run: |
           stamps=""
@@ -309,7 +248,6 @@ jobs:
             echo '::warning::no scan.json stamps found, index left untouched'
             exit 0
           fi
-          # shellcheck disable=SC2086
           jq -s '{scannedAt: ([.[].scannedAt] | max), refs: sort_by(.ref)}' $stamps \
             > /tmp/scan.json
           jq -e '(.refs | length) > 0' /tmp/scan.json > /dev/null
