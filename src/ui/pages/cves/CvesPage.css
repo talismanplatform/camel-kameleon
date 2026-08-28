@@ -4,7 +4,7 @@
 }
 
 .cve-id {
-    font-weight: var(--pf-t--global--font--weight--body--bold);
+
 }
 
 .cve-title {
@@ -29,4 +29,14 @@
     display: block;
     max-width: 16px;
     height: 16px;
+}
+
+.cve-detail-empty {
+    color: var(--pf-t--global--text--color--subtle);
+}
+
+/* Advisory URLs are long, so they wrap rather than widen the drawer. */
+.cve-data-source {
+    overflow-wrap: anywhere;
+    text-align: start;
 }

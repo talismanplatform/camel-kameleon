@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {EmptyState, EmptyStateActions, EmptyStateBody, EmptyStateFooter} from '@patternfly/react-core/dist/esm/components/EmptyState';
@@ -9,9 +9,11 @@ import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
 import {SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
 import {filterVulnerabilities, useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
+import {useCompassStore} from '@compass/useCompassStore';
 import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
 import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {CvesToolbar} from './CvesToolbar';
+import {NO_FIX, VulnerabilityDrawer} from './VulnerabilityDrawer';
 import apacheLogo from '@shared/icons/apache-logo.svg';
 import camelLogo from '@shared/icons/camel-logo.svg';
 import './CvesPage.css';
@@ -50,9 +52,6 @@ function logoOf(groupId?: string | null): {src: string; alt: string} | undefined
     return undefined;
 }
 
-/** No fix released reads better than the scanner's `(not-fixed)` / `(unknown)`. */
-const NO_FIX = /^\(.*\)$/;
-
 export const CvesPage: React.FunctionComponent = () => {
 
     const versions = useCveStore((s) => s.versions);
@@ -64,6 +63,13 @@ export const CvesPage: React.FunctionComponent = () => {
     const setFilters = useCveStore((s) => s.setFilters);
     const resetFilters = useCveStore((s) => s.resetFilters);
     const selectRef = useCveStore((s) => s.selectRef);
+
+    // The details drawer lives in the Compass shell, the page only feeds it.
+    const setDrawerPanel = useCompassStore((s) => s.setDrawerPanel);
+    const setIsDrawerExpanded = useCompassStore((s) => s.setIsDrawerExpanded);
+
+    // The finding shown in the details drawer, undefined while it is closed.
+    const [selected, setSelected] = useState<Vulnerability>();
 
     // Risk descending: the findings that need attention first come first.
     const [sortIndex, setSortIndex] = useState(RISK_INDEX);
@@ -88,6 +94,23 @@ export const CvesPage: React.FunctionComponent = () => {
         }
     }, [versions]);
 
+    // A finding of the previous report must not stay open once another ref is shown.
+    useEffect(() => setSelected(undefined), [vulnerabilities]);
+
+    const closeDrawer = useCallback(() => setSelected(undefined), []);
+
+    // Declared after usePageContext so the panel survives a page context refresh.
+    useEffect(() => {
+        setDrawerPanel(selected ? <VulnerabilityDrawer vulnerability={selected} onClose={closeDrawer}/> : null);
+        setIsDrawerExpanded(selected !== undefined);
+    }, [selected]);
+
+    // Leaving the page must not leave its drawer behind.
+    useEffect(() => () => {
+        setDrawerPanel(null);
+        setIsDrawerExpanded(false);
+    }, []);
+
     const filtered = useMemo(() => filterVulnerabilities(vulnerabilities, filters), [vulnerabilities, filters]);
 
     const sorted = useMemo(() => {
@@ -106,13 +129,6 @@ export const CvesPage: React.FunctionComponent = () => {
             return String(a[column] ?? '').localeCompare(String(b[column] ?? '')) * factor;
         });
     }, [filtered, sortIndex, sortDirection]);
-
-    /** The advisory itself lives on GitHub, so a row opens its data source. */
-    function openDataSource(vulnerability: Vulnerability) {
-        if (vulnerability.dataSource) {
-            window.open(vulnerability.dataSource, '_blank', 'noopener,noreferrer');
-        }
-    }
 
     if ((loading && versions.length === 0) || (vulnerabilitiesLoading && vulnerabilities.length === 0)) {
         return <Bullseye><Spinner aria-label="Loading vulnerabilities"/></Bullseye>;
@@ -170,7 +186,8 @@ export const CvesPage: React.FunctionComponent = () => {
                             return <Tr
                                 key={`${vulnerability.vulnerability}-${vulnerability.groupId}-${vulnerability.artifactId}-${index}`}
                                 isClickable
-                                onRowClick={() => openDataSource(vulnerability)}
+                                isRowSelected={vulnerability === selected}
+                                onRowClick={() => setSelected(vulnerability)}
                             >
                                 <Td modifier="fitContent">
                                     {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
