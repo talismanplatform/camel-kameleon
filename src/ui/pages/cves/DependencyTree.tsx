@@ -107,10 +107,10 @@ export const DependencyTree: React.FunctionComponent<DependencyTreeProps> = ({vu
 
     if (rows.length === 0) {
         return (
-            <EmptyState headingLevel="h3" titleText="Not a runtime dependency" icon={CubesIcon} variant="xs">
+            <EmptyState headingLevel="h3" titleText="Not a dependency" icon={CubesIcon} variant="xs">
                 <EmptyStateBody>
                     {trees
-                        ? `No core, components or dsl module of ${selectedRef} depends on ${coordinates(vulnerability)}.`
+                        ? `No core, components or dsl module depends on ${coordinates(vulnerability)}.`
                         : `No dependency trees have been published for ${selectedRef}.`}
                 </EmptyStateBody>
             </EmptyState>

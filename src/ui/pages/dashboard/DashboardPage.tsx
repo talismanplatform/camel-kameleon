@@ -3,7 +3,6 @@ import {useNavigate} from 'react-router-dom';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {Card, CardBody, CardFooter, CardHeader, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
 import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
-import {DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm} from '@patternfly/react-core/dist/esm/components/DescriptionList';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
@@ -20,8 +19,6 @@ import {usePageContext} from '@compass/usePageContext';
 import {useCompassStore} from '@compass/useCompassStore';
 import {VulnerabilityDrawer} from '../cves/VulnerabilityDrawer';
 import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity as SeverityText} from '@shared/ui/ScoreInfo';
-import {SeverityLabel} from '@shared/ui/SeverityLabel';
-import {StatusLabel} from '@shared/ui/StatusLabel';
 import './DashboardPage.css';
 import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {componentRows, findingIndex, topModules} from '../components/componentTree';
@@ -405,38 +402,6 @@ const DashboardPage: React.FunctionComponent = () => {
                             <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
                                     onClick={() => navigate(ROUTES.VERSIONS)}>
                                 All scanned versions
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                </GridItem>
-
-                <GridItem span={12}>
-                    <Card>
-                        <CardTitle>Latest advisories</CardTitle>
-                        <CardBody>
-                            <DescriptionList isCompact>
-                                {latest.map(cve => (
-                                    <DescriptionListGroup key={cve.cveId}>
-                                        <DescriptionListTerm>
-                                            <Button variant="link" isInline onClick={() => navigate(`/cves/${cve.cveId}`)}>
-                                                {cve.cveId}
-                                            </Button>
-                                        </DescriptionListTerm>
-                                        <DescriptionListDescription>
-                                            <Flex gap={{default: 'gapSm'}} alignItems={{default: 'alignItemsCenter'}}>
-                                                <FlexItem><SeverityLabel severity={cve.severity} isCompact/></FlexItem>
-                                                <FlexItem><StatusLabel status={cve.status} isCompact/></FlexItem>
-                                                <FlexItem>{cve.title}</FlexItem>
-                                            </Flex>
-                                        </DescriptionListDescription>
-                                    </DescriptionListGroup>
-                                ))}
-                            </DescriptionList>
-                        </CardBody>
-                        <CardFooter>
-                            <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
-                                    onClick={() => navigate(ROUTES.CVES)}>
-                                {`Browse all ${openCves.length} open findings`}
                             </Button>
                         </CardFooter>
                     </Card>
