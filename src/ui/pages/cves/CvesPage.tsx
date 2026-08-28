@@ -12,18 +12,21 @@ import {usePageContext} from '@compass/usePageContext';
 import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
 import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {CvesToolbar} from './CvesToolbar';
+import apacheLogo from '@shared/icons/apache-logo.svg';
+import camelLogo from '@shared/icons/camel-logo.svg';
 import './CvesPage.css';
 import {capitalize} from "@patternfly/react-core";
 
 type SortableColumn = 'vulnerability' | 'severity' | 'coordinates' | 'installed' | 'fixed_in' | 'epss' | 'risk';
 
 const COLUMNS: {
-    key: SortableColumn | 'description';
+    key: SortableColumn | 'description' | 'logo';
     label: React.ReactNode;
     sortable: boolean;
     modifier?: 'breakWord' | 'fitContent' | 'nowrap' | 'truncate' | 'wrap';
     textCenter?: boolean;
 }[] = [
+    {key: 'logo', label: '', sortable: false, modifier: 'fitContent'},
     {key: 'vulnerability', label: 'Vulnerability', sortable: true},
     {key: 'severity', label: 'Severity', sortable: true, modifier: 'fitContent'},
     {key: 'coordinates', label: 'Group:Artifact', sortable: true},
@@ -35,6 +38,17 @@ const COLUMNS: {
 ];
 
 const RISK_INDEX = COLUMNS.findIndex(column => column.key === 'risk');
+
+/** Camel artifacts are ours, the rest of `org.apache` is upstream. */
+function logoOf(groupId?: string | null): {src: string; alt: string} | undefined {
+    if (groupId?.startsWith('org.apache.camel')) {
+        return {src: camelLogo, alt: 'Apache Camel'};
+    }
+    if (groupId?.startsWith('org.apache')) {
+        return {src: apacheLogo, alt: 'Apache'};
+    }
+    return undefined;
+}
 
 /** No fix released reads better than the scanner's `(not-fixed)` / `(unknown)`. */
 const NO_FIX = /^\(.*\)$/;
@@ -151,12 +165,16 @@ export const CvesPage: React.FunctionComponent = () => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {sorted.map((vulnerability, index) => (
-                            <Tr
+                        {sorted.map((vulnerability, index) => {
+                            const logo = logoOf(vulnerability.groupId);
+                            return <Tr
                                 key={`${vulnerability.vulnerability}-${vulnerability.groupId}-${vulnerability.artifactId}-${index}`}
                                 isClickable
                                 onRowClick={() => openDataSource(vulnerability)}
                             >
+                                <Td modifier="fitContent">
+                                    {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
+                                </Td>
                                 <Td dataLabel="Vulnerability" modifier="nowrap">
                                     <span className="cve-id">{vulnerability.vulnerability}</span>
                                 </Td>
@@ -182,8 +200,8 @@ export const CvesPage: React.FunctionComponent = () => {
                                 <Td dataLabel="Risk" textCenter modifier="nowrap">
                                     <RiskScore value={vulnerability.risk ?? undefined}/>
                                 </Td>
-                            </Tr>
-                        ))}
+                            </Tr>;
+                        })}
                     </Tbody>
                 </Table>
             )}

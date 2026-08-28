@@ -24,3 +24,9 @@
 .cve-group {
     color: var(--pf-t--global--text--color--subtle);
 }
+
+.cve-logo {
+    display: block;
+    max-width: 16px;
+    height: 16px;
+}
