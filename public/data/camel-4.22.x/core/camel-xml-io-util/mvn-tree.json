@@ -1,0 +1,9 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-xml-io-util",
+  "version": "4.22.1-SNAPSHOT",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false"
+}
