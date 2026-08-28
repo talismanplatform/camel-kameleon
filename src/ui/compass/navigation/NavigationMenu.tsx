@@ -22,17 +22,13 @@ export class MenuItem {
     }
 }
 
-export function getNavigationFirstMenu(): MenuItem[] {
+export function getNavigationMenu(): MenuItem[] {
     return [
         new MenuItem('dashboard', 'Dashboard', ROUTES.DASHBOARD, <TachometerAltIcon/>),
         new MenuItem('cves', 'CVEs', ROUTES.CVES, <SecurityIcon/>),
         new MenuItem('components', 'Components', ROUTES.COMPONENTS, <CubesIcon/>),
         new MenuItem('versions', 'Versions', ROUTES.VERSIONS, <CodeBranchIcon/>),
-    ];
-}
-
-export function getNavigationSecondMenu(): MenuItem[] {
-    return [
         new MenuItem('about', 'About', ROUTES.ABOUT, <InfoCircleIcon/>),
     ];
 }
+
