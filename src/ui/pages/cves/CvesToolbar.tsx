@@ -60,7 +60,7 @@ export const CvesToolbar: React.FunctionComponent<Props> = (
 
     return (
         <Toolbar id="cves-toolbar" clearAllFilters={onReset} collapseListedFiltersBreakpoint="xl">
-            <ToolbarContent>
+            <ToolbarContent alignItems="center">
                 <ToolbarItem>
                     <Select
                         id="version-select"
@@ -121,7 +121,7 @@ export const CvesToolbar: React.FunctionComponent<Props> = (
                     </Select>
                 </ToolbarItem>
                 <ToolbarItem variant="pagination">
-                    <Badge isRead>{`${resultCount} results`}</Badge>
+                    <Badge>{`${resultCount} results`}</Badge>
                 </ToolbarItem>
                 <ToolbarItem>
                     <Button variant="link" isInline onClick={onReset}>Clear filters</Button>

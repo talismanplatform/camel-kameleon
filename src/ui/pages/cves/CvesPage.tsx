@@ -2,7 +2,6 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {EmptyState, EmptyStateActions, EmptyStateBody, EmptyStateFooter} from '@patternfly/react-core/dist/esm/components/EmptyState';
-import {Label, LabelGroup} from '@patternfly/react-core/dist/esm/components/Label';
 import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Table, Tbody, Td, Th, Thead, Tr} from '@patternfly/react-table';
@@ -62,10 +61,7 @@ export const CvesPage: React.FunctionComponent = () => {
     usePageContext(
         'Vulnerabilities',
         <Title headingLevel="h1" size="xl">Vulnerabilities</Title>,
-        <LabelGroup>
-            {selectedRef && <Label isCompact variant="outline">{selectedRef}</Label>}
-            <Label isCompact variant="outline">{`${vulnerabilities.length} findings`}</Label>
-        </LabelGroup>,
+        null,
         [selectedRef, vulnerabilities.length]
     );
 
