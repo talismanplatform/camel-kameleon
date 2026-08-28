@@ -13,8 +13,6 @@ import {Grid, GridItem} from '@patternfly/react-core/dist/esm/layouts/Grid';
 import {Flex, FlexItem} from '@patternfly/react-core/dist/esm/layouts/Flex';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
-import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
-import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
 import {isOpen, MODULE_GROUPS, SCAN_SEVERITIES, ScanSeverity, SEVERITIES, Severity, SEVERITY_LABEL, Vulnerability} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
@@ -29,8 +27,10 @@ import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {componentRows, findingIndex, topModules} from '../components/componentTree';
 import {CardHeader} from "@patternfly/react-core/src";
 import {Badge} from "@patternfly/react-core/dist/esm/components/Badge";
-import {LastScanDate} from "@shared/ui/LastScanDate";
 import {capitalize} from "@patternfly/react-core";
+import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-icon";
+import TagIcon from "@patternfly/react-icons/dist/esm/icons/tag-icon";
+import {LastScanDate} from "@shared/ui/LastScanDate";
 
 /** The advisory severities of this page map onto the scanner severities the CVE page filters by. */
 const SCAN_SEVERITY_OF: Record<Severity, ScanSeverity> = {
@@ -203,56 +203,8 @@ export const DashboardPage: React.FunctionComponent = () => {
                     <Card isFullHeight isCompact>
                         <CardHeader>
                             <div className='dashboard-card-header'>
-                                <CardTitle>Scan coverage</CardTitle>
-                                <Label variant="outline" style={{gap: 6}}>
-                                    <LastScanDate/>
-                                </Label>
-                            </div>
-                        </CardHeader>
-                        <CardBody>
-                            <Table aria-label="Risk and EPSS per scanned version" variant="compact" className="coverage-table">
-                                <Thead>
-                                    <Tr>
-                                        <Th>Release | Branch</Th>
-                                        <Th textCenter modifier="fitContent"><RiskHeader/></Th>
-                                        <Th textCenter modifier="fitContent"><EpssHeader/></Th>
-                                    </Tr>
-                                </Thead>
-                                <Tbody>
-                                    {coverage.map(version => (
-                                        <Tr key={version.ref} style={{verticalAlign: 'middle'}}>
-                                            <Td dataLabel="Version" modifier="nowrap">
-                                                <Label variant="outline" isCompact
-                                                       icon={version.kind === 'tag' ? <TagIcon/> : <CodeBranchIcon/>}>
-                                                    {version.ref}
-                                                </Label>
-                                            </Td>
-                                            <Td dataLabel="Max risk" modifier="nowrap" textCenter>
-                                                <RiskScore value={version.maxRisk}/>
-                                            </Td>
-                                            <Td dataLabel="Max EPSS" modifier="nowrap" textCenter>
-                                                <EpssScore value={version.maxEpss}/>
-                                            </Td>
-                                        </Tr>
-                                    ))}
-                                </Tbody>
-                            </Table>
-                        </CardBody>
-                        <CardFooter>
-                            <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
-                                    onClick={() => navigate(ROUTES.VERSIONS)}>
-                                All scanned versions
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                </GridItem>
-
-                <GridItem md={6} lg={4}>
-                    <Card isFullHeight isCompact>
-                        <CardHeader>
-                            <div className='dashboard-card-header'>
                                 <CardTitle>Most dangerous CVEs</CardTitle>
-                                <Label variant="outline" style={{gap: 6}}>
+                                <Label variant="filled" style={{gap: 6}}>
                                     {selectedRef}
                                     <Badge>LTS</Badge>
                                 </Label>
@@ -311,7 +263,7 @@ export const DashboardPage: React.FunctionComponent = () => {
                         <CardHeader>
                             <div className='dashboard-card-header'>
                                 <CardTitle>Most affected components</CardTitle>
-                                <Label variant="outline" style={{gap: 6}}>
+                                <Label variant="filled" style={{gap: 6}}>
                                     {selectedRef}
                                     <Badge>LTS</Badge>
                                 </Label>
@@ -357,6 +309,54 @@ export const DashboardPage: React.FunctionComponent = () => {
                             <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
                                     onClick={() => navigate(ROUTES.COMPONENTS)}>
                                 All components
+                            </Button>
+                        </CardFooter>
+                    </Card>
+                </GridItem>
+
+                <GridItem md={6} lg={4}>
+                    <Card isFullHeight isCompact>
+                        <CardHeader>
+                            <div className='dashboard-card-header'>
+                                <CardTitle>Scan coverage</CardTitle>
+                                <Label variant="filled" style={{gap: 6}}>
+                                    <LastScanDate/>
+                                </Label>
+                            </div>
+                        </CardHeader>
+                        <CardBody>
+                            <Table aria-label="Risk and EPSS per scanned version" variant="compact" className="coverage-table">
+                                <Thead>
+                                    <Tr>
+                                        <Th>Release | Branch</Th>
+                                        <Th textCenter modifier="fitContent"><RiskHeader/></Th>
+                                        <Th textCenter modifier="fitContent"><EpssHeader/></Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {coverage.map(version => (
+                                        <Tr key={version.ref} style={{verticalAlign: 'middle'}}>
+                                            <Td dataLabel="Version" modifier="nowrap">
+                                                <Label variant="outline" isCompact
+                                                       icon={version.kind === 'tag' ? <TagIcon/> : <CodeBranchIcon/>}>
+                                                    {version.ref}
+                                                </Label>
+                                            </Td>
+                                            <Td dataLabel="Max risk" modifier="nowrap" textCenter>
+                                                <RiskScore value={version.maxRisk}/>
+                                            </Td>
+                                            <Td dataLabel="Max EPSS" modifier="nowrap" textCenter>
+                                                <EpssScore value={version.maxEpss}/>
+                                            </Td>
+                                        </Tr>
+                                    ))}
+                                </Tbody>
+                            </Table>
+                        </CardBody>
+                        <CardFooter>
+                            <Button variant="link" isInline icon={<ArrowRightIcon/>} iconPosition="end"
+                                    onClick={() => navigate(ROUTES.VERSIONS)}>
+                                All scanned versions
                             </Button>
                         </CardFooter>
                     </Card>
