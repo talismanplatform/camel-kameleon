@@ -97,34 +97,43 @@
     {
       "groupId": "org.apache.tika",
       "artifactId": "tika-core",
-      "version": "3.3.2",
-      "type": "jar",
-      "scope": "compile",
-      "classifier": "",
-      "optional": "false"
-    },
-    {
-      "groupId": "org.apache.tika",
-      "artifactId": "tika-parser-html-module",
-      "version": "3.3.2",
+      "version": "4.0.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
       "optional": "false",
       "children": [
         {
-          "groupId": "org.jsoup",
-          "artifactId": "jsoup",
-          "version": "1.22.2",
+          "groupId": "commons-io",
+          "artifactId": "commons-io",
+          "version": "2.22.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
           "optional": "false"
         },
         {
-          "groupId": "commons-codec",
-          "artifactId": "commons-codec",
-          "version": "1.22.1",
+          "groupId": "org.commonmark",
+          "artifactId": "commonmark",
+          "version": "0.30.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.commonmark",
+          "artifactId": "commonmark-ext-gfm-tables",
+          "version": "0.30.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.commonmark",
+          "artifactId": "commonmark-ext-gfm-strikethrough",
+          "version": "0.30.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -134,21 +143,112 @@
     },
     {
       "groupId": "org.apache.tika",
-      "artifactId": "tika-parser-text-module",
-      "version": "3.3.2",
+      "artifactId": "tika-serialization",
+      "version": "4.0.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
       "optional": "false",
       "children": [
         {
-          "groupId": "com.github.albfernandez",
-          "artifactId": "juniversalchardet",
-          "version": "2.5.0",
+          "groupId": "com.fasterxml.jackson.core",
+          "artifactId": "jackson-core",
+          "version": "2.22.2",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
           "optional": "false"
+        },
+        {
+          "groupId": "com.fasterxml.jackson.core",
+          "artifactId": "jackson-databind",
+          "version": "2.22.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.fasterxml.jackson.core",
+              "artifactId": "jackson-annotations",
+              "version": "2.22",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.tika",
+      "artifactId": "tika-parser-html-module",
+      "version": "4.0.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.jsoup",
+          "artifactId": "jsoup",
+          "version": "1.23.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.tika",
+          "artifactId": "tika-parser-datauri-commons",
+          "version": "4.0.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "commons-codec",
+              "artifactId": "commons-codec",
+              "version": "1.22.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.tika",
+      "artifactId": "tika-parser-text-module",
+      "version": "4.0.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.tika",
+          "artifactId": "tika-encoding-detector-mojibuster",
+          "version": "4.0.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.tika",
+              "artifactId": "tika-ml-core",
+              "version": "4.0.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
         },
         {
           "groupId": "org.apache.commons",
