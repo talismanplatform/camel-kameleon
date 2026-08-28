@@ -51,6 +51,16 @@ export const SCAN_SEVERITY_COLOR: Record<ScanSeverity, string> = {
     Unknown: 'grey',
 };
 
+/** PatternFly Label colours for the scanner severities. */
+export const SCAN_SEVERITY_LABEL_COLOR: Record<ScanSeverity, 'red' | 'orange' | 'yellow' | 'blue' | 'grey'> = {
+    Critical: 'red',
+    High: 'orange',
+    Medium: 'yellow',
+    Low: 'blue',
+    Negligible: 'grey',
+    Unknown: 'grey',
+};
+
 /** One row of `public/data/<ref>/vulnerabilities.json`. */
 export interface Vulnerability {
     /** Dependency the finding was reported against, e.g. snakeyaml */

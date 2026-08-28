@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
-import {Card, CardBody, CardFooter, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
+import {Card, CardBody, CardFooter, CardHeader, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
 import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
 import {DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm} from '@patternfly/react-core/dist/esm/components/DescriptionList';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
@@ -16,7 +16,7 @@ import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import ArrowRightIcon from '@patternfly/react-icons/dist/esm/icons/arrow-right-icon';
 import CodeBranchIcon from '@patternfly/react-icons/dist/esm/icons/code-branch-icon';
 import TagIcon from '@patternfly/react-icons/dist/esm/icons/tag-icon';
-import {isOpen, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
+import {isOpen, ScanSeverity, SEVERITIES, Severity, SEVERITY_LABEL} from '@models/CveModels';
 import {useCveStore} from '@stores/useCveStore';
 import {ROUTES} from '@compass/navigation/Routes';
 import {usePageContext} from '@compass/usePageContext';
@@ -26,7 +26,14 @@ import {StatusLabel} from '@shared/ui/StatusLabel';
 import './DashboardPage.css';
 import {LastScanDate} from "@shared/ui/LastScanDate";
 import {sortedVersions} from '@shared/versionOrder';
-import {CardHeader} from "@patternfly/react-core/src";
+
+/** The advisory severities of this page map onto the scanner severities the CVE page filters by. */
+const SCAN_SEVERITY_OF: Record<Severity, ScanSeverity> = {
+    critical: 'Critical',
+    important: 'High',
+    moderate: 'Medium',
+    low: 'Low',
+};
 
 const SEVERITY_VARIANT: Record<Severity, ProgressVariant | undefined> = {
     critical: ProgressVariant.danger,
@@ -60,15 +67,11 @@ export const DashboardPage: React.FunctionComponent = () => {
     const topComponents = [...components].sort((a, b) => b.cveCount - a.cveCount).slice(0, 6);
     const latest = [...cves].sort((a, b) => b.published.localeCompare(a.published)).slice(0, 5);
 
-    const scanned = versions.filter(version => version.loaded);
-    const branches = versions.filter(version => version.kind === 'branch');
-    const tags = versions.filter(version => version.kind === 'tag');
-    const findings = scanned.reduce((total, version) => total + version.total, 0);
     const coverage = sortedVersions(versions);
 
 
     function showSeverity(severity: Severity) {
-        setFilters({severities: [severity], onlyOpen: false});
+        setFilters({severities: [SCAN_SEVERITY_OF[severity]], search: ''});
         navigate(ROUTES.CVES);
     }
 

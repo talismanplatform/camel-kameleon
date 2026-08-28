@@ -96,7 +96,7 @@ export const VersionsPage: React.FunctionComponent = () => {
                                     {SCAN_SEVERITIES
                                         .filter(severity => version.bySeverity[severity] > 0)
                                         .map(severity => (
-                                            <Severity count={version.bySeverity[severity]} severity={severity} />
+                                            <Severity text={version.bySeverity[severity]} severity={severity} />
                                         ))}
                                 </div>
                             </Td>

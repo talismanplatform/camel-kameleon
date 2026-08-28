@@ -111,6 +111,11 @@ export const CveApi = {
         }));
     },
 
+    /** Findings of one scanned ref. Empty when the report is missing. */
+    async getVulnerabilities(ref: string): Promise<Vulnerability[]> {
+        return await fetchJson<Vulnerability[]>(vulnerabilitiesUrl(ref)).catch(() => undefined) ?? [];
+    },
+
     /**
      * One row per scanned ref: `versions.json` says which refs exist and whether
      * each is a tag or a branch, `scan.json` when it was scanned, the ref's own
@@ -166,7 +171,7 @@ function releaseOf(ref: string, camelVersions?: CamelVersion[]): CamelVersion | 
 }
 
 /** Numeric, segment by segment, so 4.22.10 sorts after 4.22.9. */
-function compareVersions(a: string, b: string): number {
+export function compareVersions(a: string, b: string): number {
     const left = a.split('.').map(Number);
     const right = b.split('.').map(Number);
     for (let i = 0; i < Math.max(left.length, right.length); i++) {

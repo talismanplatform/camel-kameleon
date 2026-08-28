@@ -48,7 +48,7 @@ export const ComponentsPage: React.FunctionComponent = () => {
         && component.artifactId.toLowerCase().includes(search.trim().toLowerCase()));
 
     function showCves(artifactId: string) {
-        setFilters({search: artifactId, severities: [], onlyOpen: false});
+        setFilters({search: artifactId, severities: []});
         navigate(ROUTES.CVES);
     }
 

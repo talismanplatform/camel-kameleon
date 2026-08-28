@@ -1,5 +1,4 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
 import {Bullseye} from '@patternfly/react-core/dist/esm/layouts/Bullseye';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
 import {EmptyState, EmptyStateActions, EmptyStateBody, EmptyStateFooter} from '@patternfly/react-core/dist/esm/components/EmptyState';
@@ -8,115 +7,123 @@ import {Spinner} from '@patternfly/react-core/dist/esm/components/Spinner';
 import {Title} from '@patternfly/react-core/dist/esm/components/Title';
 import {Table, Tbody, Td, Th, Thead, Tr} from '@patternfly/react-table';
 import SearchIcon from '@patternfly/react-icons/dist/esm/icons/search-icon';
-import BugIcon from '@patternfly/react-icons/dist/esm/icons/bug-icon';
-import {Cve, SEVERITIES} from '@models/CveModels';
-import {filterCves, useCveStore} from '@stores/useCveStore';
-import {useCompassStore} from '@compass/useCompassStore';
+import {SCAN_SEVERITIES, ScanSeverity, Vulnerability} from '@models/CveModels';
+import {filterVulnerabilities, useCveStore} from '@stores/useCveStore';
 import {usePageContext} from '@compass/usePageContext';
-import {ROUTES} from '@compass/navigation/Routes';
-import {SeverityLabel} from '@shared/ui/SeverityLabel';
-import {StatusLabel} from '@shared/ui/StatusLabel';
-import {CveDrawerPanel} from './CveDrawerPanel';
+import {EpssHeader, EpssScore, RiskHeader, RiskScore, Severity} from '@shared/ui/ScoreInfo';
+import {defaultVersion, sortedVersions} from '@shared/versionOrder';
 import {CvesToolbar} from './CvesToolbar';
 import './CvesPage.css';
+import {capitalize} from "@patternfly/react-core";
 
-type SortableColumn = 'cveId' | 'severity' | 'cvssScore' | 'published';
+type SortableColumn = 'vulnerability' | 'severity' | 'groupId' | 'artifactId' | 'installed' | 'fixed_in' | 'epss' | 'risk';
 
-const COLUMNS: { key: SortableColumn | 'components' | 'status'; label: string; sortable: boolean }[] = [
-    {key: 'cveId', label: 'CVE', sortable: true},
-    {key: 'severity', label: 'Severity', sortable: true},
-    {key: 'cvssScore', label: 'CVSS', sortable: true},
-    {key: 'components', label: 'Components', sortable: false},
-    {key: 'status', label: 'Status', sortable: false},
-    {key: 'published', label: 'Published', sortable: true},
+const COLUMNS: {
+    key: SortableColumn | 'description';
+    label: React.ReactNode;
+    sortable: boolean;
+    modifier?: 'breakWord' | 'fitContent' | 'nowrap' | 'truncate' | 'wrap';
+    textCenter?: boolean;
+}[] = [
+    {key: 'vulnerability', label: 'Vulnerability', sortable: true},
+    {key: 'severity', label: 'Severity', sortable: true, modifier: 'fitContent'},
+    {key: 'groupId', label: 'Group', sortable: true},
+    {key: 'artifactId', label: 'Artifact', sortable: true},
+    {key: 'installed', label: 'Installed', sortable: true},
+    {key: 'fixed_in', label: 'Fixed in', sortable: true},
+    // {key: 'description', label: 'Description', sortable: false},
+    {key: 'epss', label: <EpssHeader/>, sortable: true},
+    {key: 'risk', label: <RiskHeader/>, sortable: true},
 ];
+
+const RISK_INDEX = COLUMNS.findIndex(column => column.key === 'risk');
+
+/** No fix released reads better than the scanner's `(not-fixed)` / `(unknown)`. */
+const NO_FIX = /^\(.*\)$/;
 
 export const CvesPage: React.FunctionComponent = () => {
 
-    const navigate = useNavigate();
-    const {cveId} = useParams();
-    const cves = useCveStore((s) => s.cves);
+    const versions = useCveStore((s) => s.versions);
+    const selectedRef = useCveStore((s) => s.selectedRef);
+    const vulnerabilities = useCveStore((s) => s.vulnerabilities);
     const loading = useCveStore((s) => s.loading);
+    const vulnerabilitiesLoading = useCveStore((s) => s.vulnerabilitiesLoading);
     const filters = useCveStore((s) => s.filters);
-    const selectedCveId = useCveStore((s) => s.selectedCveId);
     const setFilters = useCveStore((s) => s.setFilters);
     const resetFilters = useCveStore((s) => s.resetFilters);
-    const selectCve = useCveStore((s) => s.selectCve);
-    const setDrawerPanel = useCompassStore((s) => s.setDrawerPanel);
-    const setIsDrawerExpanded = useCompassStore((s) => s.setIsDrawerExpanded);
+    const selectRef = useCveStore((s) => s.selectRef);
 
-    const [sortIndex, setSortIndex] = useState(1);
-    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+    // Risk descending: the findings that need attention first come first.
+    const [sortIndex, setSortIndex] = useState(RISK_INDEX);
+    const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+
+    const options = useMemo(() => sortedVersions(versions), [versions]);
 
     usePageContext(
         'Vulnerabilities',
         <Title headingLevel="h1" size="xl">Vulnerabilities</Title>,
         <LabelGroup>
-            <Label isCompact variant="outline">{`${cves.length} advisories`}</Label>
+            {selectedRef && <Label isCompact variant="outline">{selectedRef}</Label>}
+            <Label isCompact variant="outline">{`${vulnerabilities.length} findings`}</Label>
         </LabelGroup>,
-        [cves.length]
+        [selectedRef, vulnerabilities.length]
     );
 
-    // A CVE id in the URL opens the detail drawer directly, which makes rows linkable.
+    // The page opens on the last LTS release until the user picks another ref.
     useEffect(() => {
-        if (cveId) {
-            selectCve(cveId);
+        if (!selectedRef) {
+            const ref = defaultVersion(versions);
+            if (ref) {
+                selectRef(ref);
+            }
         }
-    }, [cveId]);
+    }, [versions]);
 
-    const filtered = useMemo(() => filterCves(cves, filters), [cves, filters]);
+    const filtered = useMemo(() => filterVulnerabilities(vulnerabilities, filters), [vulnerabilities, filters]);
 
     const sorted = useMemo(() => {
         const column = COLUMNS[sortIndex]?.key as SortableColumn;
         const factor = sortDirection === 'asc' ? 1 : -1;
         return [...filtered].sort((a, b) => {
             if (column === 'severity') {
-                return (SEVERITIES.indexOf(a.severity) - SEVERITIES.indexOf(b.severity)) * factor;
+                return (severityRank(a.severity) - severityRank(b.severity)) * factor;
             }
-            if (column === 'cvssScore') {
-                return (b.cvssScore - a.cvssScore) * factor;
+            if (column === 'risk' || column === 'epss') {
+                return ((a[column] ?? -1) - (b[column] ?? -1)) * factor;
             }
             return String(a[column] ?? '').localeCompare(String(b[column] ?? '')) * factor;
         });
     }, [filtered, sortIndex, sortDirection]);
 
-    const selected = cves.find(cve => cve.cveId === selectedCveId);
-
-    // The drawer content lives in the shell, so the page publishes it whenever the selection changes.
-    useEffect(() => {
-        if (selected) {
-            setDrawerPanel(<CveDrawerPanel cve={selected} onClose={closeDrawer}/>);
-            setIsDrawerExpanded(true);
-        } else {
-            setIsDrawerExpanded(false);
-            setDrawerPanel(null);
+    /** The advisory itself lives on GitHub, so a row opens its data source. */
+    function openDataSource(vulnerability: Vulnerability) {
+        if (vulnerability.dataSource) {
+            window.open(vulnerability.dataSource, '_blank', 'noopener,noreferrer');
         }
-        return () => {
-            setIsDrawerExpanded(false);
-            setDrawerPanel(null);
-        };
-    }, [selectedCveId, cves]);
-
-    function closeDrawer() {
-        selectCve(undefined);
-        navigate(ROUTES.CVES);
     }
 
-    function openCve(cve: Cve) {
-        selectCve(cve.cveId);
-        navigate(`/cves/${cve.cveId}`);
-    }
-
-    if (loading && cves.length === 0) {
+    if ((loading && versions.length === 0) || (vulnerabilitiesLoading && vulnerabilities.length === 0)) {
         return <Bullseye><Spinner aria-label="Loading vulnerabilities"/></Bullseye>;
     }
 
     return (
         <div className="page-section cves-page">
-            <CvesToolbar filters={filters} resultCount={sorted.length} onChange={setFilters} onReset={resetFilters}/>
+            <CvesToolbar
+                versions={options}
+                selectedRef={selectedRef}
+                filters={filters}
+                resultCount={sorted.length}
+                onSelectRef={selectRef}
+                onChange={setFilters}
+                onReset={resetFilters}
+            />
             {sorted.length === 0 ? (
-                <EmptyState headingLevel="h2" icon={SearchIcon} titleText="No matching CVEs">
-                    <EmptyStateBody>No advisory matches the current filters.</EmptyStateBody>
+                <EmptyState headingLevel="h2" icon={SearchIcon} titleText="No matching vulnerabilities">
+                    <EmptyStateBody>
+                        {vulnerabilities.length === 0
+                            ? `No report is available for ${selectedRef ?? 'this version'}.`
+                            : 'No finding matches the current filters.'}
+                    </EmptyStateBody>
                     <EmptyStateFooter>
                         <EmptyStateActions>
                             <Button variant="link" onClick={resetFilters}>Clear all filters</Button>
@@ -124,12 +131,13 @@ export const CvesPage: React.FunctionComponent = () => {
                     </EmptyStateFooter>
                 </EmptyState>
             ) : (
-                <Table aria-label="Apache Camel CVEs" variant="compact" isStriped>
+                <Table aria-label="Apache Camel vulnerabilities" variant="compact" isStriped>
                     <Thead>
                         <Tr>
                             {COLUMNS.map((column, index) => (
                                 <Th
                                     key={column.key}
+                                    modifier={column.modifier}
                                     sort={column.sortable ? {
                                         sortBy: {index: sortIndex, direction: sortDirection},
                                         onSort: (_event, columnIndex, direction) => {
@@ -145,33 +153,35 @@ export const CvesPage: React.FunctionComponent = () => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {sorted.map(cve => (
+                        {sorted.map((vulnerability, index) => (
                             <Tr
-                                key={cve.cveId}
+                                key={`${vulnerability.vulnerability}-${vulnerability.groupId}-${vulnerability.artifactId}-${index}`}
                                 isClickable
-                                isRowSelected={cve.cveId === selectedCveId}
-                                onRowClick={() => openCve(cve)}
+                                onRowClick={() => openDataSource(vulnerability)}
                             >
-                                <Td dataLabel="CVE">
-                                    <div className="cve-cell">
-                                        <span className="cve-id">{cve.cveId}</span>
-                                        <span className="cve-title">{cve.title}</span>
-                                    </div>
+                                <Td dataLabel="Vulnerability" modifier="nowrap">
+                                    <span className="cve-id">{vulnerability.vulnerability}</span>
                                 </Td>
-                                <Td dataLabel="Severity"><SeverityLabel severity={cve.severity} isCompact/></Td>
-                                <Td dataLabel="CVSS">
-                                    <LabelGroup>
-                                        <Label isCompact variant="outline">{cve.cvssScore}</Label>
-                                        {cve.exploitAvailable && <Label isCompact color="red" icon={<BugIcon/>}>Exploited</Label>}
-                                    </LabelGroup>
+                                <Td dataLabel="Severity">
+                                    <Severity text={vulnerability.severity} severity={capitalize(vulnerability.severity) as ScanSeverity} />
                                 </Td>
-                                <Td dataLabel="Components">
-                                    <LabelGroup numLabels={2}>
-                                        {cve.components.map(component => <Label key={component} isCompact>{component}</Label>)}
-                                    </LabelGroup>
+                                <Td dataLabel="Group" modifier="nowrap">{vulnerability.groupId ?? '-'}</Td>
+                                <Td dataLabel="Artifact" modifier="nowrap">{vulnerability.artifactId ?? vulnerability.name}</Td>
+                                <Td dataLabel="Installed" modifier="nowrap">{vulnerability.installed}</Td>
+                                <Td dataLabel="Fixed in" modifier="nowrap">
+                                    {NO_FIX.test(vulnerability.fixed_in)
+                                        ? <span className="cve-no-fix">No fix</span>
+                                        : vulnerability.fixed_in}
                                 </Td>
-                                <Td dataLabel="Status"><StatusLabel status={cve.status} isCompact/></Td>
-                                <Td dataLabel="Published">{cve.published}</Td>
+                                {/*<Td dataLabel="Description">*/}
+                                {/*    <span className="cve-description">{vulnerability.description}</span>*/}
+                                {/*</Td>*/}
+                                <Td dataLabel="EPSS" textCenter modifier="nowrap">
+                                    <EpssScore value={vulnerability.epss ?? undefined}/>
+                                </Td>
+                                <Td dataLabel="Risk" textCenter modifier="nowrap">
+                                    <RiskScore value={vulnerability.risk ?? undefined}/>
+                                </Td>
                             </Tr>
                         ))}
                     </Tbody>
@@ -180,3 +190,13 @@ export const CvesPage: React.FunctionComponent = () => {
         </div>
     );
 };
+
+/** Severities the scanner does not recognise read as `Unknown`. */
+function severityOf(severity: string): ScanSeverity {
+    return SCAN_SEVERITIES.find(known => known.toLowerCase() === severity?.toLowerCase()) ?? 'Unknown';
+}
+
+/** Critical first, so ascending sort matches how the column reads elsewhere. */
+function severityRank(severity: string): number {
+    return SCAN_SEVERITIES.indexOf(severityOf(severity));
+}

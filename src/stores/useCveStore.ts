@@ -1,14 +1,13 @@
 import {create} from 'zustand';
 import {CveApi} from '@api/CveApi';
-import {CamelComponent, Cve, CveSummary, ScanInfo, Severity, VersionScan} from '@models/CveModels';
+import {CamelComponent, Cve, CveSummary, ScanInfo, ScanSeverity, VersionScan, Vulnerability} from '@models/CveModels';
 
-export interface CveFilters {
+export interface VulnerabilityFilters {
     search: string;
-    severities: Severity[];
-    onlyOpen: boolean;
+    severities: ScanSeverity[];
 }
 
-export const EMPTY_FILTERS: CveFilters = {search: '', severities: [], onlyOpen: false};
+export const EMPTY_FILTERS: VulnerabilityFilters = {search: '', severities: []};
 
 interface CveState {
     cves: Cve[];
@@ -18,13 +17,16 @@ interface CveState {
     scanInfo?: ScanInfo;
     loading: boolean;
     error?: string;
-    filters: CveFilters;
-    selectedCveId?: string;
+    filters: VulnerabilityFilters;
+    /** Ref whose `vulnerabilities.json` is currently shown, e.g. camel-4.22.0 */
+    selectedRef?: string;
+    vulnerabilities: Vulnerability[];
+    vulnerabilitiesLoading: boolean;
 
     fetchAll: () => Promise<void>;
-    setFilters: (filters: Partial<CveFilters>) => void;
+    selectRef: (ref: string) => Promise<void>;
+    setFilters: (filters: Partial<VulnerabilityFilters>) => void;
     resetFilters: () => void;
-    selectCve: (cveId?: string) => void;
 }
 
 export const useCveStore = create<CveState>((set, get) => ({
@@ -36,7 +38,9 @@ export const useCveStore = create<CveState>((set, get) => ({
     loading: false,
     error: undefined,
     filters: EMPTY_FILTERS,
-    selectedCveId: undefined,
+    selectedRef: undefined,
+    vulnerabilities: [],
+    vulnerabilitiesLoading: false,
 
     fetchAll: async () => {
         set({loading: true, error: undefined});
@@ -55,23 +59,34 @@ export const useCveStore = create<CveState>((set, get) => ({
         }
     },
 
+    /** Loads the report of one ref. The last requested ref wins if two loads overlap. */
+    selectRef: async (ref) => {
+        set({selectedRef: ref, vulnerabilities: [], vulnerabilitiesLoading: true});
+        const vulnerabilities = await CveApi.getVulnerabilities(ref);
+        if (get().selectedRef === ref) {
+            set({vulnerabilities, vulnerabilitiesLoading: false});
+        }
+    },
+
     setFilters: (filters) => set({filters: {...get().filters, ...filters}}),
     resetFilters: () => set({filters: EMPTY_FILTERS}),
-    selectCve: (selectedCveId) => set({selectedCveId}),
 }));
 
 /** Applies the active filters. Kept outside the store so it can be reused by any page. */
-export function filterCves(cves: Cve[], filters: CveFilters): Cve[] {
+export function filterVulnerabilities(vulnerabilities: Vulnerability[], filters: VulnerabilityFilters): Vulnerability[] {
     const search = filters.search.trim().toLowerCase();
-    return cves.filter(cve => {
-        if (filters.onlyOpen && (cve.status === 'fixed' || cve.status === 'not-affected')) {
-            return false;
-        }
-        if (filters.severities.length > 0 && !filters.severities.includes(cve.severity)) {
+    return vulnerabilities.filter(vulnerability => {
+        if (filters.severities.length > 0 && !filters.severities.includes(vulnerability.severity as ScanSeverity)) {
             return false;
         }
         if (search.length > 0) {
-            const haystack = [cve.cveId, cve.title, cve.description, ...cve.components].join(' ').toLowerCase();
+            const haystack = [
+                vulnerability.vulnerability,
+                vulnerability.groupId,
+                vulnerability.artifactId,
+                vulnerability.name,
+                vulnerability.description,
+            ].join(' ').toLowerCase();
             return haystack.includes(search);
         }
         return true;
