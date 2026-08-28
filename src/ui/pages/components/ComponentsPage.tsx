@@ -86,8 +86,10 @@ export const ComponentsPage: React.FunctionComponent = () => {
     const [search, setSearch] = useState('');
     const [severities, setSeverities] = useState<ScanSeverity[]>([]);
     const [isSeverityOpen, setIsSeverityOpen] = useState(false);
-    // Alphabetical until the reader sorts on a score, which is what the columns offer.
-    const [sort, setSort] = useState<{index: number; sort: ComponentSort; direction: 'asc' | 'desc'}>();
+    // Highest dependency risk first: the page opens on what a reader triages, until they sort on another column.
+    const [sort, setSort] = useState<{index: number; sort: ComponentSort; direction: 'asc' | 'desc'}>(
+        {index: 6, sort: 'transitiveRisk', direction: 'desc'}
+    );
     // Collapsed by default: a ref carries a few hundred components and tens of thousands of nodes.
     const [expanded, setExpanded] = useState<string[]>([]);
 
@@ -140,7 +142,7 @@ export const ComponentsPage: React.FunctionComponent = () => {
         const pruned = severities.length > 0
             ? pruneRows(matching, row => hasSeverity(row, severities))
             : pruneRows(matching, row => total(row) > 0);
-        return sort ? sortRows(pruned, sort.sort, sort.direction) : pruned;
+        return sortRows(pruned, sort.sort, sort.direction);
     }, [rows, search, severities, sort]);
 
     if (loading && versions.length === 0) {
@@ -181,7 +183,7 @@ export const ComponentsPage: React.FunctionComponent = () => {
 
     /** `index` is the position of the column in the header grid, which is what carries the indicator. */
     const sortProps = (index: number, column: ComponentSort): ThProps['sort'] => ({
-        sortBy: {index: sort?.index ?? -1, direction: sort?.direction},
+        sortBy: {index: sort.index, direction: sort.direction},
         onSort: (_event, columnIndex, direction) => setSort({index: columnIndex, sort: column, direction}),
         columnIndex: index,
     });
