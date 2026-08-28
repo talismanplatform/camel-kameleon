@@ -176,11 +176,25 @@ jobs:
       # and EOL dates. Refreshed in the same commit as the scan data so the page
       # never mixes a fresh scan with a stale release list.
       - name: Update camel_versions.json
+        env:
+          CAMEL_JBANG_VERSION: '4.22.0'
         run: |
           curl -Ls https://sh.jbang.dev | bash -s - app setup
           export PATH="$HOME/.jbang/bin:$PATH"
-          jbang "-Dcamel.jbang.version=4.22.0" camel@apache/camel version list --json \
-            > public/data/camel_versions.json
+          # The runner has no console, so jbang cannot ask whether to trust the
+          # CamelJBang source and aborts with exit code 10. Trust apache/camel
+          # up front - both the catalog host (raw.githubusercontent.com) and the
+          # blob URL the alias resolves to (github.com) are checked.
+          jbang trust add \
+            https://github.com/apache/camel/ \
+            https://raw.githubusercontent.com/apache/camel/
+          jbang trust list
+          # Write to a temp file so a failed run cannot commit a truncated or
+          # empty release list.
+          jbang "-Dcamel.jbang.version=${CAMEL_JBANG_VERSION}" \
+            camel@apache/camel version list --json > /tmp/camel_versions.json
+          jq -e 'length > 0' /tmp/camel_versions.json > /dev/null
+          mv /tmp/camel_versions.json public/data/camel_versions.json
           echo "releases: $(jq 'length' public/data/camel_versions.json)"
 
       - name: Download scan results
