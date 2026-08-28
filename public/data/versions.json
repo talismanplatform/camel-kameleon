@@ -1,4 +1,4 @@
 {
   "tags": ["camel-4.22.0", "camel-4.18.4"],
-  "branches": ["main", "camel-4.22.x"]
+  "branches": ["main", "camel-4.22.x", "camel-4.18.x"]
 }

@@ -24,14 +24,68 @@ env:
   MVND_VERSION: '1.0.2'
 
 jobs:
-  # Turn public/data/versions.json into a job matrix: one job per tag and branch.
-  matrix:
+  # Refresh the Camel release list, derive the refs to scan from it, and hand
+  # both files to the later jobs as an artifact. This has to run first: every
+  # other job is driven by what lands in versions.json here.
+  versions:
     runs-on: ubuntu-latest
     outputs:
       refs: ${{ steps.read.outputs.refs }}
     steps:
       - uses: actions/checkout@v7
 
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      # Release metadata for the Versions page: LTS flag, supported JDKs, release
+      # and EOL dates. Only releases that are still supported - eolDate strictly
+      # after today - are kept; anything already EOL is neither published nor
+      # scanned.
+      - name: Write public/data/camel_versions.json
+        env:
+          CAMEL_JBANG_VERSION: '4.22.0'
+        run: |
+          curl -Ls https://sh.jbang.dev | bash -s - app setup
+          export PATH="$HOME/.jbang/bin:$PATH"
+          # The runner has no console, so jbang cannot ask whether to trust the
+          # CamelJBang source and aborts with exit code 10. Trust apache/camel
+          # up front - both the catalog host (raw.githubusercontent.com) and the
+          # blob URL the alias resolves to (github.com) are checked.
+          jbang trust add \
+            https://github.com/apache/camel/ \
+            https://raw.githubusercontent.com/apache/camel/
+          jbang trust list
+          # Write to a temp file so a failed run cannot commit a truncated or
+          # empty release list.
+          jbang "-Dcamel.jbang.version=${CAMEL_JBANG_VERSION}" \
+            camel@apache/camel version list --json > /tmp/camel_versions.all.json
+          jq -e 'length > 0' /tmp/camel_versions.all.json > /dev/null
+          jq --arg today "$(date -u +%Y-%m-%d)" \
+            '[.[] | select(.eolDate != null and .eolDate > $today)]' \
+            /tmp/camel_versions.all.json > /tmp/camel_versions.json
+          jq -e 'length > 0' /tmp/camel_versions.json > /dev/null
+          mv /tmp/camel_versions.json public/data/camel_versions.json
+          echo "supported releases: $(jq 'length' public/data/camel_versions.json)"
+
+      # versions.json is derived, never hand-edited: one tag per supported
+      # release, one branch per supported LTS release line, plus main.
+      - name: Write public/data/versions.json
+        run: |
+          jq '{
+            tags: [.[] | "camel-" + .camelVersion] | unique,
+            branches: (["main"] + [
+              .[] | select(.kind == "lts")
+                  | "camel-" + (.camelVersion | sub("[.][0-9]+$"; ".x"))
+            ] | unique)
+          }' public/data/camel_versions.json > /tmp/versions.json
+          jq -e '(.tags | length) > 0' /tmp/versions.json > /dev/null
+          mv /tmp/versions.json public/data/versions.json
+          cat public/data/versions.json
+
+      # Turn public/data/versions.json into a job matrix: one job per tag and branch.
       - id: read
         name: Read versions.json
         run: |
@@ -39,15 +93,25 @@ jobs:
           echo "refs=$refs" >> "$GITHUB_OUTPUT"
           echo "Scanning: $refs"
 
+      - name: Upload version metadata
+        uses: actions/upload-artifact@v5
+        with:
+          name: version-metadata
+          path: |
+            public/data/camel_versions.json
+            public/data/versions.json
+          retention-days: 1
+          if-no-files-found: error
+
   scan:
-    needs: matrix
+    needs: versions
     runs-on: ubuntu-latest
     timeout-minutes: 360
     strategy:
       fail-fast: false
       max-parallel: 4
       matrix:
-        ref: ${{ fromJson(needs.matrix.outputs.refs) }}
+        ref: ${{ fromJson(needs.versions.outputs.refs) }}
     steps:
       - name: Checkout dashboard
         uses: actions/checkout@v7
@@ -63,7 +127,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '25'
           cache: maven
 
       - name: Install mvnd
@@ -161,42 +225,20 @@ jobs:
 
   # Merge every matrix result back into the repository in a single commit.
   publish:
-    needs: [matrix, scan]
-    if: always() && needs.matrix.result == 'success'
+    needs: [versions, scan]
+    if: always() && needs.versions.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
 
-      - name: Set up JDK
-        uses: actions/setup-java@v5
+      # camel_versions.json and versions.json are produced by the versions job;
+      # take them from there so the refreshed release list lands in the same
+      # commit as the scan data it produced.
+      - name: Download version metadata
+        uses: actions/download-artifact@v6
         with:
-          distribution: temurin
-          java-version: '25'
-
-      # Release metadata for the Versions page: LTS flag, supported JDKs, release
-      # and EOL dates. Refreshed in the same commit as the scan data so the page
-      # never mixes a fresh scan with a stale release list.
-      - name: Update camel_versions.json
-        env:
-          CAMEL_JBANG_VERSION: '4.22.0'
-        run: |
-          curl -Ls https://sh.jbang.dev | bash -s - app setup
-          export PATH="$HOME/.jbang/bin:$PATH"
-          # The runner has no console, so jbang cannot ask whether to trust the
-          # CamelJBang source and aborts with exit code 10. Trust apache/camel
-          # up front - both the catalog host (raw.githubusercontent.com) and the
-          # blob URL the alias resolves to (github.com) are checked.
-          jbang trust add \
-            https://github.com/apache/camel/ \
-            https://raw.githubusercontent.com/apache/camel/
-          jbang trust list
-          # Write to a temp file so a failed run cannot commit a truncated or
-          # empty release list.
-          jbang "-Dcamel.jbang.version=${CAMEL_JBANG_VERSION}" \
-            camel@apache/camel version list --json > /tmp/camel_versions.json
-          jq -e 'length > 0' /tmp/camel_versions.json > /dev/null
-          mv /tmp/camel_versions.json public/data/camel_versions.json
-          echo "releases: $(jq 'length' public/data/camel_versions.json)"
+          name: version-metadata
+          path: public/data
 
       - name: Download scan results
         uses: actions/download-artifact@v6
@@ -206,7 +248,7 @@ jobs:
 
       - name: Move results into public/data
         run: |
-          echo '${{ needs.matrix.outputs.refs }}' | jq -r '.[]' | while read -r ref; do
+          echo '${{ needs.versions.outputs.refs }}' | jq -r '.[]' | while read -r ref; do
             src="scans/scan-$ref"
             [ -d "$src" ] || { echo "::warning::no result for $ref"; continue; }
             rm -rf "public/data/$ref"
