@@ -1,0 +1,578 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-openapi-validator",
+  "version": "4.22.0",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-rest-openapi",
+      "version": "4.22.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-support",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-api",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-management-api",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-util-json",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-xml-jaxp-util",
+              "version": "4.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-rest",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-platform-http",
+          "version": "4.22.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.swagger.core.v3",
+          "artifactId": "swagger-core-jakarta",
+          "version": "2.2.36",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.commons",
+              "artifactId": "commons-lang3",
+              "version": "3.20.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.swagger.core.v3",
+              "artifactId": "swagger-annotations-jakarta",
+              "version": "2.2.36",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.yaml",
+              "artifactId": "snakeyaml",
+              "version": "2.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "3.0.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.sun.activation",
+                  "artifactId": "jakarta.activation",
+                  "version": "2.0.1",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "jakarta.validation",
+              "artifactId": "jakarta.validation-api",
+              "version": "3.0.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.fasterxml.jackson.core",
+              "artifactId": "jackson-annotations",
+              "version": "2.22",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.fasterxml.jackson.datatype",
+              "artifactId": "jackson-datatype-jsr310",
+              "version": "2.22.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "io.swagger.core.v3",
+          "artifactId": "swagger-models-jakarta",
+          "version": "2.2.36",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.swagger.parser.v3",
+          "artifactId": "swagger-parser-v3",
+          "version": "2.1.45",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.swagger.parser.v3",
+              "artifactId": "swagger-parser-core",
+              "version": "2.1.45",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.swagger.parser.v3",
+              "artifactId": "swagger-parser-safe-url-resolver",
+              "version": "2.1.45",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "commons-io",
+              "artifactId": "commons-io",
+              "version": "2.22.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.fasterxml.jackson.core",
+          "artifactId": "jackson-core",
+          "version": "2.22.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.fasterxml.jackson.core",
+          "artifactId": "jackson-databind",
+          "version": "2.22.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.fasterxml.jackson.dataformat",
+          "artifactId": "jackson-dataformat-yaml",
+          "version": "2.22.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-http-base",
+      "version": "4.22.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "com.atlassian.oai",
+      "artifactId": "swagger-request-validator-core",
+      "version": "2.46.1",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "io.swagger.parser.v3",
+          "artifactId": "swagger-parser",
+          "version": "2.1.34",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.swagger.parser.v3",
+              "artifactId": "swagger-parser-v2-converter",
+              "version": "2.1.34",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "io.swagger",
+                  "artifactId": "swagger-core",
+                  "version": "1.6.16",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "io.swagger",
+                      "artifactId": "swagger-models",
+                      "version": "1.6.16",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false",
+                      "children": [
+                        {
+                          "groupId": "io.swagger",
+                          "artifactId": "swagger-annotations",
+                          "version": "1.6.16",
+                          "type": "jar",
+                          "scope": "compile",
+                          "classifier": "",
+                          "optional": "false"
+                        }
+                        ]
+                    }
+                    ]
+                },
+                {
+                  "groupId": "io.swagger",
+                  "artifactId": "swagger-parser",
+                  "version": "1.0.75",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "io.swagger",
+                      "artifactId": "swagger-parser-safe-url-resolver",
+                      "version": "1.0.75",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "io.swagger",
+                  "artifactId": "swagger-compat-spec-parser",
+                  "version": "1.0.75",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "com.github.java-json-tools",
+                      "artifactId": "json-patch",
+                      "version": "1.13",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "io.swagger.core.v3",
+                  "artifactId": "swagger-models",
+                  "version": "2.2.37",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "com.github.java-json-tools",
+          "artifactId": "json-schema-validator",
+          "version": "2.2.14",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.github.java-json-tools",
+              "artifactId": "jackson-coreutils-equivalence",
+              "version": "1.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.github.java-json-tools",
+                  "artifactId": "jackson-coreutils",
+                  "version": "2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "com.github.java-json-tools",
+                      "artifactId": "msg-simple",
+                      "version": "1.2",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false",
+                      "children": [
+                        {
+                          "groupId": "com.github.java-json-tools",
+                          "artifactId": "btf",
+                          "version": "1.3",
+                          "type": "jar",
+                          "scope": "compile",
+                          "classifier": "",
+                          "optional": "false"
+                        }
+                        ]
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "com.github.java-json-tools",
+              "artifactId": "json-schema-core",
+              "version": "1.2.14",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.github.java-json-tools",
+                  "artifactId": "uri-template",
+                  "version": "0.10",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.mozilla",
+                  "artifactId": "rhino",
+                  "version": "1.7.7.2",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "com.sun.mail",
+              "artifactId": "mailapi",
+              "version": "1.6.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "joda-time",
+              "artifactId": "joda-time",
+              "version": "2.10.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.googlecode.libphonenumber",
+              "artifactId": "libphonenumber",
+              "version": "8.11.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "net.sf.jopt-simple",
+              "artifactId": "jopt-simple",
+              "version": "5.0.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.18",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.google.guava",
+          "artifactId": "guava",
+          "version": "33.6.0-jre",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.google.guava",
+              "artifactId": "failureaccess",
+              "version": "1.0.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.google.guava",
+              "artifactId": "listenablefuture",
+              "version": "9999.0-empty-to-avoid-conflict-with-guava",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.jspecify",
+              "artifactId": "jspecify",
+              "version": "1.0.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.google.errorprone",
+              "artifactId": "error_prone_annotations",
+              "version": "2.47.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.google.j2objc",
+              "artifactId": "j2objc-annotations",
+              "version": "3.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.google.code.findbugs",
+          "artifactId": "jsr305",
+          "version": "3.0.2",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.fasterxml.jackson.datatype",
+          "artifactId": "jackson-datatype-jdk8",
+          "version": "2.22.1",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    }
+    ]
+}

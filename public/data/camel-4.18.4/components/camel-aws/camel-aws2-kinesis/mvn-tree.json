@@ -1,0 +1,1375 @@
+{
+  "groupId": "org.apache.camel",
+  "artifactId": "camel-aws2-kinesis",
+  "version": "4.18.4",
+  "type": "jar",
+  "scope": "",
+  "classifier": "",
+  "optional": "false",
+  "children": [
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-aws-common",
+      "version": "4.18.4",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "auth",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "http-auth-aws-eventstream",
+              "version": "2.41.28",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "checksums-spi",
+              "version": "2.41.28",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.eventstream",
+              "artifactId": "eventstream",
+              "version": "1.0.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "regions",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "sdk-core",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "checksums",
+              "version": "2.41.28",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "retries",
+              "version": "2.41.28",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "aws-core",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "utils-lite",
+              "version": "2.41.28",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-support",
+      "version": "4.18.4",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-api",
+          "version": "4.18.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "jakarta.xml.bind",
+              "artifactId": "jakarta.xml.bind-api",
+              "version": "4.0.5",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "jakarta.activation",
+                  "artifactId": "jakarta.activation-api",
+                  "version": "2.1.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-management-api",
+          "version": "4.18.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util",
+          "version": "4.18.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-util-json",
+          "version": "4.18.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-xml-jaxp-util",
+          "version": "4.18.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.slf4j",
+          "artifactId": "slf4j-api",
+          "version": "2.0.17",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "software.amazon.awssdk",
+      "artifactId": "kinesis",
+      "version": "2.41.28",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "aws-cbor-protocol",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "third-party-jackson-dataformat-cbor",
+              "version": "2.41.28",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "third-party-jackson-core",
+              "version": "2.41.28",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "aws-json-protocol",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "protocol-core",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "http-auth-aws",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "http-auth-spi",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "http-auth",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "identity-spi",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "http-client-spi",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "annotations",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "utils",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "metrics-spi",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "json-utils",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "endpoints-spi",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "retries-spi",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "software.amazon.awssdk",
+      "artifactId": "sts",
+      "version": "2.41.28",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "aws-query-protocol",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "profiles",
+          "version": "2.41.28",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "software.amazon.kinesis",
+      "artifactId": "amazon-kinesis-client",
+      "version": "2.6.0",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "dynamodb",
+          "version": "2.25.11",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.awssdk",
+          "artifactId": "cloudwatch",
+          "version": "2.25.11",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "software.amazon.glue",
+          "artifactId": "schema-registry-serde",
+          "version": "1.1.19",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.amazonaws",
+              "artifactId": "aws-java-sdk-sts",
+              "version": "1.12.660",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.amazonaws",
+                  "artifactId": "aws-java-sdk-core",
+                  "version": "1.12.660",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "com.fasterxml.jackson.dataformat",
+                      "artifactId": "jackson-dataformat-cbor",
+                      "version": "2.21.4",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "joda-time",
+                      "artifactId": "joda-time",
+                      "version": "2.8.1",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "com.amazonaws",
+                  "artifactId": "jmespath-java",
+                  "version": "1.12.660",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "arns",
+              "version": "2.22.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.kafka",
+              "artifactId": "kafka-clients",
+              "version": "3.6.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.github.luben",
+                  "artifactId": "zstd-jni",
+                  "version": "1.5.5-1",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.xerial.snappy",
+                  "artifactId": "snappy-java",
+                  "version": "1.1.10.5",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "com.kjetland",
+              "artifactId": "mbknor-jackson-jsonschema_2.12",
+              "version": "1.0.39",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.scala-lang",
+                  "artifactId": "scala-library",
+                  "version": "2.12.10",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "com.fasterxml.jackson.core",
+                  "artifactId": "jackson-databind",
+                  "version": "2.21.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "javax.validation",
+                  "artifactId": "validation-api",
+                  "version": "2.0.1.Final",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "io.github.classgraph",
+              "artifactId": "classgraph",
+              "version": "4.8.120",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.github.erosb",
+              "artifactId": "everit-json-schema",
+              "version": "1.14.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.json",
+                  "artifactId": "json",
+                  "version": "20230227",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "commons-validator",
+                  "artifactId": "commons-validator",
+                  "version": "1.7",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "commons-digester",
+                      "artifactId": "commons-digester",
+                      "version": "2.1",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "com.damnhandy",
+                  "artifactId": "handy-uri-templates",
+                  "version": "2.1.8",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "com.google.re2j",
+                  "artifactId": "re2j",
+                  "version": "1.6",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.jetbrains.kotlin",
+              "artifactId": "kotlin-stdlib",
+              "version": "1.7.10",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.jetbrains.kotlin",
+                  "artifactId": "kotlin-stdlib-common",
+                  "version": "1.7.10",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.jetbrains",
+                  "artifactId": "annotations",
+                  "version": "13.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.jetbrains.kotlin",
+              "artifactId": "kotlin-stdlib-jdk8",
+              "version": "1.7.10",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.jetbrains.kotlin",
+                  "artifactId": "kotlin-stdlib-jdk7",
+                  "version": "1.7.10",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.jetbrains.kotlin",
+              "artifactId": "kotlin-reflect",
+              "version": "1.7.10",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.jetbrains.kotlin",
+              "artifactId": "kotlin-scripting-compiler-impl-embeddable",
+              "version": "1.7.10",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.jetbrains.kotlin",
+                  "artifactId": "kotlin-scripting-common",
+                  "version": "1.7.10",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.jetbrains.kotlin",
+                  "artifactId": "kotlin-scripting-jvm",
+                  "version": "1.7.10",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.jetbrains.kotlin",
+                      "artifactId": "kotlin-script-runtime",
+                      "version": "1.7.10",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "org.jetbrains.kotlin",
+              "artifactId": "kotlin-scripting-compiler-embeddable",
+              "version": "1.7.10",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.squareup.okio",
+              "artifactId": "okio",
+              "version": "3.4.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.squareup.okio",
+                  "artifactId": "okio-jvm",
+                  "version": "3.4.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "com.squareup.okio",
+              "artifactId": "okio-fakefilesystem",
+              "version": "3.2.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.squareup.okio",
+                  "artifactId": "okio-fakefilesystem-jvm",
+                  "version": "3.2.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "org.jetbrains.kotlinx",
+                      "artifactId": "kotlinx-datetime-jvm",
+                      "version": "0.3.2",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                }
+                ]
+            },
+            {
+              "groupId": "org.jetbrains.kotlinx",
+              "artifactId": "kotlinx-serialization-core-jvm",
+              "version": "1.4.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.squareup.wire",
+              "artifactId": "wire-schema",
+              "version": "4.3.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.squareup.wire",
+                  "artifactId": "wire-runtime",
+                  "version": "4.3.0",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "com.squareup.wire",
+              "artifactId": "wire-compiler",
+              "version": "4.3.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.squareup.wire",
+                  "artifactId": "wire-schema-jvm",
+                  "version": "4.3.0",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "com.squareup.wire",
+                      "artifactId": "wire-runtime-jvm",
+                      "version": "4.3.0",
+                      "type": "jar",
+                      "scope": "compile",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "com.squareup.wire",
+                  "artifactId": "wire-kotlin-generator",
+                  "version": "4.3.0",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "com.squareup",
+                      "artifactId": "kotlinpoet",
+                      "version": "1.10.2",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false"
+                    },
+                    {
+                      "groupId": "com.squareup.wire",
+                      "artifactId": "wire-grpc-client-jvm",
+                      "version": "4.3.0",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false",
+                      "children": [
+                        {
+                          "groupId": "com.squareup.okhttp3",
+                          "artifactId": "okhttp",
+                          "version": "4.9.3",
+                          "type": "jar",
+                          "scope": "runtime",
+                          "classifier": "",
+                          "optional": "false"
+                        },
+                        {
+                          "groupId": "org.jetbrains.kotlinx",
+                          "artifactId": "kotlinx-coroutines-core-jvm",
+                          "version": "1.5.2",
+                          "type": "jar",
+                          "scope": "runtime",
+                          "classifier": "",
+                          "optional": "false"
+                        }
+                        ]
+                    },
+                    {
+                      "groupId": "com.squareup.wire",
+                      "artifactId": "wire-grpc-server-generator",
+                      "version": "4.3.0",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "com.squareup.wire",
+                  "artifactId": "wire-java-generator",
+                  "version": "4.3.0",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "com.squareup",
+                      "artifactId": "javapoet",
+                      "version": "1.13.0",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "com.squareup.wire",
+                  "artifactId": "wire-swift-generator",
+                  "version": "4.3.0",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false",
+                  "children": [
+                    {
+                      "groupId": "io.outfoxx",
+                      "artifactId": "swiftpoet",
+                      "version": "1.3.1",
+                      "type": "jar",
+                      "scope": "runtime",
+                      "classifier": "",
+                      "optional": "false"
+                    }
+                    ]
+                },
+                {
+                  "groupId": "com.squareup.wire",
+                  "artifactId": "wire-profiles",
+                  "version": "4.3.0",
+                  "type": "jar",
+                  "scope": "runtime",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "com.google.api.grpc",
+              "artifactId": "proto-google-common-protos",
+              "version": "2.7.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.google.jimfs",
+              "artifactId": "jimfs",
+              "version": "1.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.commons",
+              "artifactId": "commons-collections4",
+              "version": "4.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "software.amazon.glue",
+          "artifactId": "schema-registry-common",
+          "version": "1.1.19",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "glue",
+              "version": "2.22.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.glue",
+              "artifactId": "schema-registry-build-tools",
+              "version": "1.1.19",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "software.amazon.awssdk",
+              "artifactId": "url-connection-client",
+              "version": "2.22.12",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.apache.avro",
+              "artifactId": "avro",
+              "version": "1.11.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "com.fasterxml.jackson.core",
+                  "artifactId": "jackson-core",
+                  "version": "2.21.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.commons",
+              "artifactId": "commons-compress",
+              "version": "1.21",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.google.guava",
+          "artifactId": "guava",
+          "version": "33.5.0-jre",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "com.google.guava",
+              "artifactId": "failureaccess",
+              "version": "1.0.3",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.google.guava",
+              "artifactId": "listenablefuture",
+              "version": "9999.0-empty-to-avoid-conflict-with-guava",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "org.jspecify",
+              "artifactId": "jspecify",
+              "version": "1.0.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.google.errorprone",
+              "artifactId": "error_prone_annotations",
+              "version": "2.41.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "com.google.j2objc",
+              "artifactId": "j2objc-annotations",
+              "version": "3.1",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "com.google.protobuf",
+          "artifactId": "protobuf-java",
+          "version": "3.25.5",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.apache.commons",
+          "artifactId": "commons-lang3",
+          "version": "3.20.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.reactivex.rxjava3",
+          "artifactId": "rxjava",
+          "version": "3.1.6",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "at.yawk.lz4",
+      "artifactId": "lz4-java",
+      "version": "1.10.3",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "software.amazon.awssdk",
+      "artifactId": "netty-nio-client",
+      "version": "2.41.28",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-codec-http",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-codec-http2",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-codec",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-transport",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-common",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-buffer",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-handler",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-transport-native-unix-common",
+              "version": "4.1.135.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-transport-classes-epoll",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-resolver",
+          "version": "4.1.135.Final",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.reactivestreams",
+          "artifactId": "reactive-streams",
+          "version": "1.0.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "software.amazon.awssdk",
+      "artifactId": "firehose",
+      "version": "2.41.28",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
+      "groupId": "software.amazon.awssdk",
+      "artifactId": "apache-client",
+      "version": "2.41.28",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.httpcomponents",
+          "artifactId": "httpclient",
+          "version": "4.5.13",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "commons-logging",
+              "artifactId": "commons-logging",
+              "version": "1.2",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "org.apache.httpcomponents",
+          "artifactId": "httpcore",
+          "version": "4.4.16",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "commons-codec",
+          "artifactId": "commons-codec",
+          "version": "1.21.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        }
+        ]
+    },
+    {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-health",
+      "version": "4.18.4",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false",
+      "children": [
+        {
+          "groupId": "org.apache.camel",
+          "artifactId": "camel-core-engine",
+          "version": "4.18.4",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-base-engine",
+              "version": "4.18.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-base",
+                  "version": "4.18.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            },
+            {
+              "groupId": "org.apache.camel",
+              "artifactId": "camel-core-reifier",
+              "version": "4.18.4",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false",
+              "children": [
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-core-model",
+                  "version": "4.18.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.apache.camel",
+                  "artifactId": "camel-core-processor",
+                  "version": "4.18.4",
+                  "type": "jar",
+                  "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                }
+                ]
+            }
+            ]
+        }
+        ]
+    }
+    ]
+}
