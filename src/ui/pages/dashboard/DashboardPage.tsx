@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Button} from '@patternfly/react-core/dist/esm/components/Button';
-import {Card, CardBody, CardFooter, CardHeader, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
+import {Card, CardBody, CardFooter, CardTitle} from '@patternfly/react-core/dist/esm/components/Card';
 import {Content, ContentVariants} from '@patternfly/react-core/dist/esm/components/Content';
 import {DescriptionList, DescriptionListDescription, DescriptionListGroup, DescriptionListTerm} from '@patternfly/react-core/dist/esm/components/DescriptionList';
 import {Label} from '@patternfly/react-core/dist/esm/components/Label';
@@ -106,14 +106,13 @@ export const DashboardPage: React.FunctionComponent = () => {
             <Grid hasGutter className="dashboard-grid">
                 <GridItem md={6} lg={4}>
                     <Card isFullHeight isCompact>
-                        <CardHeader>
-                            <CardTitle>Scan coverage</CardTitle>
-                        </CardHeader>
                         <CardBody>
                             <Table aria-label="Risk and EPSS per scanned version" variant="compact" className="coverage-table">
                                 <Thead>
                                     <Tr>
-                                        <Th screenReaderText="Version"/>
+                                        <Th>
+                                            <Content component={'h6'}>Scan coverage</Content>
+                                        </Th>
                                         <Th textCenter modifier="fitContent"><RiskHeader/></Th>
                                         <Th textCenter modifier="fitContent"><EpssHeader/></Th>
                                     </Tr>

@@ -53,7 +53,7 @@ declared in both `vite.config.ts` and `tsconfig.json`.
   the dependencies it pulls in; each level scores its own findings and those of its dependencies
   separately (severity, risk, EPSS) so it is clear whether the issue sits in the component or below it.
 * **Versions** – every scanned tag and branch: kind, name, scan date, vulnerability counts by severity, max risk and max EPSS, read from `public/data/<ref>/vulnerabilities.json`.
-* **About** – stack summary and data sources.
+* **About** – how the dashboard works: the nightly scan pipeline, how the browser reads the published data, what each page shows, how severity/EPSS/risk are meant to be read, plus the current data set (refs, findings, scanner, last run).
 
 ## Data
 

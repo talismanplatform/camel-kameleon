@@ -1,0 +1,10 @@
+.about-page .about-steps > li {
+    padding-block-end: var(--pf-t--global--spacer--sm);
+}
+
+.about-page .about-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--pf-t--global--spacer--lg);
+    margin-block-start: var(--pf-t--global--spacer--md);
+}
