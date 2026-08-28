@@ -15,7 +15,7 @@ import {CvesToolbar} from './CvesToolbar';
 import './CvesPage.css';
 import {capitalize} from "@patternfly/react-core";
 
-type SortableColumn = 'vulnerability' | 'severity' | 'groupId' | 'artifactId' | 'installed' | 'fixed_in' | 'epss' | 'risk';
+type SortableColumn = 'vulnerability' | 'severity' | 'coordinates' | 'installed' | 'fixed_in' | 'epss' | 'risk';
 
 const COLUMNS: {
     key: SortableColumn | 'description';
@@ -26,8 +26,7 @@ const COLUMNS: {
 }[] = [
     {key: 'vulnerability', label: 'Vulnerability', sortable: true},
     {key: 'severity', label: 'Severity', sortable: true, modifier: 'fitContent'},
-    {key: 'groupId', label: 'Group', sortable: true},
-    {key: 'artifactId', label: 'Artifact', sortable: true},
+    {key: 'coordinates', label: 'Group:Artifact', sortable: true},
     {key: 'installed', label: 'Installed', sortable: true},
     {key: 'fixed_in', label: 'Fixed in', sortable: true},
     // {key: 'description', label: 'Description', sortable: false},
@@ -86,6 +85,9 @@ export const CvesPage: React.FunctionComponent = () => {
             }
             if (column === 'risk' || column === 'epss') {
                 return ((a[column] ?? -1) - (b[column] ?? -1)) * factor;
+            }
+            if (column === 'coordinates') {
+                return coordinates(a).localeCompare(coordinates(b)) * factor;
             }
             return String(a[column] ?? '').localeCompare(String(b[column] ?? '')) * factor;
         });
@@ -161,8 +163,10 @@ export const CvesPage: React.FunctionComponent = () => {
                                 <Td dataLabel="Severity">
                                     <Severity text={vulnerability.severity} severity={capitalize(vulnerability.severity) as ScanSeverity} />
                                 </Td>
-                                <Td dataLabel="Group" modifier="nowrap">{vulnerability.groupId ?? '-'}</Td>
-                                <Td dataLabel="Artifact" modifier="nowrap">{vulnerability.artifactId ?? vulnerability.name}</Td>
+                                <Td dataLabel="Group:Artifact" modifier="nowrap">
+                                    {vulnerability.groupId && <span className="cve-group">{vulnerability.groupId}:</span>}
+                                    {vulnerability.artifactId ?? vulnerability.name}
+                                </Td>
                                 <Td dataLabel="Installed" modifier="nowrap">{vulnerability.installed}</Td>
                                 <Td dataLabel="Fixed in" modifier="nowrap">
                                     {NO_FIX.test(vulnerability.fixed_in)
@@ -186,6 +190,12 @@ export const CvesPage: React.FunctionComponent = () => {
         </div>
     );
 };
+
+/** Maven coordinates read as `group:artifact`, dropping the group when the report omits it. */
+function coordinates(vulnerability: Vulnerability): string {
+    const artifact = vulnerability.artifactId ?? vulnerability.name;
+    return vulnerability.groupId ? `${vulnerability.groupId}:${artifact}` : artifact;
+}
 
 /** Severities the scanner does not recognise read as `Unknown`. */
 function severityOf(severity: string): ScanSeverity {

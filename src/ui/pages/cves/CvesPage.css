@@ -20,3 +20,7 @@
 .cve-no-fix {
     color: var(--pf-t--color--red-orange--60);
 }
+
+.cve-group {
+    color: var(--pf-t--global--text--color--subtle);
+}
