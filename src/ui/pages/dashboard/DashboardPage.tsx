@@ -216,14 +216,14 @@ const DashboardPage: React.FunctionComponent = () => {
                                             <ul className="stat-card-cves" aria-label={`${severity} Apache Camel advisories`}>
                                                 {camelBySeverity[severity].map(vulnerability => (
                                                     <li key={vulnerability.vulnerability}>
-                                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px'}}>
                                                             <div style={{flex: 1}}>
-                                                                <Button variant="link" style={{ padding: 0}} onClick={() => setSelected(vulnerability)}>
+                                                                <Button variant="link" style={{ padding: 0 }} onClick={() => setSelected(vulnerability)}>
                                                                     {`${vulnerability.artifactId}:${vulnerability.installed}`}
                                                                 </Button>
                                                             </div>
-                                                            <p>{vulnerability.risk}</p>
-                                                            <p>{vulnerability.epss}</p>
+                                                            <RiskScore value={vulnerability.risk ?? undefined}/>
+                                                            <EpssScore value={vulnerability.epss ?? undefined}/>
                                                         </div>
                                                     </li>
                                                 ))}

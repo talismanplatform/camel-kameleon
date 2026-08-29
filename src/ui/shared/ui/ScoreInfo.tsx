@@ -86,7 +86,7 @@ export const RiskHeader: React.FunctionComponent = () => (
                     </li>
                 </div>
                 <div style={indented}>
-                    <Band color={GREEN} title="Green (Low / Negligible): 0.0 to 3.9">
+                    <Band color={GREY} title="Grey (Low / Negligible): 0.0 to 3.9">
                         Safe to ignore or defer to regular maintenance cycles.
                     </Band>
                     <Band color={YELLOW} title="Yellow (Medium): 4.0 to 6.9">
@@ -115,15 +115,15 @@ export const Severity: React.FunctionComponent<SeverityProps> = ({severity, text
 );
 
 /** Risk bands: green below 4.0, yellow below 7.0, red above. */
-function riskColor(value: number): string {
+export function riskColor(value: number): string {
     if (value >= 7) {
         return RED;
     }
-    return value >= 4 ? YELLOW : GREEN;
+    return value >= 4 ? YELLOW : GREY;
 }
 
 /** EPSS bands, on the 0..1 probability: grey below 1%, yellow below 10%, red above. */
-function epssColor(value: number): string {
+export function epssColor(value: number): string {
     if (value >= 0.1) {
         return RED;
     }
