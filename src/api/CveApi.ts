@@ -1,27 +1,26 @@
-import cvesJson from '@data/cves.json';
 import {
     ALL_REFS,
     CamelComponent,
     CamelVersion,
     Cve,
-    isCamelArtifact,
+    CveSummary,
     DependencyNode,
     DependencyTrees,
-    CveSummary,
+    isCamelArtifact,
     isOpen,
-    ModuleIndex,
     MODULE_GROUPS,
     ModuleGroup,
+    ModuleIndex,
     MvnTreeNode,
-    ScanInfo,
     SCAN_SEVERITIES,
+    ScanInfo,
     ScanSeverity,
     scanSeverityOf,
     SEVERITIES,
     Severity,
     VersionRef,
-    VersionScan,
     Versions,
+    VersionScan,
     Vulnerability,
 } from '@models/CveModels';
 
@@ -79,7 +78,7 @@ const dependencyTrees = new Map<string, DependencyTrees>();
 /** Module trees fetched at once: enough to keep the connection busy without flooding the host. */
 const MODULE_REQUESTS = 12;
 
-const CVES = cvesJson as Cve[];
+const CVES = [] as Cve[];
 
 /** Category is derived from the artifact name until the backend supplies it. */
 function categoryOf(artifactId: string): string {
