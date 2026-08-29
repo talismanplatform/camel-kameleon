@@ -27,7 +27,6 @@ import {capitalize, HelperText, HelperTextItem} from "@patternfly/react-core";
 import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-icon";
 import TagIcon from "@patternfly/react-icons/dist/esm/icons/tag-icon";
 import {LastScanDate} from "@shared/ui/LastScanDate";
-import {logoOf} from "@pages/cves/CvesPage";
 import {CheckCircleIcon, InfoIcon} from "@patternfly/react-icons";
 
 /**
@@ -256,7 +255,7 @@ const DashboardPage: React.FunctionComponent = () => {
                                     <Thead>
                                         <Tr>
                                             <Th>
-                                                <Content component={'h6'}>Vulnerability</Content>
+                                                <Content component={'h6'}>Library</Content>
                                             </Th>
                                             <Th modifier="fitContent">Severity</Th>
                                             <Th textCenter modifier="fitContent"><RiskHeader/></Th>
@@ -265,16 +264,11 @@ const DashboardPage: React.FunctionComponent = () => {
                                     </Thead>
                                     <Tbody>
                                         {dangerousCves.map(vulnerability => {
-                                            const logo = logoOf(vulnerability.groupId);
                                             return (
                                                 <Tr key={vulnerability.vulnerability} isClickable
                                                     style={{verticalAlign: 'middle'}}
                                                     onRowClick={() => setSelected(vulnerability)}>
                                                     <Td dataLabel="Vulnerability">
-                                                        {/*<div style={{display: 'flex', alignItems: 'center', gap: '0.1rem', justifyContent: 'flex-start'}}>*/}
-                                                        {/*    <p>{vulnerability.vulnerability}</p>*/}
-                                                        {/*    {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}*/}
-                                                        {/*</div>*/}
                                                         <Content component={'p'}>
                                                             {`${vulnerability.artifactId}:${vulnerability.installed}`}
                                                         </Content>
