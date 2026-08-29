@@ -222,17 +222,17 @@ export const CvesPage: React.FunctionComponent = () => {
                                 onRowClick={() => setSelected(vulnerability)}
                             >
                                 <Td dataLabel="Vulnerability" modifier="nowrap">
-                                    <div style={{display: 'flex', alignItems: 'center', gap: '0.1rem'}}>
                                         <span className="cve-id">{vulnerability.vulnerability}</span>
-                                        {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
-                                    </div>
                                 </Td>
                                 <Td dataLabel="Severity">
                                     <Severity text={vulnerability.severity} severity={capitalize(vulnerability.severity) as ScanSeverity} />
                                 </Td>
                                 <Td dataLabel="Group:Artifact" modifier="nowrap">
-                                    {vulnerability.groupId && <span className="cve-group">{vulnerability.groupId}:</span>}
-                                    {vulnerability.artifactId ?? vulnerability.name}
+                                    <div style={{display: 'flex', alignItems: 'center', gap: '0.1rem'}}>
+                                        <p>{vulnerability.groupId && <span className="cve-group">{vulnerability.groupId}:</span>}{vulnerability.artifactId ?? vulnerability.name}</p>
+                                        {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
+                                    </div>
+
                                 </Td>
                                 <Td dataLabel="Installed" modifier="nowrap">{vulnerability.installed}</Td>
                                 <Td dataLabel="Fixed in" modifier="nowrap">
