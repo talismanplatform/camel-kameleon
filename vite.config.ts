@@ -1,7 +1,7 @@
 import {defineConfig, type Plugin} from 'vite';
 import react from '@vitejs/plugin-react';
 import {fileURLToPath} from 'node:url';
-import {copyFile} from 'node:fs/promises';
+import {copyFile, cp, readdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 
 const src = (path: string) => fileURLToPath(new URL(`./src/${path}`, import.meta.url));
@@ -27,9 +27,29 @@ const spaFallback = (): Plugin => ({
     },
 });
 
+/**
+ * `public/data` is the scan output, 30+ MB refreshed nightly by a workflow that does
+ * not redeploy. Copying it into `dist` would ship a snapshot that goes stale the same
+ * night and that the browser must ignore anyway - `@api/DataSource` reads the data
+ * from the repository at runtime - so the build copies everything in `public` except
+ * that directory. The dev server is unaffected and still serves it from disk.
+ */
+const publicAssetsWithoutData = (): Plugin => ({
+    name: 'public-assets-without-data',
+    apply: 'build',
+    async writeBundle(options) {
+        const dir = options.dir ?? 'dist';
+        const publicDir = fileURLToPath(new URL('./public', import.meta.url));
+        const entries = await readdir(publicDir);
+        await Promise.all(entries
+            .filter(entry => entry !== 'data')
+            .map(entry => cp(resolve(publicDir, entry), resolve(dir, entry), {recursive: true})));
+    },
+});
+
 export default defineConfig({
     base: '/camel-kameleon/',
-    plugins: [react(), spaFallback()],
+    plugins: [react(), publicAssetsWithoutData(), spaFallback()],
     resolve: {
         alias: {
             '@compass': src('ui/compass'),
@@ -47,5 +67,6 @@ export default defineConfig({
     build: {
         outDir: 'dist',
         sourcemap: true,
+        copyPublicDir: false,
     },
 });

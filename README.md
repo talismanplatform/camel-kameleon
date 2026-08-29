@@ -39,6 +39,7 @@ Drawer (detail panel)
 | `src/ui/shared/ui` | Severity/status labels, error boundary |
 | `src/stores` | Zustand stores: CVE data + filters, dock/page UI state |
 | `src/api/CveApi.ts` | Data access layer (currently fixture backed) |
+| `src/api/DataSource.ts` | Resolves the base URL the scan data is fetched from |
 | `src/data` | Sample advisory fixtures |
 | `src/models/CveModels.ts` | `Cve`, `Severity`, `CveStatus`, summary types |
 
@@ -63,6 +64,31 @@ calls is the only change needed to go live; the pages consume the store, not the
 
 `public/data` holds the real scan output produced by `.github/workflows/scan.yml`, one
 directory per scanned Camel branch or tag.
+
+### Where the data is read from
+
+The scan workflow commits data every night and, by design, does not deploy. Nothing is
+bundled and the build does not even copy `public/data` into `dist`, so the deployment can
+never serve a stale snapshot: `src/api/DataSource.ts` resolves the data directory at
+runtime and every fetch goes through it.
+
+| Where it runs | Data base URL |
+| --- | --- |
+| `npm run dev` | `${BASE_URL}data/` – the dev server serves the working copy |
+| GitHub Pages (`<owner>.github.io/<repo>/`) | `https://raw.githubusercontent.com/<owner>/<repo>/HEAD/public/data/` |
+| anywhere else | `VITE_DATA_BASE_URL`, else `${BASE_URL}data/` |
+
+Owner and repository come from the location, not from configuration, so a fork's Pages
+site reads the fork's own data. `HEAD` is the default branch, and raw
+answers with `Access-Control-Allow-Origin: *`, so a data-only commit is live within
+the five minutes raw caches for – no redeploy.
+
+Other hosts (a custom domain, or `vite preview`, whose `dist` carries no data) name the
+directory themselves at build time:
+
+```bash
+VITE_DATA_BASE_URL=https://raw.githubusercontent.com/talismanplatform/camel-kameleon/HEAD/public/data npm run build
+```
 
 ### Dependency trees
 

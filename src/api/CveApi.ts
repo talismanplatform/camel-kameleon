@@ -23,22 +23,13 @@ import {
     VersionScan,
     Vulnerability,
 } from '@models/CveModels';
+import {dataUrl} from '@api/DataSource';
 
 /**
  * Fixture backed API. Every method mirrors the shape of the REST endpoint that will
  * replace it, so only the body of these functions changes once a backend exists.
  */
 const LATENCY_MS = 250;
-
-/**
- * Scan data lives under `public/data` and is refreshed by the nightly workflow, so
- * it is fetched at runtime rather than bundled: a data-only commit updates the
- * dashboard without rebuilding the application.
- *
- * `BASE_URL` is `/` on localhost and `/camel-kameleon/` in the GitHub Pages build,
- * so prefixing it makes one relative `data/...` path work in both places.
- */
-const dataUrl = (path: string) => `${import.meta.env.BASE_URL}data/${path}`;
 
 const SCAN_INFO_URL = dataUrl('scan.json');
 

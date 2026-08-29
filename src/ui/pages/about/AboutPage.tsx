@@ -167,8 +167,10 @@ export const AboutPage: React.FunctionComponent = () => {
                         <CardTitle>How the browser reads it</CardTitle>
                         <CardBody>
                             <Content component={ContentVariants.p}>
-                                Nothing is baked into the bundle. <code>CveApi</code> fetches the reports at
-                                runtime, so a scan that only commits data updates the dashboard without a rebuild.
+                                Nothing is baked into the bundle, and the build ships no copy of the data
+                                either. <code>CveApi</code> reads <code>public/data</code> of this repository
+                                at runtime - on GitHub Pages straight off raw.githubusercontent.com - so a scan
+                                that only commits data updates the dashboard with no rebuild and no redeploy.
                             </Content>
                             <List>
                                 <ListItem>
