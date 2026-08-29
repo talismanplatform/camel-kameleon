@@ -155,6 +155,18 @@ jobs:
                 | from_entries' > modules.json
           jq -r 'to_entries | map("\(.key): \(.value | length)") | join(", ")' modules.json
 
+      - name: Install syft
+        uses: anchore/sbom-action/download-syft@v0
+
+      - name: Generate sbom.json
+        # The committed camel-sbom only covers what the release build declares, so
+        # syft walks the checkout itself and catches the artifacts that SBOM omits.
+        working-directory: camel
+        run: |
+          syft . -o json=sbom.json
+          jq -e '(.artifacts | length) > 0' sbom.json > /dev/null
+          echo "syft catalogued $(jq '.artifacts | length' sbom.json) artifacts"
+
       - name: Install grype
         uses: anchore/scan-action/download-grype@v7
         id: grype
@@ -190,11 +202,21 @@ jobs:
             "$sbom" > /tmp/camel-sbom.json
           mv /tmp/camel-sbom.json "$sbom"
 
-      - name: Scan SBOM
+      - name: Scan SBOMs
+        # Both SBOMs describe the same checkout from a different angle, so a
+        # vulnerability the two scans agree on is one finding: key on the
+        # vulnerability and the artifact it was matched against, keep one copy.
         working-directory: camel
         run: |
+          ${{ steps.grype.outputs.cmd }} sbom:./sbom.json \
+            --output=json --file /tmp/vulnerabilities.syft.json
           ${{ steps.grype.outputs.cmd }} sbom:./camel-sbom/camel-sbom.json \
-            --output=json --file vulnerabilities.json
+            --output=json --file /tmp/vulnerabilities.camel.json
+          jq -s '{matches: ([.[].matches // [] | .[]]
+              | unique_by([.vulnerability.id, .artifact.name, .artifact.version]))}' \
+            /tmp/vulnerabilities.syft.json /tmp/vulnerabilities.camel.json \
+            > vulnerabilities.json
+          echo "merged findings: $(jq '.matches | length' vulnerabilities.json)"
           {
             echo "SCANNED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
             echo "GRYPE_VERSION=$(${{ steps.grype.outputs.cmd }} version -o json | jq -r '.version')"
