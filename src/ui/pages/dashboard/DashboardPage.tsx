@@ -27,7 +27,8 @@ import {capitalize, HelperText, HelperTextItem} from "@patternfly/react-core";
 import CodeBranchIcon from "@patternfly/react-icons/dist/esm/icons/code-branch-icon";
 import TagIcon from "@patternfly/react-icons/dist/esm/icons/tag-icon";
 import {LastScanDate} from "@shared/ui/LastScanDate";
-import {CheckCircleIcon, InfoIcon} from "@patternfly/react-icons";
+import {InfoIcon} from "@patternfly/react-icons";
+import {ThumbsUpFilled} from "@carbon/react/icons";
 
 /**
  * The severities the stat cards break the Camel advisories down by: the four the
@@ -204,7 +205,7 @@ const DashboardPage: React.FunctionComponent = () => {
                                                         <SeverityText severity={severity} text={num} component={ContentVariants.h6}/>
                                                     </Label>
                                                 }
-                                                {!showNum && <CheckCircleIcon color={'var(--pf-t--global--color--status--success--default)'}/>}
+                                                {!showNum && <ThumbsUpFilled color={'var(--pf-t--global--color--status--success--default)'}/>}
                                             </FlexItem>
                                         </Flex>
                                     </CardTitle>
@@ -215,10 +216,15 @@ const DashboardPage: React.FunctionComponent = () => {
                                             <ul className="stat-card-cves" aria-label={`${severity} Apache Camel advisories`}>
                                                 {camelBySeverity[severity].map(vulnerability => (
                                                     <li key={vulnerability.vulnerability}>
-                                                        <Button variant="link" isInline
-                                                                onClick={() => setSelected(vulnerability)}>
-                                                            {`${vulnerability.artifactId}:${vulnerability.installed}`}
-                                                        </Button>
+                                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                                            <div style={{flex: 1}}>
+                                                                <Button variant="link" style={{ padding: 0}} onClick={() => setSelected(vulnerability)}>
+                                                                    {`${vulnerability.artifactId}:${vulnerability.installed}`}
+                                                                </Button>
+                                                            </div>
+                                                            <p>{vulnerability.risk}</p>
+                                                            <p>{vulnerability.epss}</p>
+                                                        </div>
                                                     </li>
                                                 ))}
                                             </ul>
