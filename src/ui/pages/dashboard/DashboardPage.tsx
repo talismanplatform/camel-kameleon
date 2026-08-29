@@ -218,7 +218,7 @@ const DashboardPage: React.FunctionComponent = () => {
                                                     <li key={vulnerability.vulnerability}>
                                                         <Button variant="link" isInline
                                                                 onClick={() => setSelected(vulnerability)}>
-                                                            {vulnerability.vulnerability}
+                                                            {`${vulnerability.artifactId}:${vulnerability.installed}`}
                                                         </Button>
                                                     </li>
                                                 ))}
@@ -271,12 +271,15 @@ const DashboardPage: React.FunctionComponent = () => {
                                                     style={{verticalAlign: 'middle'}}
                                                     onRowClick={() => setSelected(vulnerability)}>
                                                     <Td dataLabel="Vulnerability">
-                                                        <div style={{display: 'flex', alignItems: 'center', gap: '0.1rem', justifyContent: 'flex-start'}}>
-                                                            <p>{vulnerability.vulnerability}</p>
-                                                            {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}
-                                                        </div>
+                                                        {/*<div style={{display: 'flex', alignItems: 'center', gap: '0.1rem', justifyContent: 'flex-start'}}>*/}
+                                                        {/*    <p>{vulnerability.vulnerability}</p>*/}
+                                                        {/*    {logo && <img className="cve-logo" src={logo.src} alt={logo.alt}/>}*/}
+                                                        {/*</div>*/}
+                                                        <Content component={'p'}>
+                                                            {`${vulnerability.artifactId}:${vulnerability.installed}`}
+                                                        </Content>
                                                         <HelperText>
-                                                            <HelperTextItem>{`${vulnerability.groupId}:${vulnerability.artifactId}`}</HelperTextItem>
+                                                            <HelperTextItem className={'vul-helper-text'}>{vulnerability.vulnerability}</HelperTextItem>
                                                         </HelperText>
                                                     </Td>
                                                     <Td dataLabel="Severity" modifier="nowrap">

@@ -69,3 +69,7 @@
 .stat-card-empty {
     color: var(--pf-t--global--text--color--subtle);
 }
+
+.vul-helper-text .pf-v6-c-helper-text__item-text {
+    color: var(--pf-t--global--text--color--subtle);
+}
