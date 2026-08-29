@@ -7,7 +7,7 @@ import {Content, ContentVariants} from "@patternfly/react-core/dist/esm/componen
 
 /** PatternFly status tokens, so a score reads the same wherever it is shown. */
 const GREY = 'var(--pf-t--global--color--severity--minor--100)';
-const GREEN = 'var(--pf-t--global--text--color--status--success--default)';
+// const GREEN = 'var(--pf-t--global--text--color--status--success--default)';
 const YELLOW = 'var(--pf-t--global--text--color--status--warning--default)';
 const RED = 'var(--pf-t--global--text--color--status--danger--default)';
 const SUBTLE = 'var(--pf-t--global--text--color--subtle)';
