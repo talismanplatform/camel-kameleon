@@ -140,15 +140,6 @@
           "optional": "true"
         },
         {
-          "groupId": "io.micrometer",
-          "artifactId": "micrometer-observation",
-          "version": "1.17.1",
-          "type": "jar",
-          "scope": "compile",
-          "classifier": "",
-          "optional": "true"
-        },
-        {
           "groupId": "org.hdrhistogram",
           "artifactId": "HdrHistogram",
           "version": "2.2.2",
@@ -158,6 +149,15 @@
           "optional": "true"
         }
         ]
+    },
+    {
+      "groupId": "io.micrometer",
+      "artifactId": "micrometer-observation",
+      "version": "1.17.1",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "true"
     },
     {
       "groupId": "dev.langchain4j",
