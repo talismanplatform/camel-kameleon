@@ -284,7 +284,7 @@
     {
       "groupId": "org.jsoup",
       "artifactId": "jsoup",
-      "version": "1.23.1",
+      "version": "1.23.2",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

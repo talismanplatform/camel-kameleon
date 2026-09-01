@@ -6,6 +6,7 @@
     "camel-ai/camel-a2a",
     "camel-ai/camel-ai-observability",
     "camel-ai/camel-ai-observability-api",
+    "camel-ai/camel-ai-resource",
     "camel-ai/camel-ai-tool",
     "camel-ai/camel-chatscript",
     "camel-ai/camel-djl",

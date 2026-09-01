@@ -19,7 +19,7 @@
         {
           "groupId": "com.google.auth",
           "artifactId": "google-auth-library-oauth2-http",
-          "version": "1.50.0",
+          "version": "1.51.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -46,7 +46,7 @@
             {
               "groupId": "com.google.api",
               "artifactId": "api-common",
-              "version": "2.66.0",
+              "version": "2.67.0",
               "type": "jar",
               "scope": "compile",
               "classifier": "",

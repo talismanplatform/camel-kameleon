@@ -97,7 +97,7 @@
     {
       "groupId": "com.cloudbees.thirdparty",
       "artifactId": "zendesk-java-client",
-      "version": "1.5.2",
+      "version": "1.6.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -106,7 +106,7 @@
         {
           "groupId": "org.asynchttpclient",
           "artifactId": "async-http-client",
-          "version": "3.0.9",
+          "version": "3.0.11",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -128,27 +128,7 @@
               "type": "jar",
               "scope": "compile",
               "classifier": "",
-              "optional": "false",
-              "children": [
-                {
-                  "groupId": "io.netty",
-                  "artifactId": "netty-codec-base",
-                  "version": "4.2.16.Final",
-                  "type": "jar",
-                  "scope": "compile",
-                  "classifier": "",
-                  "optional": "false"
-                },
-                {
-                  "groupId": "io.netty",
-                  "artifactId": "netty-codec-compression",
-                  "version": "4.2.16.Final",
-                  "type": "jar",
-                  "scope": "compile",
-                  "classifier": "",
-                  "optional": "false"
-                }
-                ]
+              "optional": "false"
             },
             {
               "groupId": "io.netty",
@@ -161,32 +141,21 @@
             },
             {
               "groupId": "io.netty",
-              "artifactId": "netty-codec",
+              "artifactId": "netty-codec-base",
               "version": "4.2.16.Final",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
-              "optional": "false",
-              "children": [
-                {
-                  "groupId": "io.netty",
-                  "artifactId": "netty-codec-protobuf",
-                  "version": "4.2.16.Final",
-                  "type": "jar",
-                  "scope": "compile",
-                  "classifier": "",
-                  "optional": "false"
-                },
-                {
-                  "groupId": "io.netty",
-                  "artifactId": "netty-codec-marshalling",
-                  "version": "4.2.16.Final",
-                  "type": "jar",
-                  "scope": "compile",
-                  "classifier": "",
-                  "optional": "false"
-                }
-                ]
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-compression",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
             },
             {
               "groupId": "io.netty",
@@ -274,15 +243,6 @@
                   "optional": "false"
                 }
                 ]
-            },
-            {
-              "groupId": "com.sun.activation",
-              "artifactId": "jakarta.activation",
-              "version": "2.0.1",
-              "type": "jar",
-              "scope": "compile",
-              "classifier": "",
-              "optional": "false"
             },
             {
               "groupId": "org.jetbrains",

@@ -97,7 +97,7 @@
     {
       "groupId": "org.mvel",
       "artifactId": "mvel2",
-      "version": "2.5.2.Final",
+      "version": "2.5.3.Final",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

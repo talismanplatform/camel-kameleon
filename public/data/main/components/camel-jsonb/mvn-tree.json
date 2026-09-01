@@ -106,7 +106,7 @@
     {
       "groupId": "jakarta.json.bind",
       "artifactId": "jakarta.json.bind-api",
-      "version": "3.0.2",
+      "version": "3.0.3",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

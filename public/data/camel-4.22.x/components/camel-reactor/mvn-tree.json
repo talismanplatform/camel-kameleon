@@ -168,7 +168,7 @@
     {
       "groupId": "io.projectreactor",
       "artifactId": "reactor-core",
-      "version": "3.8.6",
+      "version": "3.8.7",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

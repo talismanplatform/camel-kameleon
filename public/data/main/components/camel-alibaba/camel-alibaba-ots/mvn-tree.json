@@ -106,7 +106,7 @@
     {
       "groupId": "com.aliyun.openservices",
       "artifactId": "tablestore",
-      "version": "5.17.11",
+      "version": "5.17.13",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

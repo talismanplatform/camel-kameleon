@@ -97,7 +97,7 @@
     {
       "groupId": "com.twilio.sdk",
       "artifactId": "twilio",
-      "version": "12.1.1",
+      "version": "13.0.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

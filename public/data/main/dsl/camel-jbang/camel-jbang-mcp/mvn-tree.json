@@ -10,7 +10,7 @@
     {
       "groupId": "io.quarkiverse.mcp",
       "artifactId": "quarkus-mcp-server-stdio",
-      "version": "1.13.1",
+      "version": "2.0.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -19,7 +19,7 @@
         {
           "groupId": "io.quarkiverse.mcp",
           "artifactId": "quarkus-mcp-server-core",
-          "version": "1.13.1",
+          "version": "2.0.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -28,7 +28,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-vertx",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -37,7 +37,7 @@
                 {
                   "groupId": "io.quarkus",
                   "artifactId": "quarkus-netty",
-                  "version": "3.38.3",
+                  "version": "3.39.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -133,7 +133,7 @@
                 {
                   "groupId": "io.quarkus",
                   "artifactId": "quarkus-virtual-threads",
-                  "version": "3.38.3",
+                  "version": "3.39.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -142,7 +142,7 @@
                 {
                   "groupId": "io.quarkus",
                   "artifactId": "quarkus-vertx-latebound-mdc-provider",
-                  "version": "3.38.3",
+                  "version": "3.39.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -187,6 +187,15 @@
                   "optional": "false"
                 }
                 ]
+            },
+            {
+              "groupId": "org.mcpjava",
+              "artifactId": "mcp-server-api",
+              "version": "1.0.0",
+              "type": "jar",
+              "scope": "compile",
+              "classifier": "",
+              "optional": "false"
             }
             ]
         }
@@ -195,7 +204,7 @@
     {
       "groupId": "io.quarkiverse.mcp",
       "artifactId": "quarkus-mcp-server-http",
-      "version": "1.13.1",
+      "version": "2.0.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -204,7 +213,7 @@
         {
           "groupId": "io.quarkus",
           "artifactId": "quarkus-vertx-http",
-          "version": "3.38.3",
+          "version": "3.39.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -213,7 +222,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-security-runtime-spi",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -222,7 +231,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-tls-registry",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -231,7 +240,7 @@
                 {
                   "groupId": "io.quarkus",
                   "artifactId": "quarkus-tls-registry-spi",
-                  "version": "3.38.3",
+                  "version": "3.39.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -240,7 +249,7 @@
                 {
                   "groupId": "io.smallrye.certs",
                   "artifactId": "smallrye-private-key-pem-parser",
-                  "version": "0.9.3",
+                  "version": "0.9.4",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -251,7 +260,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-credentials",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -260,7 +269,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-mutiny",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -269,7 +278,7 @@
                 {
                   "groupId": "io.quarkus",
                   "artifactId": "quarkus-smallrye-context-propagation",
-                  "version": "3.38.3",
+                  "version": "3.39.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -554,7 +563,7 @@
         {
           "groupId": "io.quarkiverse.mcp",
           "artifactId": "quarkus-mcp-server-sse-client",
-          "version": "1.13.1",
+          "version": "2.0.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -596,7 +605,7 @@
     {
       "groupId": "io.quarkus",
       "artifactId": "quarkus-arc",
-      "version": "3.38.3",
+      "version": "3.39.1",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -605,7 +614,7 @@
         {
           "groupId": "io.quarkus.arc",
           "artifactId": "arc",
-          "version": "3.38.3",
+          "version": "3.39.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -692,7 +701,7 @@
         {
           "groupId": "io.quarkus",
           "artifactId": "quarkus-core",
-          "version": "3.38.3",
+          "version": "3.39.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -719,7 +728,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-ide-launcher",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -728,7 +737,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-development-mode-spi",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -889,7 +898,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-value-registry",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -898,7 +907,7 @@
             {
               "groupId": "io.quarkus",
               "artifactId": "quarkus-bootstrap-runner",
-              "version": "3.38.3",
+              "version": "3.39.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -929,7 +938,7 @@
     {
       "groupId": "io.quarkus",
       "artifactId": "quarkus-jackson",
-      "version": "3.38.3",
+      "version": "3.39.1",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -1640,7 +1649,7 @@
         {
           "groupId": "org.jline",
           "artifactId": "jline",
-          "version": "4.3.1",
+          "version": "4.2.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -1649,7 +1658,7 @@
         {
           "groupId": "org.jline",
           "artifactId": "jline-picocli",
-          "version": "4.3.1",
+          "version": "4.4.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -1658,7 +1667,7 @@
             {
               "groupId": "org.jline",
               "artifactId": "jline-console",
-              "version": "4.3.1",
+              "version": "4.4.0",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -1667,7 +1676,7 @@
                 {
                   "groupId": "org.jline",
                   "artifactId": "jline-builtins",
-                  "version": "4.3.1",
+                  "version": "4.4.0",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1676,7 +1685,7 @@
                 {
                   "groupId": "org.jline",
                   "artifactId": "jline-style",
-                  "version": "4.3.1",
+                  "version": "4.4.0",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1685,7 +1694,7 @@
                     {
                       "groupId": "org.jline",
                       "artifactId": "jline-terminal",
-                      "version": "4.3.1",
+                      "version": "4.4.0",
                       "type": "jar",
                       "scope": "compile",
                       "classifier": "",
@@ -1694,7 +1703,7 @@
                         {
                           "groupId": "org.jline",
                           "artifactId": "jline-native",
-                          "version": "4.3.1",
+                          "version": "4.4.0",
                           "type": "jar",
                           "scope": "compile",
                           "classifier": "",
@@ -1707,7 +1716,7 @@
                 {
                   "groupId": "org.jline",
                   "artifactId": "jline-console-ui",
-                  "version": "4.3.1",
+                  "version": "4.4.0",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1718,7 +1727,7 @@
             {
               "groupId": "org.jline",
               "artifactId": "jline-shell",
-              "version": "4.3.1",
+              "version": "4.4.0",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -1727,7 +1736,7 @@
                 {
                   "groupId": "org.jline",
                   "artifactId": "jline-reader",
-                  "version": "4.3.1",
+                  "version": "4.4.0",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",

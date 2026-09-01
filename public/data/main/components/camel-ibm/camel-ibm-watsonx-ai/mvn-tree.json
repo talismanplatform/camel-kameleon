@@ -159,7 +159,7 @@
     {
       "groupId": "com.ibm.watsonx",
       "artifactId": "watsonx-ai",
-      "version": "0.30.1",
+      "version": "0.40.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -168,7 +168,7 @@
         {
           "groupId": "com.ibm.watsonx",
           "artifactId": "watsonx-ai-core",
-          "version": "0.30.1",
+          "version": "0.40.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",

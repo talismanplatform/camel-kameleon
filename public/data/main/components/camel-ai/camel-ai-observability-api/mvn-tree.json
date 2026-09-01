@@ -93,53 +93,6 @@
           "optional": "false"
         }
         ]
-    },
-    {
-      "groupId": "dev.langchain4j",
-      "artifactId": "langchain4j-core",
-      "version": "1.19.0",
-      "type": "jar",
-      "scope": "compile",
-      "classifier": "",
-      "optional": "true",
-      "children": [
-        {
-          "groupId": "com.fasterxml.jackson.core",
-          "artifactId": "jackson-annotations",
-          "version": "2.22",
-          "type": "jar",
-          "scope": "compile",
-          "classifier": "",
-          "optional": "true"
-        },
-        {
-          "groupId": "com.fasterxml.jackson.core",
-          "artifactId": "jackson-core",
-          "version": "2.22.2",
-          "type": "jar",
-          "scope": "compile",
-          "classifier": "",
-          "optional": "true"
-        },
-        {
-          "groupId": "com.fasterxml.jackson.core",
-          "artifactId": "jackson-databind",
-          "version": "2.22.2",
-          "type": "jar",
-          "scope": "compile",
-          "classifier": "",
-          "optional": "true"
-        },
-        {
-          "groupId": "org.jspecify",
-          "artifactId": "jspecify",
-          "version": "1.0.1",
-          "type": "jar",
-          "scope": "compile",
-          "classifier": "",
-          "optional": "true"
-        }
-        ]
     }
     ]
 }

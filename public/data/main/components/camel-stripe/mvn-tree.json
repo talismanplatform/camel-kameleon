@@ -97,7 +97,7 @@
     {
       "groupId": "com.stripe",
       "artifactId": "stripe-java",
-      "version": "33.3.0",
+      "version": "33.4.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

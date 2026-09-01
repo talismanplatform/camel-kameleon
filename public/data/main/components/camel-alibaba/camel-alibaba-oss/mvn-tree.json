@@ -106,7 +106,7 @@
     {
       "groupId": "com.aliyun",
       "artifactId": "alibabacloud-oss-v2",
-      "version": "0.5.1",
+      "version": "0.6.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

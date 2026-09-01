@@ -97,7 +97,7 @@
     {
       "groupId": "com.googlecode.libphonenumber",
       "artifactId": "libphonenumber",
-      "version": "9.0.37",
+      "version": "9.0.38",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

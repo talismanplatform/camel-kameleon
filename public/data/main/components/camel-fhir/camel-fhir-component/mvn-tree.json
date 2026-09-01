@@ -117,7 +117,7 @@
     {
       "groupId": "ca.uhn.hapi.fhir",
       "artifactId": "hapi-fhir-base",
-      "version": "8.10.1",
+      "version": "8.12.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -265,7 +265,7 @@
         {
           "groupId": "io.opentelemetry",
           "artifactId": "opentelemetry-api",
-          "version": "1.60.1",
+          "version": "1.62.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -274,7 +274,7 @@
             {
               "groupId": "io.opentelemetry",
               "artifactId": "opentelemetry-context",
-              "version": "1.60.1",
+              "version": "1.62.0",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -283,7 +283,7 @@
                 {
                   "groupId": "io.opentelemetry",
                   "artifactId": "opentelemetry-common",
-                  "version": "1.60.1",
+                  "version": "1.62.0",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -296,7 +296,7 @@
         {
           "groupId": "io.opentelemetry.instrumentation",
           "artifactId": "opentelemetry-instrumentation-annotations",
-          "version": "2.26.1",
+          "version": "2.28.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -307,7 +307,7 @@
     {
       "groupId": "ca.uhn.hapi.fhir",
       "artifactId": "hapi-fhir-client",
-      "version": "8.10.1",
+      "version": "8.12.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -345,7 +345,7 @@
     {
       "groupId": "ca.uhn.hapi.fhir",
       "artifactId": "hapi-fhir-structures-r5",
-      "version": "8.10.1",
+      "version": "8.12.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -354,7 +354,7 @@
         {
           "groupId": "ca.uhn.hapi.fhir",
           "artifactId": "org.hl7.fhir.utilities",
-          "version": "6.10.2",
+          "version": "6.10.3",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -441,7 +441,7 @@
         {
           "groupId": "ca.uhn.hapi.fhir",
           "artifactId": "org.hl7.fhir.r5",
-          "version": "6.10.2",
+          "version": "6.10.3",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -490,7 +490,7 @@
         {
           "groupId": "ca.uhn.hapi.fhir",
           "artifactId": "hapi-fhir-caching-api",
-          "version": "8.10.1",
+          "version": "8.12.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -501,7 +501,7 @@
     {
       "groupId": "ca.uhn.hapi.fhir",
       "artifactId": "hapi-fhir-structures-r4",
-      "version": "8.10.1",
+      "version": "8.12.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -510,7 +510,7 @@
         {
           "groupId": "ca.uhn.hapi.fhir",
           "artifactId": "org.hl7.fhir.r4",
-          "version": "6.10.2",
+          "version": "6.10.3",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -521,7 +521,7 @@
     {
       "groupId": "ca.uhn.hapi.fhir",
       "artifactId": "hapi-fhir-structures-dstu3",
-      "version": "8.10.1",
+      "version": "8.12.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -530,7 +530,7 @@
         {
           "groupId": "ca.uhn.hapi.fhir",
           "artifactId": "org.hl7.fhir.dstu3",
-          "version": "6.10.2",
+          "version": "6.10.3",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -541,7 +541,7 @@
     {
       "groupId": "ca.uhn.hapi.fhir",
       "artifactId": "hapi-fhir-structures-dstu2",
-      "version": "8.10.1",
+      "version": "8.12.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -550,7 +550,7 @@
     {
       "groupId": "ca.uhn.hapi.fhir",
       "artifactId": "hapi-fhir-structures-dstu2.1",
-      "version": "8.10.1",
+      "version": "8.12.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -559,7 +559,7 @@
         {
           "groupId": "ca.uhn.hapi.fhir",
           "artifactId": "org.hl7.fhir.dstu2016may",
-          "version": "6.10.2",
+          "version": "6.10.3",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -601,7 +601,7 @@
     {
       "groupId": "ca.uhn.hapi.fhir",
       "artifactId": "hapi-fhir-structures-hl7org-dstu2",
-      "version": "8.10.1",
+      "version": "8.12.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -610,7 +610,7 @@
         {
           "groupId": "ca.uhn.hapi.fhir",
           "artifactId": "org.hl7.fhir.dstu2",
-          "version": "6.10.2",
+          "version": "6.10.3",
           "type": "jar",
           "scope": "compile",
           "classifier": "",

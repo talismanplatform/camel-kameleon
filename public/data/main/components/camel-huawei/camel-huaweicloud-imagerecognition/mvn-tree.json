@@ -19,7 +19,7 @@
     {
       "groupId": "com.huaweicloud.sdk",
       "artifactId": "huaweicloud-sdk-core",
-      "version": "3.1.212",
+      "version": "3.1.214",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -215,7 +215,7 @@
     {
       "groupId": "com.huaweicloud.sdk",
       "artifactId": "huaweicloud-sdk-image",
-      "version": "3.1.212",
+      "version": "3.1.214",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

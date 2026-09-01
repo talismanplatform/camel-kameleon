@@ -97,7 +97,7 @@
     {
       "groupId": "org.apache.shiro",
       "artifactId": "shiro-jakarta-ee",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -106,7 +106,7 @@
         {
           "groupId": "org.apache.shiro",
           "artifactId": "shiro-core",
-          "version": "3.0.0",
+          "version": "3.0.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -115,7 +115,7 @@
             {
               "groupId": "org.apache.shiro",
               "artifactId": "shiro-cache",
-              "version": "3.0.0",
+              "version": "3.0.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -124,7 +124,7 @@
             {
               "groupId": "org.apache.shiro",
               "artifactId": "shiro-crypto-hash",
-              "version": "3.0.0",
+              "version": "3.0.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -133,7 +133,7 @@
                 {
                   "groupId": "org.bouncycastle",
                   "artifactId": "bcprov-jdk18on",
-                  "version": "1.84",
+                  "version": "1.85.2",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -144,7 +144,7 @@
             {
               "groupId": "org.apache.shiro.crypto",
               "artifactId": "shiro-hashes-argon2",
-              "version": "3.0.0",
+              "version": "3.0.1",
               "type": "jar",
               "scope": "runtime",
               "classifier": "",
@@ -153,7 +153,7 @@
             {
               "groupId": "org.apache.shiro.crypto",
               "artifactId": "shiro-hashes-bcrypt",
-              "version": "3.0.0",
+              "version": "3.0.1",
               "type": "jar",
               "scope": "runtime",
               "classifier": "",
@@ -162,7 +162,7 @@
             {
               "groupId": "org.apache.shiro",
               "artifactId": "shiro-config-core",
-              "version": "3.0.0",
+              "version": "3.0.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -171,7 +171,7 @@
             {
               "groupId": "org.apache.shiro",
               "artifactId": "shiro-config-ogdl",
-              "version": "3.0.0",
+              "version": "3.0.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -202,7 +202,7 @@
             {
               "groupId": "org.apache.shiro",
               "artifactId": "shiro-event",
-              "version": "3.0.0",
+              "version": "3.0.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -213,7 +213,7 @@
         {
           "groupId": "org.apache.shiro",
           "artifactId": "shiro-web",
-          "version": "3.0.0",
+          "version": "3.0.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -233,7 +233,7 @@
         {
           "groupId": "org.apache.shiro",
           "artifactId": "shiro-jaxrs",
-          "version": "3.0.0",
+          "version": "3.0.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -242,7 +242,7 @@
         {
           "groupId": "org.apache.shiro",
           "artifactId": "shiro-cdi",
-          "version": "3.0.0",
+          "version": "3.0.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -251,7 +251,7 @@
         {
           "groupId": "org.omnifaces",
           "artifactId": "omnifaces",
-          "version": "5.3.4",
+          "version": "5.4.5",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -260,7 +260,7 @@
         {
           "groupId": "org.jsoup",
           "artifactId": "jsoup",
-          "version": "1.22.2",
+          "version": "1.23.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -271,7 +271,7 @@
     {
       "groupId": "org.apache.shiro",
       "artifactId": "shiro-crypto-cipher",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -280,7 +280,7 @@
         {
           "groupId": "org.apache.shiro",
           "artifactId": "shiro-lang",
-          "version": "3.0.0",
+          "version": "3.0.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -289,7 +289,7 @@
         {
           "groupId": "org.apache.shiro",
           "artifactId": "shiro-crypto-core",
-          "version": "3.0.0",
+          "version": "3.0.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
