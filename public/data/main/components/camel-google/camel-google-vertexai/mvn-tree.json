@@ -250,7 +250,7 @@
     {
       "groupId": "com.google.genai",
       "artifactId": "google-genai",
-      "version": "1.67.0",
+      "version": "1.68.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

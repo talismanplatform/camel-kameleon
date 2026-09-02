@@ -188,7 +188,7 @@
     {
       "groupId": "org.mongodb",
       "artifactId": "mongodb-driver-core",
-      "version": "5.10.0",
+      "version": "5.11.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -197,7 +197,7 @@
         {
           "groupId": "org.mongodb",
           "artifactId": "bson-record-codec",
-          "version": "5.10.0",
+          "version": "5.11.0",
           "type": "jar",
           "scope": "runtime",
           "classifier": "",
@@ -208,7 +208,7 @@
     {
       "groupId": "org.mongodb",
       "artifactId": "mongodb-driver-sync",
-      "version": "5.10.0",
+      "version": "5.11.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -217,7 +217,7 @@
     {
       "groupId": "org.mongodb",
       "artifactId": "bson",
-      "version": "5.10.0",
+      "version": "5.11.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

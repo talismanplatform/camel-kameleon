@@ -707,7 +707,7 @@
         {
           "groupId": "org.apache.avro",
           "artifactId": "avro",
-          "version": "1.12.1",
+          "version": "1.12.2",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -776,7 +776,7 @@
     {
       "groupId": "org.apache.avro",
       "artifactId": "avro-compiler",
-      "version": "1.12.1",
+      "version": "1.12.2",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

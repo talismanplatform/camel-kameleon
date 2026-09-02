@@ -97,7 +97,7 @@
     {
       "groupId": "io.dropwizard.metrics",
       "artifactId": "metrics-core",
-      "version": "4.2.39",
+      "version": "4.2.40",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -106,7 +106,7 @@
     {
       "groupId": "io.dropwizard.metrics",
       "artifactId": "metrics-jmx",
-      "version": "4.2.39",
+      "version": "4.2.40",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -115,7 +115,7 @@
     {
       "groupId": "io.dropwizard.metrics",
       "artifactId": "metrics-json",
-      "version": "4.2.39",
+      "version": "4.2.40",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

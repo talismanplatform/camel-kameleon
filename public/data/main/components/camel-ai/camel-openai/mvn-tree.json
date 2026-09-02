@@ -97,7 +97,7 @@
     {
       "groupId": "com.openai",
       "artifactId": "openai-java",
-      "version": "4.52.0",
+      "version": "4.54.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -106,7 +106,7 @@
         {
           "groupId": "com.openai",
           "artifactId": "openai-java-client-okhttp",
-          "version": "4.52.0",
+          "version": "4.54.0",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -115,7 +115,7 @@
             {
               "groupId": "com.openai",
               "artifactId": "openai-java-core",
-              "version": "4.52.0",
+              "version": "4.54.0",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -136,6 +136,15 @@
                   "version": "2.2.31",
                   "type": "jar",
                   "scope": "compile",
+                  "classifier": "",
+                  "optional": "false"
+                },
+                {
+                  "groupId": "org.jetbrains.kotlin",
+                  "artifactId": "kotlin-reflect",
+                  "version": "1.8.20",
+                  "type": "jar",
+                  "scope": "runtime",
                   "classifier": "",
                   "optional": "false"
                 },
@@ -164,18 +173,7 @@
                   "type": "jar",
                   "scope": "runtime",
                   "classifier": "",
-                  "optional": "false",
-                  "children": [
-                    {
-                      "groupId": "org.jetbrains.kotlin",
-                      "artifactId": "kotlin-reflect",
-                      "version": "2.1.21",
-                      "type": "jar",
-                      "scope": "runtime",
-                      "classifier": "",
-                      "optional": "false"
-                    }
-                    ]
+                  "optional": "false"
                 },
                 {
                   "groupId": "com.github.victools",

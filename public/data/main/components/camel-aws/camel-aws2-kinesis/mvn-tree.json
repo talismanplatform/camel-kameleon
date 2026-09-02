@@ -19,7 +19,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "auth",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -28,7 +28,7 @@
             {
               "groupId": "software.amazon.awssdk",
               "artifactId": "http-auth-aws-eventstream",
-              "version": "2.54.6",
+              "version": "2.54.7",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -37,7 +37,7 @@
             {
               "groupId": "software.amazon.awssdk",
               "artifactId": "checksums-spi",
-              "version": "2.54.6",
+              "version": "2.54.7",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -57,7 +57,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "regions",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -66,7 +66,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "sdk-core",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -75,7 +75,7 @@
             {
               "groupId": "software.amazon.awssdk",
               "artifactId": "checksums",
-              "version": "2.54.6",
+              "version": "2.54.7",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -84,7 +84,7 @@
             {
               "groupId": "software.amazon.awssdk",
               "artifactId": "retries",
-              "version": "2.54.6",
+              "version": "2.54.7",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -95,7 +95,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "aws-core",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -104,7 +104,7 @@
             {
               "groupId": "software.amazon.awssdk",
               "artifactId": "utils-lite",
-              "version": "2.54.6",
+              "version": "2.54.7",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -204,7 +204,7 @@
     {
       "groupId": "software.amazon.awssdk",
       "artifactId": "kinesis",
-      "version": "2.54.6",
+      "version": "2.54.7",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -213,7 +213,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "aws-cbor-protocol",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -222,7 +222,7 @@
             {
               "groupId": "software.amazon.awssdk",
               "artifactId": "third-party-jackson-dataformat-cbor",
-              "version": "2.54.6",
+              "version": "2.54.7",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -231,7 +231,7 @@
             {
               "groupId": "software.amazon.awssdk",
               "artifactId": "third-party-jackson-core",
-              "version": "2.54.6",
+              "version": "2.54.7",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -242,7 +242,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "aws-json-protocol",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -251,7 +251,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "protocol-core",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -260,7 +260,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "http-auth-aws",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -269,7 +269,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "http-auth-spi",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -278,7 +278,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "http-auth",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -287,7 +287,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "identity-spi",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -296,7 +296,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "http-client-spi",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -305,7 +305,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "annotations",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -314,7 +314,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "utils",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -323,7 +323,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "metrics-spi",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -332,7 +332,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "json-utils",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -341,7 +341,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "endpoints-spi",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -350,7 +350,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "retries-spi",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -361,7 +361,7 @@
     {
       "groupId": "software.amazon.awssdk",
       "artifactId": "sts",
-      "version": "2.54.6",
+      "version": "2.54.7",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -370,7 +370,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "aws-query-protocol",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -379,7 +379,7 @@
         {
           "groupId": "software.amazon.awssdk",
           "artifactId": "profiles",
-          "version": "2.54.6",
+          "version": "2.54.7",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -1235,7 +1235,7 @@
     {
       "groupId": "software.amazon.awssdk",
       "artifactId": "netty-nio-client",
-      "version": "2.54.6",
+      "version": "2.54.7",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -1378,7 +1378,7 @@
     {
       "groupId": "software.amazon.awssdk",
       "artifactId": "firehose",
-      "version": "2.54.6",
+      "version": "2.54.7",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -1387,7 +1387,7 @@
     {
       "groupId": "software.amazon.awssdk",
       "artifactId": "apache5-client",
-      "version": "2.54.6",
+      "version": "2.54.7",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
