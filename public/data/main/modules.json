@@ -221,6 +221,7 @@
     "camel-gson",
     "camel-hashicorp-vault",
     "camel-hazelcast",
+    "camel-hivemq",
     "camel-hl7",
     "camel-http",
     "camel-http-base",

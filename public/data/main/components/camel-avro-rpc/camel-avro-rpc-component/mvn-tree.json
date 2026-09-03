@@ -95,6 +95,15 @@
         ]
     },
     {
+      "groupId": "org.apache.camel",
+      "artifactId": "camel-avro",
+      "version": "4.23.0-SNAPSHOT",
+      "type": "jar",
+      "scope": "compile",
+      "classifier": "",
+      "optional": "false"
+    },
+    {
       "groupId": "org.apache.avro",
       "artifactId": "avro",
       "version": "1.12.2",

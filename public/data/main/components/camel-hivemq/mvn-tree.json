@@ -1,6 +1,6 @@
 {
   "groupId": "org.apache.camel",
-  "artifactId": "camel-jq",
+  "artifactId": "camel-hivemq",
   "version": "4.23.0-SNAPSHOT",
   "type": "jar",
   "scope": "",
@@ -95,135 +95,174 @@
         ]
     },
     {
-      "groupId": "org.apache.camel",
-      "artifactId": "camel-jackson",
-      "version": "4.23.0-SNAPSHOT",
+      "groupId": "com.hivemq",
+      "artifactId": "hivemq-mqtt-client",
+      "version": "1.4.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
       "optional": "false",
       "children": [
         {
-          "groupId": "org.apache.camel",
-          "artifactId": "camel-core-engine",
-          "version": "4.23.0-SNAPSHOT",
-          "type": "jar",
-          "scope": "compile",
-          "classifier": "",
-          "optional": "false",
-          "children": [
-            {
-              "groupId": "org.apache.camel",
-              "artifactId": "camel-base-engine",
-              "version": "4.23.0-SNAPSHOT",
-              "type": "jar",
-              "scope": "compile",
-              "classifier": "",
-              "optional": "false",
-              "children": [
-                {
-                  "groupId": "org.apache.camel",
-                  "artifactId": "camel-base",
-                  "version": "4.23.0-SNAPSHOT",
-                  "type": "jar",
-                  "scope": "compile",
-                  "classifier": "",
-                  "optional": "false"
-                }
-                ]
-            },
-            {
-              "groupId": "org.apache.camel",
-              "artifactId": "camel-core-reifier",
-              "version": "4.23.0-SNAPSHOT",
-              "type": "jar",
-              "scope": "compile",
-              "classifier": "",
-              "optional": "false",
-              "children": [
-                {
-                  "groupId": "org.apache.camel",
-                  "artifactId": "camel-core-processor",
-                  "version": "4.23.0-SNAPSHOT",
-                  "type": "jar",
-                  "scope": "compile",
-                  "classifier": "",
-                  "optional": "false"
-                }
-                ]
-            }
-            ]
-        },
-        {
-          "groupId": "com.fasterxml.jackson.core",
-          "artifactId": "jackson-databind",
-          "version": "2.22.2",
-          "type": "jar",
-          "scope": "compile",
-          "classifier": "",
-          "optional": "false",
-          "children": [
-            {
-              "groupId": "com.fasterxml.jackson.core",
-              "artifactId": "jackson-core",
-              "version": "2.22.2",
-              "type": "jar",
-              "scope": "compile",
-              "classifier": "",
-              "optional": "false"
-            }
-            ]
-        }
-        ]
-    },
-    {
-      "groupId": "net.thisptr",
-      "artifactId": "jackson-jq",
-      "version": "1.6.3",
-      "type": "jar",
-      "scope": "compile",
-      "classifier": "",
-      "optional": "false",
-      "children": [
-        {
-          "groupId": "com.fasterxml.jackson.core",
-          "artifactId": "jackson-annotations",
-          "version": "2.22",
+          "groupId": "io.reactivex.rxjava2",
+          "artifactId": "rxjava",
+          "version": "2.2.21",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
           "optional": "false"
         },
         {
-          "groupId": "org.jruby.joni",
-          "artifactId": "joni",
-          "version": "2.2.6",
+          "groupId": "org.reactivestreams",
+          "artifactId": "reactive-streams",
+          "version": "1.0.4",
           "type": "jar",
           "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.jetbrains",
+          "artifactId": "annotations",
+          "version": "26.1.0",
+          "type": "jar",
+          "scope": "compile",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-buffer",
+          "version": "4.2.16.Final",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-codec",
+          "version": "4.2.16.Final",
+          "type": "jar",
+          "scope": "runtime",
           "classifier": "",
           "optional": "false",
           "children": [
             {
-              "groupId": "org.jruby.jcodings",
-              "artifactId": "jcodings",
-              "version": "1.0.63",
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-base",
+              "version": "4.2.16.Final",
               "type": "jar",
-              "scope": "compile",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-compression",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-protobuf",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-codec-marshalling",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-common",
+          "version": "4.2.16.Final",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-handler",
+          "version": "4.2.16.Final",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-resolver",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            },
+            {
+              "groupId": "io.netty",
+              "artifactId": "netty-transport-native-unix-common",
+              "version": "4.2.16.Final",
+              "type": "jar",
+              "scope": "runtime",
+              "classifier": "",
+              "optional": "false"
+            }
+            ]
+        },
+        {
+          "groupId": "io.netty",
+          "artifactId": "netty-transport",
+          "version": "4.2.16.Final",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "org.jctools",
+          "artifactId": "jctools-core",
+          "version": "4.0.7",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false"
+        },
+        {
+          "groupId": "com.google.dagger",
+          "artifactId": "dagger",
+          "version": "2.42",
+          "type": "jar",
+          "scope": "runtime",
+          "classifier": "",
+          "optional": "false",
+          "children": [
+            {
+              "groupId": "javax.inject",
+              "artifactId": "javax.inject",
+              "version": "1",
+              "type": "jar",
+              "scope": "runtime",
               "classifier": "",
               "optional": "false"
             }
             ]
         }
         ]
-    },
-    {
-      "groupId": "net.thisptr",
-      "artifactId": "jackson-jq-extra",
-      "version": "1.6.3",
-      "type": "jar",
-      "scope": "compile",
-      "classifier": "",
-      "optional": "false"
     }
     ]
 }
