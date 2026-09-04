@@ -106,7 +106,7 @@
     {
       "groupId": "com.aliyun",
       "artifactId": "sls20201230",
-      "version": "5.16.0",
+      "version": "5.17.0",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

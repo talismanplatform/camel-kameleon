@@ -602,7 +602,7 @@
             {
               "groupId": "org.yaml",
               "artifactId": "snakeyaml",
-              "version": "2.6",
+              "version": "2.7",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -935,7 +935,7 @@
             {
               "groupId": "io.swagger.parser.v3",
               "artifactId": "swagger-parser-v3",
-              "version": "2.1.47",
+              "version": "2.1.48",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -944,7 +944,7 @@
                 {
                   "groupId": "io.swagger.parser.v3",
                   "artifactId": "swagger-parser-core",
-                  "version": "2.1.47",
+                  "version": "2.1.48",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -953,7 +953,7 @@
                 {
                   "groupId": "io.swagger.parser.v3",
                   "artifactId": "swagger-parser-safe-url-resolver",
-                  "version": "2.1.47",
+                  "version": "2.1.48",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1517,7 +1517,7 @@
             {
               "groupId": "org.citrusframework",
               "artifactId": "citrus-jbang",
-              "version": "5.0.0",
+              "version": "5.0.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -1526,7 +1526,7 @@
                 {
                   "groupId": "org.citrusframework",
                   "artifactId": "citrus-base",
-                  "version": "5.0.0",
+                  "version": "5.0.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1535,7 +1535,7 @@
                     {
                       "groupId": "org.citrusframework",
                       "artifactId": "citrus-api",
-                      "version": "5.0.0",
+                      "version": "5.0.1",
                       "type": "jar",
                       "scope": "compile",
                       "classifier": "",
@@ -1546,7 +1546,7 @@
                 {
                   "groupId": "org.citrusframework",
                   "artifactId": "citrus-main",
-                  "version": "5.0.0",
+                  "version": "5.0.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1555,7 +1555,7 @@
                     {
                       "groupId": "org.citrusframework",
                       "artifactId": "citrus-junit-jupiter",
-                      "version": "5.0.0",
+                      "version": "5.0.1",
                       "type": "jar",
                       "scope": "compile",
                       "classifier": "",
@@ -1633,7 +1633,7 @@
                     {
                       "groupId": "org.citrusframework",
                       "artifactId": "citrus-junit",
-                      "version": "5.0.0",
+                      "version": "5.0.1",
                       "type": "jar",
                       "scope": "compile",
                       "classifier": "",
@@ -1664,7 +1664,7 @@
                     {
                       "groupId": "org.citrusframework",
                       "artifactId": "citrus-testng",
-                      "version": "5.0.0",
+                      "version": "5.0.1",
                       "type": "jar",
                       "scope": "compile",
                       "classifier": "",
@@ -1704,7 +1704,7 @@
                     {
                       "groupId": "org.citrusframework",
                       "artifactId": "citrus-cucumber",
-                      "version": "5.0.0",
+                      "version": "5.0.1",
                       "type": "jar",
                       "scope": "compile",
                       "classifier": "",
@@ -1914,7 +1914,7 @@
                 {
                   "groupId": "org.citrusframework",
                   "artifactId": "citrus-xml",
-                  "version": "5.0.0",
+                  "version": "5.0.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1974,7 +1974,7 @@
                 {
                   "groupId": "org.citrusframework",
                   "artifactId": "citrus-yaml",
-                  "version": "5.0.0",
+                  "version": "5.0.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1983,7 +1983,7 @@
                 {
                   "groupId": "org.citrusframework",
                   "artifactId": "citrus-validation-text",
-                  "version": "5.0.0",
+                  "version": "5.0.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -1992,7 +1992,7 @@
                 {
                   "groupId": "org.citrusframework",
                   "artifactId": "citrus-validation-json",
-                  "version": "5.0.0",
+                  "version": "5.0.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -2041,7 +2041,7 @@
                 {
                   "groupId": "org.citrusframework",
                   "artifactId": "citrus-validation-yaml",
-                  "version": "5.0.0",
+                  "version": "5.0.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -2050,7 +2050,7 @@
                 {
                   "groupId": "org.citrusframework",
                   "artifactId": "citrus-validation-xml",
-                  "version": "5.0.0",
+                  "version": "5.0.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -2186,7 +2186,7 @@
                 {
                   "groupId": "org.apache.logging.log4j",
                   "artifactId": "log4j-iostreams",
-                  "version": "2.25.4",
+                  "version": "2.25.5",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",

@@ -1,9 +1,9 @@
 {
   "ref": "camel-4.18.x",
   "camelVersion": "4.18.5-SNAPSHOT",
-  "scannedAt": "2026-09-03T04:40:30Z",
-  "camelCommit": "7e1a5ff287e7e9d9ec828d88ba66f2b6868bfff7",
+  "scannedAt": "2026-09-04T03:24:04Z",
+  "camelCommit": "a2a896d82a3a78daa132bb4e9db584a417496b46",
   "grypeVersion": "0.110.0",
-  "findings": 481,
-  "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33715352093"
+  "findings": 482,
+  "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33832873797"
 }

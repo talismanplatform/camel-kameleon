@@ -249,7 +249,7 @@
     {
       "groupId": "io.swagger.parser.v3",
       "artifactId": "swagger-parser",
-      "version": "2.1.47",
+      "version": "2.1.48",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
@@ -258,7 +258,7 @@
         {
           "groupId": "io.swagger.parser.v3",
           "artifactId": "swagger-parser-v3",
-          "version": "2.1.47",
+          "version": "2.1.48",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -267,7 +267,7 @@
             {
               "groupId": "io.swagger.parser.v3",
               "artifactId": "swagger-parser-core",
-              "version": "2.1.47",
+              "version": "2.1.48",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -276,7 +276,7 @@
             {
               "groupId": "io.swagger.parser.v3",
               "artifactId": "swagger-parser-safe-url-resolver",
-              "version": "2.1.47",
+              "version": "2.1.48",
               "type": "jar",
               "scope": "compile",
               "classifier": "",

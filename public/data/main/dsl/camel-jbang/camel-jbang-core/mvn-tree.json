@@ -856,7 +856,7 @@
     {
       "groupId": "org.yaml",
       "artifactId": "snakeyaml",
-      "version": "2.6",
+      "version": "2.7",
       "type": "jar",
       "scope": "compile",
       "classifier": "",
