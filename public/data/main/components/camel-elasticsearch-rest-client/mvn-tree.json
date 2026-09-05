@@ -97,7 +97,7 @@
     {
       "groupId": "org.elasticsearch.client",
       "artifactId": "elasticsearch-rest-client",
-      "version": "9.5.2",
+      "version": "9.5.3",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

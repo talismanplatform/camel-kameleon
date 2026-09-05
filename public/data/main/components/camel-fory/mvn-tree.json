@@ -97,7 +97,7 @@
     {
       "groupId": "org.apache.fory",
       "artifactId": "fory-core",
-      "version": "1.7.0",
+      "version": "1.7.1",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

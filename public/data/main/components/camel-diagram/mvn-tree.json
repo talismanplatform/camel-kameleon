@@ -108,7 +108,7 @@
     {
       "groupId": "org.jline",
       "artifactId": "jline",
-      "version": "4.4.0",
+      "version": "4.4.1",
       "type": "jar",
       "scope": "compile",
       "classifier": "",

@@ -1,9 +1,9 @@
 {
   "ref": "camel-4.22.x",
   "camelVersion": "4.22.1-SNAPSHOT",
-  "scannedAt": "2026-09-04T03:26:27Z",
-  "camelCommit": "dc5bf2fe84b25c182e796798d5c4f3b1a38a87ad",
+  "scannedAt": "2026-09-05T03:26:25Z",
+  "camelCommit": "9f5c46813c361d5a2727c9c6f40391bfca2eefa2",
   "grypeVersion": "0.110.0",
   "findings": 202,
-  "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33832873797"
+  "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33941547057"
 }

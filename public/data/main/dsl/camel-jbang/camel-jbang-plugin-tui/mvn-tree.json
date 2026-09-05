@@ -838,7 +838,7 @@
         {
           "groupId": "org.jline",
           "artifactId": "jline",
-          "version": "4.4.0",
+          "version": "4.4.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -847,7 +847,7 @@
         {
           "groupId": "org.jline",
           "artifactId": "jline-picocli",
-          "version": "4.4.0",
+          "version": "4.4.1",
           "type": "jar",
           "scope": "compile",
           "classifier": "",
@@ -856,7 +856,7 @@
             {
               "groupId": "org.jline",
               "artifactId": "jline-console",
-              "version": "4.4.0",
+              "version": "4.4.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -865,7 +865,7 @@
                 {
                   "groupId": "org.jline",
                   "artifactId": "jline-builtins",
-                  "version": "4.4.0",
+                  "version": "4.4.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -874,7 +874,7 @@
                 {
                   "groupId": "org.jline",
                   "artifactId": "jline-style",
-                  "version": "4.4.0",
+                  "version": "4.4.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -883,7 +883,7 @@
                     {
                       "groupId": "org.jline",
                       "artifactId": "jline-terminal",
-                      "version": "4.4.0",
+                      "version": "4.4.1",
                       "type": "jar",
                       "scope": "compile",
                       "classifier": "",
@@ -892,7 +892,7 @@
                         {
                           "groupId": "org.jline",
                           "artifactId": "jline-native",
-                          "version": "4.4.0",
+                          "version": "4.4.1",
                           "type": "jar",
                           "scope": "compile",
                           "classifier": "",
@@ -905,7 +905,7 @@
                 {
                   "groupId": "org.jline",
                   "artifactId": "jline-console-ui",
-                  "version": "4.4.0",
+                  "version": "4.4.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",
@@ -916,7 +916,7 @@
             {
               "groupId": "org.jline",
               "artifactId": "jline-shell",
-              "version": "4.4.0",
+              "version": "4.4.1",
               "type": "jar",
               "scope": "compile",
               "classifier": "",
@@ -925,7 +925,7 @@
                 {
                   "groupId": "org.jline",
                   "artifactId": "jline-reader",
-                  "version": "4.4.0",
+                  "version": "4.4.1",
                   "type": "jar",
                   "scope": "compile",
                   "classifier": "",

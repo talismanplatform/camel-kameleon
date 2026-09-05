@@ -1,50 +1,50 @@
 {
-  "scannedAt": "2026-09-04T03:29:00Z",
+  "scannedAt": "2026-09-05T03:29:39Z",
   "refs": [
     {
       "ref": "camel-4.18.4",
       "camelVersion": "4.18.4",
-      "scannedAt": "2026-09-04T03:24:05Z",
+      "scannedAt": "2026-09-05T03:22:33Z",
       "camelCommit": "db322df8384554f65000afdce120a26c2e942617",
       "grypeVersion": "0.110.0",
       "findings": 482,
-      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33832873797"
+      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33941547057"
     },
     {
       "ref": "camel-4.18.x",
       "camelVersion": "4.18.5-SNAPSHOT",
-      "scannedAt": "2026-09-04T03:24:04Z",
-      "camelCommit": "a2a896d82a3a78daa132bb4e9db584a417496b46",
+      "scannedAt": "2026-09-05T03:23:01Z",
+      "camelCommit": "4d37f293ee124e02932e54f3d0c89e3c1aae49e3",
       "grypeVersion": "0.110.0",
       "findings": 482,
-      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33832873797"
+      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33941547057"
     },
     {
       "ref": "camel-4.22.0",
       "camelVersion": "4.22.0",
-      "scannedAt": "2026-09-04T03:24:16Z",
+      "scannedAt": "2026-09-05T03:23:12Z",
       "camelCommit": "1a54683f4becad3b32df42507e709526d8563f35",
       "grypeVersion": "0.110.0",
       "findings": 202,
-      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33832873797"
+      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33941547057"
     },
     {
       "ref": "camel-4.22.x",
       "camelVersion": "4.22.1-SNAPSHOT",
-      "scannedAt": "2026-09-04T03:26:27Z",
-      "camelCommit": "dc5bf2fe84b25c182e796798d5c4f3b1a38a87ad",
+      "scannedAt": "2026-09-05T03:26:25Z",
+      "camelCommit": "9f5c46813c361d5a2727c9c6f40391bfca2eefa2",
       "grypeVersion": "0.110.0",
       "findings": 202,
-      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33832873797"
+      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33941547057"
     },
     {
       "ref": "main",
       "camelVersion": "4.23.0-SNAPSHOT",
-      "scannedAt": "2026-09-04T03:29:00Z",
-      "camelCommit": "bd1f374f02dace94c50d988bb95740747fc6e634",
+      "scannedAt": "2026-09-05T03:29:39Z",
+      "camelCommit": "d8b8bfbaf3e5963bf54de2d03ed07e4750aafd8a",
       "grypeVersion": "0.110.0",
       "findings": 199,
-      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33832873797"
+      "runUrl": "https://github.com/talismanplatform/camel-kameleon/actions/runs/33941547057"
     }
   ]
 }
